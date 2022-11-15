@@ -2,17 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class Player
+[System.Serializable]
+public class Movement : State
 {
     [Min(0f)] [SerializeField] private float m_maxSpeed = 10f;
     [Min(0f)] [SerializeField] private float m_timeToMax = 0.25f;
+    [Space]
+    [SerializeField] private CharacterController m_controller = null;
 
     private Vector2 m_velocity = Vector2.zero;
     private Vector2 m_acceleration = Vector2.zero;
 
-    private void TickMovement(float _deltaTime)
+    public override void OnTick(float deltaTime)
     {
-        MoveWith(GetVelocity(GetInput(), m_maxSpeed, _deltaTime), _deltaTime);
+        MoveWith(GetVelocity(GetInput(), m_maxSpeed, deltaTime), deltaTime);
+    }
+
+    public override void OnExit()
+    {
+        m_velocity = Vector2.zero;
     }
 
     /// <returns>The desired velocity altered by the passed in input.</returns>

@@ -9,10 +9,10 @@ public partial class Player
     [SerializeField] private float m_squaredQuiteRange = 5f;
 
     private Vector2 m_endPosition = Vector2.zero;
+    private Vector2 m_velocity = Vector2.zero;
 
     private void StartAttack(Vector2 _input)
     {
-        m_velocity = Vector2.zero;
         m_state = State.Attacking;
         m_endPosition = Position + _input.normalized * m_attackDistance;
     }
