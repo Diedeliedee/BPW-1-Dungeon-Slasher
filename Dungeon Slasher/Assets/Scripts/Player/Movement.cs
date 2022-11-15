@@ -24,7 +24,9 @@ public partial class Player
     /// <returns>The unity input in a Vector2.</returns>
     private Vector2 GetInput()
     {
-        return new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        var rawInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+
+        return Calc.RotateVector2(rawInput, 45f);
     }
 
     /// <summary>
@@ -32,12 +34,9 @@ public partial class Player
     /// </summary>
     private void MoveWith(Vector2 _velocity, float _deltaTime)
     {
-        var position = Position;
+        var threeDimensionalVelocity = new Vector3(_velocity.x, 0f, _velocity.y);
 
-        position.x += _velocity.x * _deltaTime;
-        position.y += _velocity.y * _deltaTime;
-        Position = position;
-
+        m_controller.Move(threeDimensionalVelocity * _deltaTime);
         m_velocity = _velocity;
     }
 }

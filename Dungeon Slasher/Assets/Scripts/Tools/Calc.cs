@@ -48,5 +48,16 @@ public static class Calc
     {
         return current * -1 + 1;
     }
+
+    /// <returns>The passed in 2D direction vector rotated with the passed in amount of degrees.</returns>
+    public static Vector2 RotateVector2(Vector2 vector, float degrees)
+    {
+        var radians = degrees * Mathf.Deg2Rad;
+        var newVector = Vector2.zero;
+
+        newVector.x = vector.x * Mathf.Cos(radians) - vector.y * Mathf.Sin(radians);
+        newVector.y = vector.x * Mathf.Sin(radians) + vector.y * Mathf.Cos(radians);
+        return newVector;
+    }
 }
 
