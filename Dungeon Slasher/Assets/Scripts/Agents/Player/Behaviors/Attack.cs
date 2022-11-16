@@ -8,27 +8,33 @@ namespace DungeonSlasher.Agents
     {
         public class Attack : State
         {
-            [SerializeField] private float m_attackDistance = 5f;
-            [SerializeField] private float m_attackTime = 5f;
-            [SerializeField] private float m_squaredQuiteRange = 5f;
+            private float m_attackDistance = 5f;
+            private float m_attackTime = 5f;
+            private float m_squaredQuiteRange = 5f;
 
             private Vector2 m_endPosition = Vector2.zero;
             private Vector2 m_velocity = Vector2.zero;
 
-            private void StartAttack(Context context)
+            public override void OnEnter()
             {
-                var input3 = new Vector3(Controls.rightInput.x, context.transform.position.y, Controls.rightInput.y);
+                var input3 = new Vector3(Controls.rightInput.x, blackBoard.transform.position.y, Controls.rightInput.y);
 
-                m_endPosition = context.transform.position + input3 * m_attackDistance;
+                m_endPosition = blackBoard.transform.position + input3 * m_attackDistance;
             }
 
-            private void TickAttack(float _deltaTime)
+            public override void OnTick()
             {
-                var position = Position;
-                Position = Vector2.SmoothDamp(position, m_endPosition, ref m_velocity, m_attackTime, Mathf.Infinity, _deltaTime);
+                var position = blackBoard.flatPosition;
 
-                if ((m_endPosition - position).sqrMagnitude > m_squaredQuiteRange) return;
-                m_state = State.Moving;
+                //  Go to free movement state if within end range. 
+                if ((m_endPosition - position).sqrMagnitude < m_squaredQuiteRange)
+                {
+                    parent.SwitchToState(typeof(Movement));
+                    return;
+                }
+
+                //  A movement component needs to be added to the agent, but this will do for now.
+                blackBoard.flatPosition = Vector2.SmoothDamp(position, m_endPosition, ref m_velocity, m_attackTime, Mathf.Infinity, blackBoard.deltaTime);
             }
         }
     }

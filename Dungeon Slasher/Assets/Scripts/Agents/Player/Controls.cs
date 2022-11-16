@@ -13,11 +13,13 @@ namespace DungeonSlasher.Agents
         {
             public static Vector2 leftInput { get; private set; }
             public static Vector2 rightInput { get; private set; }
+            public static bool slashButtonPressed { get; private set; }
 
             public static void CheckInput()
             {
                 leftInput = GetLeftInput();
                 rightInput = GetRightInput();
+                slashButtonPressed = Input.GetKeyDown(KeyCode.Space);
             }
 
             private static Vector2 GetLeftInput()

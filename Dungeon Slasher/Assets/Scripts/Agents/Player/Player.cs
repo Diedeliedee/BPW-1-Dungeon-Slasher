@@ -9,7 +9,13 @@ namespace DungeonSlasher.Agents
         public override void Initialize()
         {
             base.Initialize();
-            m_stateMachine = new FSM(typeof(Movement), new Movement(), new Attack());
+            m_stateMachine = new FiniteStateMachine(m_blackBoard, typeof(Movement), new Movement(), new Attack());
+        }
+
+        public override void Tick(float deltaTime)
+        {
+            Controls.CheckInput();
+            base.Tick(deltaTime);
         }
     }
 }

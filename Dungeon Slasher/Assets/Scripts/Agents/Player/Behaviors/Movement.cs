@@ -8,24 +8,28 @@ namespace DungeonSlasher.Agents
     {
         public class Movement : State
         {
-            [Min(0f)] [SerializeField] private float m_maxSpeed = 10f;
-            [Min(0f)] [SerializeField] private float m_timeToMax = 0.25f;
-            [Space]
-            [SerializeField] private CharacterController m_controller = null;
+            private float m_maxSpeed = 10f;
+            private float m_timeToMax = 0.25f;
 
             private Vector2 m_velocity = Vector2.zero;
             private Vector2 m_acceleration = Vector2.zero;
 
-            public override void OnTick(Context context)
+            public override void OnTick()
             {
-                var velocity2 = GetVelocity(Controls.leftInput, m_maxSpeed, context.deltaTime);
+                if (Controls.slashButtonPressed)
+                {
+                    parent.SwitchToState(typeof(Attack));
+                    return;
+                }
+
+                var velocity2 = GetVelocity(Controls.leftInput, m_maxSpeed, blackBoard.deltaTime);
                 var velocity3 = new Vector3(velocity2.x, 0f, velocity2.y);
 
-                m_controller.Move(velocity3 * context.deltaTime);
+                blackBoard.controller.Move(velocity3 * blackBoard.deltaTime);
                 m_velocity = velocity2;
             }
 
-            public override void OnExit(Context context)
+            public override void OnExit()
             {
                 m_velocity = Vector2.zero;
             }
