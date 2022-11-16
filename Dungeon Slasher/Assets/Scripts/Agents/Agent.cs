@@ -36,5 +36,10 @@ namespace DungeonSlasher.Agents
             m_blackBoard.UpdateBlackboard(deltaTime);
             m_stateMachine.Tick();
         }
+
+        private void OnDrawGizmosSelected()
+        {
+            m_stateMachine?.DrawGizmos();
+        }
     }
 }

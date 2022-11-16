@@ -17,9 +17,7 @@ namespace DungeonSlasher.Agents
 
             public override void OnEnter()
             {
-                var input3 = new Vector3(Controls.rightInput.x, blackBoard.transform.position.y, Controls.rightInput.y);
-
-                m_endPosition = blackBoard.transform.position + input3 * m_attackDistance;
+                m_endPosition = blackBoard.flatPosition + Controls.rightInput.normalized * m_attackDistance;
             }
 
             public override void OnTick()
@@ -35,6 +33,15 @@ namespace DungeonSlasher.Agents
 
                 //  A movement component needs to be added to the agent, but this will do for now.
                 blackBoard.flatPosition = Vector2.SmoothDamp(position, m_endPosition, ref m_velocity, m_attackTime, Mathf.Infinity, blackBoard.deltaTime);
+            }
+
+            public override void OnDrawGizmos()
+            {
+                var worldPosition = blackBoard.transform.position;
+                var endPosition3D = Calc.FlatToVector(m_endPosition, worldPosition.y);
+
+                GizmoTools.DrawLine(worldPosition, endPosition3D, Color.red);
+                GizmoTools.DrawCircle(endPosition3D, Mathf.Sqrt(m_squaredQuiteRange), Color.green);
             }
         }
     }

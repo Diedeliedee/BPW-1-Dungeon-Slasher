@@ -59,5 +59,17 @@ public static class Calc
         newVector.y = vector.x * Mathf.Sin(radians) + vector.y * Mathf.Cos(radians);
         return newVector;
     }
+
+    /// <returns>The passed in 3D vector turned into a 2D vecotr with X, and Z.</returns>
+    public static Vector2 VectorToFlat(Vector3 vector)
+    {
+        return new Vector2(vector.x, vector.z);
+    }
+
+    /// <returns>The passed in flat 2D vector, turned into a 3D vector applied by X, and Z.</returns>
+    public static Vector3 FlatToVector(Vector2 vector, float height = 0f)
+    {
+        return new Vector3(vector.x, height, vector.y);
+    }
 }
 

@@ -19,7 +19,7 @@ namespace DungeonSlasher.Agents
             {
                 leftInput = GetLeftInput();
                 rightInput = GetRightInput();
-                slashButtonPressed = Input.GetKeyDown(KeyCode.Space);
+                slashButtonPressed = GetSlashButtonPressed();
             }
 
             private static Vector2 GetLeftInput()
@@ -35,9 +35,18 @@ namespace DungeonSlasher.Agents
 
                 if (Input.GetKeyDown(KeyCode.LeftArrow)) input.x--;
                 if (Input.GetKeyDown(KeyCode.RightArrow)) input.x++;
-                if (Input.GetKeyDown(KeyCode.UpArrow)) input.y--;
-                if (Input.GetKeyDown(KeyCode.DownArrow)) input.y++;
-                return input;
+                if (Input.GetKeyDown(KeyCode.UpArrow)) input.y++;
+                if (Input.GetKeyDown(KeyCode.DownArrow)) input.y--;
+                return Calc.RotateVector2(input, 45f);
+            }
+
+            private static bool GetSlashButtonPressed()
+            {
+                if (Input.GetKeyDown(KeyCode.LeftArrow)) return true;
+                if (Input.GetKeyDown(KeyCode.RightArrow)) return true;
+                if (Input.GetKeyDown(KeyCode.UpArrow)) return true;
+                if (Input.GetKeyDown(KeyCode.DownArrow)) return true;
+                return false;
             }
         }
     }

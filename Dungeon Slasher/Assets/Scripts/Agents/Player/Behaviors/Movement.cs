@@ -39,6 +39,16 @@ namespace DungeonSlasher.Agents
             {
                 return Vector2.SmoothDamp(m_velocity, input.normalized * speed, ref m_acceleration, m_timeToMax, Mathf.Infinity, deltaTime);
             }
+
+            public override void OnDrawGizmos()
+            {
+                var worldPosition = blackBoard.transform.position;
+                var velocity3 = Calc.FlatToVector(m_velocity, worldPosition.y);
+                var acceleration3 = Calc.FlatToVector(m_acceleration, worldPosition.y);
+
+                GizmoTools.DrawLine(worldPosition, worldPosition + acceleration3, Color.red, 0.5f);
+                GizmoTools.DrawLine(worldPosition, worldPosition + velocity3, Color.green, 0.75f);
+            }
         }
     }
 }
