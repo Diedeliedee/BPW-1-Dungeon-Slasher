@@ -9,8 +9,8 @@ namespace DungeonSlasher.Agents
         public class Attack : State
         {
             private float m_attackDistance = 5f;
-            private float m_attackTime = 5f;
-            private float m_squaredQuiteRange = 5f;
+            private float m_attackTime = 0.05f;
+            private float m_squaredQuiteRange = 1f;
 
             private Vector2 m_endPosition = Vector2.zero;
             private Vector2 m_velocity = Vector2.zero;

@@ -9,7 +9,7 @@ namespace DungeonSlasher.Agents
         public class Movement : State
         {
             private float m_maxSpeed = 10f;
-            private float m_timeToMax = 0.25f;
+            private float m_timeToMax = 0.1f;
 
             private Vector2 m_velocity = Vector2.zero;
             private Vector2 m_acceleration = Vector2.zero;
