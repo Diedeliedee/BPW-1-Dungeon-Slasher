@@ -17,6 +17,8 @@ namespace DungeonSlasher.Agents
 
             private State m_currentState = null;
 
+            public State currentState { get => m_currentState; }
+
             public FiniteStateMachine(Blackboard blackboard, System.Type startState, params State[] states)
             {
                 this.blackboard = blackboard;

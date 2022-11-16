@@ -13,15 +13,17 @@ namespace DungeonSlasher.Agents
             //  Initialized:
             public readonly GameObject gameObject;
             public readonly Transform transform;
-            public readonly CharacterController controller;
+            public readonly Movement movement;
+            public readonly AgentSettings settings;
 
             public Vector2 flatPosition { get => new Vector2(transform.position.x, transform.position.z); set => transform.position = new Vector3(value.x, transform.position.y, value.y); }
 
-            public Blackboard(GameObject gameObject, CharacterController controller)
+            public Blackboard(GameObject gameObject, AgentSettings settings, Movement movement)
             {
                 this.gameObject = gameObject;
                 this.transform = gameObject.transform;
-                this.controller = controller;
+                this.settings = settings;
+                this.movement = movement;
             }
 
             public void UpdateBlackboard(float deltaTime)

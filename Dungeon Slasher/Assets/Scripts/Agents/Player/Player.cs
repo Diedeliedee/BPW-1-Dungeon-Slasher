@@ -6,12 +6,10 @@ namespace DungeonSlasher.Agents
 {
     public partial class Player : Agent
     {
-        [SerializeField] private PlayerSettings m_settings = null;
-
         public override void Initialize()
         {
             base.Initialize();
-            m_stateMachine = new FiniteStateMachine(m_blackBoard, typeof(FreeMove), new FreeMove(m_settings.freeMove), new Attack(m_settings.attack));
+            m_stateMachine = new FiniteStateMachine(m_blackBoard, typeof(FreeMove), new FreeMove(), new Attack());
         }
 
         public override void Tick(float deltaTime)

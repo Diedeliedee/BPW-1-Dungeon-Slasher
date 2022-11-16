@@ -6,9 +6,12 @@ namespace DungeonSlasher.Agents
 {
     public abstract partial class Agent : MonoBehaviour
     {
+        [SerializeField] private AgentSettings m_settings = null;
+
         //  Run-time Variables:
         protected FiniteStateMachine m_stateMachine = null;
         protected Blackboard m_blackBoard           = null;
+        protected Movement m_movement               = null;
 
         private void Awake()
         {
@@ -25,7 +28,8 @@ namespace DungeonSlasher.Agents
         /// </summary>
         public virtual void Initialize()
         {
-            m_blackBoard = new Blackboard(gameObject, GetComponent<CharacterController>());
+            m_movement = new Movement(GetComponent<CharacterController>(), m_settings);
+            m_blackBoard = new Blackboard(gameObject, m_settings, m_movement);
         }
 
         /// <summary>
@@ -39,7 +43,11 @@ namespace DungeonSlasher.Agents
 
         private void OnDrawGizmosSelected()
         {
-            m_stateMachine?.DrawGizmos();
+            if (!Application.isPlaying) return;
+
+            m_movement.DrawGizmos(transform.position);
+            m_stateMachine.DrawGizmos();
+            GizmoTools.DrawLabel(transform.position, m_stateMachine.currentState.ToString(), Color.black);
         }
     }
 }
