@@ -2848,7 +2848,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_target: {fileID: 1791736262}
-  m_followTime: 0.1
+  m_followTime: 0.025
 --- !u!1 &1791736260
 GameObject:
   m_ObjectHideFlags: 0
@@ -2913,11 +2913,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98180cc2345beeb48a4cd92c51b1a057, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_attackDistance: 5
-  m_attackTime: 0.05
-  m_squaredQuiteRange: 5
-  m_maxSpeed: 10
-  m_timeToMax: 0.1
+  m_settings: {fileID: 11400000, guid: f9e46d63f9863a147a4ed8aff866bab3, type: 2}
 --- !u!1 &1969076223
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,10 +15,10 @@ namespace DungeonSlasher.Agents
             public static Vector2 rightInput { get; private set; }
             public static bool slashButtonPressed { get; private set; }
 
-            public static void CheckInput()
+            public static void CheckInput(Blackboard blackboard)
             {
                 leftInput = GetLeftInput();
-                rightInput = GetRightInput();
+                rightInput = GetRightInput(blackboard);
                 slashButtonPressed = GetSlashButtonPressed();
             }
 
@@ -29,24 +29,16 @@ namespace DungeonSlasher.Agents
                 return Calc.RotateVector2(rawInput, 45f);
             }
 
-            private static Vector2 GetRightInput()
+            private static Vector2 GetRightInput(Blackboard blackboard)
             {
-                var input = Vector2.zero;
+                var input = Input.mousePosition - Camera.main.WorldToScreenPoint(blackboard.transform.position);
 
-                if (Input.GetKeyDown(KeyCode.LeftArrow)) input.x--;
-                if (Input.GetKeyDown(KeyCode.RightArrow)) input.x++;
-                if (Input.GetKeyDown(KeyCode.UpArrow)) input.y++;
-                if (Input.GetKeyDown(KeyCode.DownArrow)) input.y--;
                 return Calc.RotateVector2(input, 45f);
             }
 
             private static bool GetSlashButtonPressed()
             {
-                if (Input.GetKeyDown(KeyCode.LeftArrow)) return true;
-                if (Input.GetKeyDown(KeyCode.RightArrow)) return true;
-                if (Input.GetKeyDown(KeyCode.UpArrow)) return true;
-                if (Input.GetKeyDown(KeyCode.DownArrow)) return true;
-                return false;
+                return Input.GetButtonDown("Fire1");
             }
         }
     }
