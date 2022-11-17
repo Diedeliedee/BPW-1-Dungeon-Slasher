@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b1e89082ca5a2d44bb04c04a2eeaca7, type: 3}
   m_Name: Player
   m_EditorClassIdentifier: 
-  baseSpeed: 10
-  baseDrag: 0.01
+  baseAcceleration: 100
+  baseDrag: 10
+  maxSpeed: 10
   attackDistance: 5
   attackTime: 0.1
   distanceOverTime:
