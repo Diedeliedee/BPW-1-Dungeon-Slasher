@@ -55,9 +55,29 @@ namespace DungeonSlasher.Agents
 
             public void TickPhysics(float deltaTime)
             {
+                var dampenedSpeed = m_currentVelocity.magnitude - m_drag * deltaTime;
+
+                if (dampenedSpeed < 0f) dampenedSpeed = 0f;
                 m_currentSteering = Vector2.zero;
-                m_currentVelocity = Vector2.ClampMagnitude(m_currentVelocity, m_currentVelocity.magnitude - m_drag * deltaTime);
+                m_currentVelocity = Vector2.ClampMagnitude(m_currentVelocity, dampenedSpeed);
                 m_controller.Move(Calc.FlatToVector(m_currentVelocity * deltaTime, 0f));
+            }
+
+            public void AddVelocity(Vector2 velocity)
+            {
+                m_currentVelocity += velocity;
+            }
+
+            public void SetVelocity(Vector2 velocity)
+            {
+                m_currentVelocity = velocity;
+            }
+
+            public void ResetProperties()
+            {
+                m_speed = 0f;
+                m_grip = 0f;
+                m_drag = 0f;
             }
 
             public void DrawGizmos(Vector3 position)
