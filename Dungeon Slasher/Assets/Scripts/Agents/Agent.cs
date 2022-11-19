@@ -12,6 +12,7 @@ namespace DungeonSlasher.Agents
         protected FiniteStateMachine m_stateMachine = null;
         protected Blackboard m_blackBoard           = null;
         protected Movement m_movement               = null;
+        protected Health m_health                   = null;
 
         private void Awake()
         {
@@ -28,8 +29,9 @@ namespace DungeonSlasher.Agents
         /// </summary>
         public virtual void Initialize()
         {
-            m_movement = new Movement(GetComponent<CharacterController>(), m_settings);
-            m_blackBoard = new Blackboard(gameObject, m_settings, m_movement);
+            m_health        = new Health(10, 10);
+            m_movement      = new Movement(GetComponent<CharacterController>(), m_settings);
+            m_blackBoard    = new Blackboard(gameObject, m_settings, m_movement);
         }
 
         /// <summary>

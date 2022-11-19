@@ -88,6 +88,38 @@ public static class GizmoTools
     }
 
     /// <summary>
+    /// Draws a sphere at the given position, with the given radius.
+    /// </summary>
+    public static void DrawSphere(Vector3 position, float radius, Color color, float opacity = 1, bool solid = false, float solidOpacityMultiplier = 0.5f)
+    {
+#if UNITY_EDITOR
+        if (radius <= 0 || opacity <= 0) return;
+
+        Gizmos.color = new Color(color.r, color.g, color.b, opacity);
+        Gizmos.DrawWireSphere(position, radius);
+
+        if (!solid) return;
+
+        Gizmos.color = new Color(color.r, color.g, color.b, opacity * solidOpacityMultiplier);
+        Gizmos.DrawSphere(position, radius);
+#endif
+    }
+
+    /// <summary>
+    /// Draws a sphere at the given position, with the given radius.
+    /// </summary>
+    public static void DrawCapsule(Vector3 start, Vector3 end, float radius, Color color, float opacity = 1)
+    {
+#if UNITY_EDITOR
+        if (radius <= 0 || opacity <= 0) return;
+
+        DrawSphere(start, radius, color, opacity);
+        DrawSphere(end, radius, color, opacity);
+        DrawLine(start, end, color, opacity);
+#endif
+    }
+
+    /// <summary>
     /// Draws a solid disc, with an outline.
     /// </summary>
     public static void DrawOutlinedDisc(Vector3 position, float radius, Color innerColor, Color outerColor, float opacity = 1)

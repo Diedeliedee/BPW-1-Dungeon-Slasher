@@ -42,7 +42,7 @@ public static class Calc
         current *= max;
         return current;
     }
-    
+
     /// <returns>The passed in 0-1 integer, but swapped in value.</returns>
     public static float Reverse01(float current)
     {
@@ -70,6 +70,19 @@ public static class Calc
     public static Vector3 FlatToVector(Vector2 vector, float height = 0f)
     {
         return new Vector3(vector.x, height, vector.y);
+    }
+
+    /// <returns>Whether a list of colliders containts the desired component.</returns>
+    public static bool Contains<T>(out T[] containingComponents, params Collider[] colliders)
+    {
+        var componentList = new List<T>();
+
+        foreach (var collider in colliders)
+        {
+            if (collider.TryGetComponent(out T component)) componentList.Add(component);
+        }
+        containingComponents = componentList.ToArray();
+        return containingComponents.Length > 0;
     }
 }
 
