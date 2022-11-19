@@ -6,9 +6,9 @@ namespace DungeonSlasher.Agents
     public class AgentSettings : ScriptableObject
     {
         [Header("Movement:")]
-        public float baseAcceleration = 40f;
-        public float baseDrag = 1f;
         public float maxSpeed = 10f;
+        public float baseGrip = 0.1f;
+        public float baseDrag = 1f;
 
         [Header("Attacking")]
         public float attackDistance = 5f;

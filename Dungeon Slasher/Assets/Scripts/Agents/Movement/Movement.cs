@@ -8,58 +8,64 @@ namespace DungeonSlasher.Agents
     {
         public class Movement
         {
-            private float m_acceleration = 0f;
             private float m_speed = 0f;
+            private float m_grip = 0f;
             private float m_drag = 0f;
 
             private Vector2 m_currentVelocity = Vector2.zero;
-            private Vector2 m_currentAcceleration = Vector2.zero;
+            private Vector2 m_currentSteering = Vector2.zero;
 
             private CharacterController m_controller = null;
 
-            public float acceleration { get => m_acceleration; set => m_acceleration = value; }
+            private const float m_epsilon = 0.05f;
+
+            public Vector2 velocity { get => m_currentVelocity; }
             public float speed { get => m_speed; set => m_speed = value; }
+            public float grip { get => m_grip; set => m_grip = value; }
             public float drag { get => m_drag; set => m_drag = value; }
 
             public Movement(CharacterController controller, AgentSettings settings)
             {
-                m_acceleration = settings.baseAcceleration;
                 m_speed = settings.maxSpeed;
+                m_grip = settings.baseGrip;
                 m_drag = settings.baseDrag;
 
                 m_controller = controller;
             }
 
-            public Vector2 MoveDirection(Vector2 direction, float deltaTime)
+            public void MoveDirection(Vector2 direction, float deltaTime)
             {
-                //  Adding force.
-                if (direction.sqrMagnitude > 0f && m_speed > 0f)
+                var desiredVelocity = direction * m_speed;
+
+                //  Calculating steering.
+                m_currentSteering = desiredVelocity - m_currentVelocity;
+                m_currentSteering *= m_grip;
+
+                //  Calculating velocity.
+                m_currentVelocity += m_currentSteering;
+                if (m_currentVelocity.sqrMagnitude < m_epsilon)
                 {
-                    /*
-                    var currentSpeed = m_currentVelocity.magnitude;
-                    var fromMax = m_speed - currentSpeed;
-                    */
-                    m_currentAcceleration = direction.normalized * m_acceleration;
-                    m_currentVelocity = Vector2.ClampMagnitude(m_currentVelocity + m_currentAcceleration * deltaTime, m_speed);
-                }
-                else
-                {
-                    m_currentAcceleration = Vector2.zero;
+                    m_currentVelocity = Vector2.zero;
+                    return;
                 }
 
-                //  Applying drag.
-                m_currentVelocity = Vector2.ClampMagnitude(m_currentVelocity, m_currentVelocity.magnitude - (m_drag * deltaTime));
+                //  Applying velocity.
+                m_controller.Move(Calc.FlatToVector(m_currentVelocity * deltaTime, 0f));
+            }
 
-                m_controller.Move(Calc.FlatToVector(m_currentVelocity) * deltaTime);
-                return m_currentVelocity;
+            public void TickPhysics(float deltaTime)
+            {
+                m_currentSteering = Vector2.zero;
+                m_currentVelocity = Vector2.ClampMagnitude(m_currentVelocity, m_currentVelocity.magnitude - m_drag * deltaTime);
+                m_controller.Move(Calc.FlatToVector(m_currentVelocity * deltaTime, 0f));
             }
 
             public void DrawGizmos(Vector3 position)
             {
                 var velocity3 = Calc.FlatToVector(m_currentVelocity, position.y);
-                var acceleration3 = Calc.FlatToVector(m_currentAcceleration, position.y);
+                var steering3 = Calc.FlatToVector(m_currentSteering, position.y);
 
-                GizmoTools.DrawLine(position, position + acceleration3, Color.red, 0.5f);
+                GizmoTools.DrawLine(position, position + steering3, Color.red, 0.5f);
                 GizmoTools.DrawLine(position, position + velocity3, Color.green, 0.75f);
             }
         }

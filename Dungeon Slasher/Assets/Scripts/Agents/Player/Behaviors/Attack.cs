@@ -8,14 +8,15 @@ namespace DungeonSlasher.Agents
     {
         public class Attack : State
         {
-            private float m_timer = 0f;
-            private Vector2 m_startPosition = Vector2.zero;
-            private Vector2 m_endPosition = Vector2.zero;
+            //  Properties:
+            private float m_attackTreshhold = 3f;   //  The maximum speed until the player can slash.
+
+            private int m_state = 0;
+            private Vector2 m_clickOffset = Vector2.zero;
 
             public override void OnEnter()
             {
-                m_startPosition = blackBoard.flatPosition;
-                m_endPosition = m_startPosition + Controls.rightInput.normalized * blackBoard.settings.attackDistance;
+                m_clickOffset = Controls.rightInput.normalized * blackBoard.settings.attackDistance;
             }
 
             public override void OnTick()
@@ -27,25 +28,29 @@ namespace DungeonSlasher.Agents
                     return;
                 }
 
+                switch (m_state)
+                {
+                    case 0:
+                        if (blackBoard.movement.velocity.magnitude > m_attackTreshhold) break;
+
+                        m_state = 1;
+
+                }
+                blackBoard.movement.TickPhysics(blackBoard.deltaTime);
+
                 //  A movement component needs to be added to the agent, but this will do for now.
-                m_timer += blackBoard.deltaTime;
-                blackBoard.flatPosition = Vector2.LerpUnclamped(m_startPosition, m_endPosition, blackBoard.settings.distanceOverTime.Evaluate(m_timer / blackBoard.settings.attackTime));
+                blackBoard.flatPosition = Vector2.LerpUnclamped(m_startPosition, m_clickOffset, blackBoard.settings.distanceOverTime.Evaluate(m_timer / blackBoard.settings.attackTime));
             }
 
             public override void OnExit()
             {
-                m_timer = 0f;
-                m_startPosition = Vector2.zero;
-                m_endPosition = Vector2.zero;
+                m_clickOffset = Vector2.zero;
             }
 
             public override void OnDrawGizmos()
             {
                 var height = blackBoard.transform.position.y;
-                var startPosition3D = Calc.FlatToVector(m_startPosition, height);
-                var endPosition3D = Calc.FlatToVector(m_endPosition, height);
-
-                GizmoTools.DrawLine(startPosition3D, endPosition3D, Color.red);
+                var endPosition3D = Calc.FlatToVector(m_clickOffset, height);
             }
         }
     }
