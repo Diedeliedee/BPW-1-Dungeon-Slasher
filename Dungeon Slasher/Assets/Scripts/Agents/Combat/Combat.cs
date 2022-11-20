@@ -4,20 +4,32 @@ using UnityEngine;
 
 namespace DungeonSlasher.Agents
 {
+    [System.Serializable]
     public partial class Combat
     {
-        private Weapon[] m_weapons = null;
-        private List<Agent> m_hitAgents = null;
+        [SerializeField] private Weapon[] m_weapons = new Weapon[1];
+        [SerializeField] private LayerMask m_hitMask = new LayerMask();
 
-        public Combat(Weapon[] weapons)
+        private List<Agent> m_hitAgents = new List<Agent>();
+
+        public void Tick(Collider ownCollider)
         {
-            m_weapons = weapons;
-            m_hitAgents = new List<Agent>();
+            for (int i = 0; i < m_weapons.Length; i++) m_weapons[i].Tick(m_hitMask, ownCollider);
         }
 
-        public void Tick(float deltaTime)
+        public void SetWeaponState(int index, bool active)
         {
-            foreach (var weapon in m_weapons) weapon.Tick();
+            if (index > 0 || index >= m_weapons.Length)
+            {
+                Debug.LogError("Requested weapon index is out of range.");
+                return;
+            }
+            m_weapons[index].SetEnabled(active);
+        }
+
+        public void RetractWeapons()
+        {
+            foreach (var weapon in m_weapons) weapon.SetEnabled(false);
         }
     }
 }

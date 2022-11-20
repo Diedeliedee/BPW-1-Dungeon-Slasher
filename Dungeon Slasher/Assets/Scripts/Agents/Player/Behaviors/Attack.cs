@@ -6,14 +6,15 @@ namespace DungeonSlasher.Agents
 {
     public partial class Player : Agent
     {
+        [System.Serializable]
         public class Attack : State
         {
             //  Properties:
-            private float m_attackTreshhold = 3f;   //  The maximum speed until the player can slash.
-            private float m_brakeDrag = 75f;
-
-            private float m_attackDrag = 200f;
-            private float m_attackSpeed = 60f;
+            [SerializeField] private float m_attackTreshhold = 3f;   //  The maximum speed until the player can slash.
+            [SerializeField] private float m_brakeDrag = 75f;
+            [Space]
+            [SerializeField] private float m_attackDrag = 200f;
+            [SerializeField] private float m_attackSpeed = 60f;
 
             //  Run-time:
             private int m_state = 0;
@@ -22,8 +23,6 @@ namespace DungeonSlasher.Agents
             public override void OnEnter()
             {
                 m_attackDirection = Controls.rightInput.normalized;
-
-                blackBoard.movement.ResetProperties();
                 blackBoard.movement.drag = m_brakeDrag;
             }
 
@@ -37,6 +36,7 @@ namespace DungeonSlasher.Agents
                         if (blackBoard.movement.velocity.magnitude > m_attackTreshhold) break;
                         blackBoard.movement.drag = m_attackDrag;
                         blackBoard.movement.SetVelocity(m_attackDirection * m_attackSpeed);
+                        blackBoard.combat.SetWeaponState(0, true);
                         m_state = 1;
                         break;
 
@@ -52,6 +52,8 @@ namespace DungeonSlasher.Agents
             {
                 m_attackDirection = Vector2.zero;
                 m_state = 0;
+                blackBoard.movement.ResetProperties();
+                blackBoard.combat.RetractWeapons();
             }
 
             public override void OnDrawGizmos()

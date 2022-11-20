@@ -1,34 +1,45 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace DungeonSlasher.Agents
 {
     public class Hurtbox : MonoBehaviour
     {
-        [SerializeField] private LayerMask m_hitMask = new LayerMask();
         [SerializeField] private float m_radius = 0.5f;
-        [SerializeField] private float m_addedLength = 0f;
-        [SerializeField] private float m_invokeTime = 0f;
 
         private Vector3 m_startPosition { get => transform.position; }
-        private Vector3 m_endPosition { get => transform.position + transform.forward * m_addedLength; }
 
-        /// <returns>True if there are agents present within the hurtbox.</returns>
-        public bool DetectedAgents(out Agent[] agents)
+        /// <returns>True if there are agents present within the hurtbox, that are not on the whitelist.</returns>
+        public bool DetectedAgents(LayerMask mask, out Agent[] agents, params Collider[] whitelist)
         {
-            if (!Calc.Contains(out agents, GetColliders())) return false;
+            if (!Calc.Contains(out agents, GetColliders(mask, whitelist))) return false;
             return true;
         }
 
-        /// <returns>All colliders currently present in the hurtbox.</returns>
-        private Collider[] GetColliders()
+        /// <returns>All colliders currently present in the hurtbox, that are not on the whitelist.</returns>
+        private Collider[] GetColliders(LayerMask mask, params Collider[] whitelist)
         {
-            if (m_addedLength > 0f)
+            var colliders = Physics.OverlapSphere(m_startPosition, m_radius, mask).ToList();
+
+            if (whitelist == null || whitelist.Length <= 0 || colliders.Count <= 0) return colliders.ToArray();
+            for (int c = 0; c < colliders.Count; c++)
             {
-                return Physics.OverlapCapsule(m_startPosition, m_endPosition, m_radius, m_hitMask);
+                for (int w = 0; w < whitelist.Length; w++)
+                {
+                    //  Anomalous code with weird index error because stuff gets deleted probably.
+                    if (colliders[c].GetHashCode() != whitelist[w].GetHashCode()) continue;
+                    colliders.Remove(colliders[c]);
+                    c--;
+                    if (c >= colliders.Count)
+                    {
+                        Debug.LogError("Bitch");
+                        return null;
+                    }
+                }
             }
-            return Physics.OverlapSphere(m_startPosition, m_radius, m_hitMask);
+            return colliders.ToArray();
         }
 
         /// <summary>
@@ -39,12 +50,7 @@ namespace DungeonSlasher.Agents
             var color = Color.red;
             var opacity = 0.75f;
 
-            if (m_addedLength > 0f)
-            {
-                GizmoTools.DrawCapsule(transform.position, transform.position + transform.forward * m_addedLength, m_radius, color, opacity);
-                return;
-            }
-            GizmoTools.DrawSphere(transform.position, m_radius, color, opacity);
+            GizmoTools.DrawSphere(m_startPosition, m_radius, color, opacity, true);
         }
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,20 +12,26 @@ namespace DungeonSlasher.Agents
     {
         [SerializeField] private Hurtbox[] m_hurtboxes = new Hurtbox[1];
 
-        private List<Agent> m_caughtAgents = new List<Agent>();
+        private List<Collider> m_caughtAgents = new List<Collider>();
         private bool m_active = false;
 
-        public void Tick()
+        public void Tick(LayerMask mask, Collider ownCollider)
         {
-            if (!!m_active) return;
-            foreach (var hurtbox in m_hurtboxes)
+            if (!m_active) return;
+
+            //  The list of colliders representing agents already hit within this weapon's active instance gets made into a local variable.
+            var whiteList = m_caughtAgents;
+
+            //  The collider of the agent initiating the attack then gets added to the list.
+            whiteList.Add(ownCollider);
+
+            //  The weapon will scan each hurtbox for colliders, and attempt to extract agent classes from them.
+            //  !IMPORTANT! Make sure whatever collider type the agent is using, is on the same game object as the agent component.
+            //  As of now, agents already hit will not be hit in the next frame, because their singular collider has been added to the whitelist.
+            for (int i = 0; i < m_hurtboxes.Length; i++)
             {
-                if (!hurtbox.DetectedAgents(out Agent[] agents)) continue;
-                foreach (var agent in agents)
-                {
-                    if (IsAlreadyCaught(agent)) continue;
-                    Hit(agent);
-                }
+                if (!m_hurtboxes[i].DetectedAgents(mask, out Agent[] agents, whiteList.ToArray())) continue;
+                foreach (var agent in agents) Hit(agent);
             }
         }
 
@@ -33,7 +40,7 @@ namespace DungeonSlasher.Agents
         /// </summary>
         private void Hit(Agent agent)
         {
-            m_caughtAgents.Add(agent);
+            m_caughtAgents.Add(agent.collider);
         }
 
         /// <summary>
@@ -45,21 +52,10 @@ namespace DungeonSlasher.Agents
             if (!enabled) m_caughtAgents.Clear();
         }
 
-        /// <returns>True if the passed in agent was already caught within one of the weapon's hurtboxes during this instance of activation.</returns>
-        private bool IsAlreadyCaught(Agent agent)
-        {
-            foreach (var caughtAgent in m_caughtAgents)
-            {
-                if (agent.GetHashCode() != caughtAgent.GetHashCode()) continue;
-                return true;
-            }
-            return false;
-        }
-
         private void OnDrawGizmosSelected()
         {
             if (Application.isPlaying && !m_active) return;
-            foreach (var hurtbox in m_hurtboxes) hurtbox.DrawGizmos();
+            foreach (var hurtbox in m_hurtboxes) hurtbox?.DrawGizmos();
         }
     }
 }

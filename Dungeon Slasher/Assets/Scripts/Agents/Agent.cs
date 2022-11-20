@@ -6,13 +6,18 @@ namespace DungeonSlasher.Agents
 {
     public abstract partial class Agent : MonoBehaviour
     {
-        [SerializeField] private AgentSettings m_settings = null;
+        [Header("Agent Properties:")]
+        [SerializeField] protected Health m_health      = null;
+        [SerializeField] protected Movement m_movement  = null;
+        [SerializeField] protected Combat m_combat      = null;
+
+        //  Background:
+        protected FiniteStateMachine m_stateMachine     = null;
 
         //  Run-time Variables:
-        protected FiniteStateMachine m_stateMachine = null;
-        protected Blackboard m_blackBoard           = null;
-        protected Movement m_movement               = null;
-        protected Health m_health                   = null;
+        protected Blackboard m_blackBoard               = null;
+
+        public Collider collider { get => m_movement.collider; }
 
         private void Awake()
         {
@@ -29,9 +34,7 @@ namespace DungeonSlasher.Agents
         /// </summary>
         public virtual void Initialize()
         {
-            m_health        = new Health(10, 10);
-            m_movement      = new Movement(GetComponent<CharacterController>(), m_settings);
-            m_blackBoard    = new Blackboard(gameObject, m_settings, m_movement);
+            m_blackBoard = new Blackboard(gameObject, m_movement, m_combat);
         }
 
         /// <summary>
@@ -41,6 +44,7 @@ namespace DungeonSlasher.Agents
         {
             m_blackBoard.UpdateBlackboard(deltaTime);
             m_stateMachine.Tick();
+            m_combat.Tick(m_movement.collider);
         }
 
         private void OnDrawGizmosSelected()

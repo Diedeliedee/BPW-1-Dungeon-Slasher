@@ -6,8 +6,11 @@ namespace DungeonSlasher.Agents
 {
     public abstract partial class Agent
     {
+        [System.Serializable]
         public class Movement
         {
+            [SerializeField] private CharacterController m_controller = null;
+
             private float m_speed = 0f;
             private float m_grip = 0f;
             private float m_drag = 0f;
@@ -15,23 +18,13 @@ namespace DungeonSlasher.Agents
             private Vector2 m_currentVelocity = Vector2.zero;
             private Vector2 m_currentSteering = Vector2.zero;
 
-            private CharacterController m_controller = null;
-
             private const float m_epsilon = 0.05f;
 
             public Vector2 velocity { get => m_currentVelocity; }
             public float speed { get => m_speed; set => m_speed = value; }
             public float grip { get => m_grip; set => m_grip = value; }
             public float drag { get => m_drag; set => m_drag = value; }
-
-            public Movement(CharacterController controller, AgentSettings settings)
-            {
-                m_speed = settings.maxSpeed;
-                m_grip = settings.baseGrip;
-                m_drag = settings.baseDrag;
-
-                m_controller = controller;
-            }
+            public Collider collider { get => m_controller; }
 
             public void MoveDirection(Vector2 direction, float deltaTime)
             {

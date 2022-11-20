@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class Health
 {
-    private int m_health = 0;
-    private int m_maxHealth = 0;
+    [SerializeField] private int m_maxHealth    = 10;
+    [SerializeField] private int m_health       = 10;
+
     private HealthEvent m_onDeath = null;
 
     #region Properties
@@ -15,12 +17,6 @@ public class Health
     public HealthEvent onDeath { get => m_onDeath; }
 
     #endregion
-
-    public Health(int current, int max)
-    {
-        m_health = current;
-        m_maxHealth = max;
-    }
 
     public int SetMaxHealth(int maxHealth, bool heal)
     {
