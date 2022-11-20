@@ -38,6 +38,7 @@ namespace DungeonSlasher.Agents
                         m_state = 1;
                         break;
 
+                    //  Attacking phase.
                     case 1:
                         blackBoard.movement.TickPhysics(m_attackDrag, blackBoard.deltaTime);
                         if (blackBoard.movement.velocity.magnitude > 0f) break;

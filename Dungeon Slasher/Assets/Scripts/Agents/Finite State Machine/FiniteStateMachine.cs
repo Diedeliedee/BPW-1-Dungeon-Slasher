@@ -11,24 +11,28 @@ namespace DungeonSlasher.Agents
         /// </summary>
         public class FiniteStateMachine
         {
-            public readonly Blackboard blackboard = null;
+            private readonly Dictionary<System.Type, State> m_states    = null;
+            private State m_currentState                                = null;
 
-            private readonly Dictionary<System.Type, State> m_states = null;
-
-            private State m_currentState = null;
-
-            public State currentState { get => m_currentState; }
+            /// <summary>
+            /// Blackboard containing information regarding the agent. Gets updated before the state machine gets ticked.
+            /// </summary>
+            public Blackboard blackboard { get; private set; }
 
             public FiniteStateMachine(Blackboard blackboard, System.Type startState, params State[] states)
             {
-                this.blackboard = blackboard;
                 m_states = new Dictionary<System.Type, State>();
+                this.blackboard = blackboard;
+
+                //  All the state instances in the parameter get initialized, and added to the dictionary.
                 foreach (var state in states)
                 {
                     state.Initialize(this);
                     state.OnStart();
                     m_states.Add(state.GetType(), state);
                 }
+                
+                //  Whatever state is set as the start state, gets activated.
                 SwitchToState(startState);
             }
 
@@ -50,12 +54,15 @@ namespace DungeonSlasher.Agents
                 m_currentState.OnTick();
             }
 
-
             /// <summary>
             /// Function to call the gizmos of the current active state.
             /// </summary>
-            public virtual void DrawGizmos()
+            public virtual void DrawGizmos(Vector3 position)
             {
+                //  Drawing text in the world describing the current state the agent is in.
+                GizmoTools.DrawLabel(position, m_currentState.GetType().ToString(), Color.black);
+
+                //  Drawing the gizmos of the current state, if it isn't null.
                 m_currentState?.OnDrawGizmos();
             }
         }

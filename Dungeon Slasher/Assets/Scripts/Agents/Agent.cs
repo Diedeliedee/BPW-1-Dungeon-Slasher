@@ -64,8 +64,7 @@ namespace DungeonSlasher.Agents
             if (!Application.isPlaying) return;
 
             m_movement.DrawGizmos(transform.position);
-            m_stateMachine.DrawGizmos();
-            GizmoTools.DrawLabel(transform.position, m_stateMachine.currentState.ToString(), Color.black);
+            m_stateMachine.DrawGizmos(transform.position);
         }
     }
 }
