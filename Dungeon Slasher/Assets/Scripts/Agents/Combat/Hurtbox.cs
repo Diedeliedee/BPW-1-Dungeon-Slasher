@@ -23,21 +23,25 @@ namespace DungeonSlasher.Agents
         {
             var colliders = Physics.OverlapSphere(m_startPosition, m_radius, mask).ToList();
 
-            if (whitelist == null || whitelist.Length <= 0 || colliders.Count <= 0) return colliders.ToArray();
-            for (int c = 0; c < colliders.Count; c++)
+            bool IsWhiteListed(Collider collider)
             {
-                for (int w = 0; w < whitelist.Length; w++)
+                for (int i = 0; i < whitelist.Length; i++)
                 {
-                    //  Anomalous code with weird index error because stuff gets deleted probably.
-                    if (colliders[c].GetHashCode() != whitelist[w].GetHashCode()) continue;
-                    colliders.Remove(colliders[c]);
-                    c--;
-                    if (c >= colliders.Count)
-                    {
-                        Debug.LogError("Bitch");
-                        return null;
-                    }
+                    if (collider.GetHashCode() != whitelist[i].GetHashCode()) continue;
+                    return true;
                 }
+                return false;
+            }
+
+            //  If the whitelist is null, empty, or the caught colliders list is empty, simply return the list.
+            if (whitelist == null || whitelist.Length <= 0 || colliders.Count <= 0) return colliders.ToArray();
+
+            //  Otherwise, check for any whitelisted collider within the caught ones.
+            for (int i = 0; i < colliders.Count; i++)
+            {
+                if (!IsWhiteListed(colliders[i])) continue;
+                colliders.Remove(colliders[i]);
+                i--;
             }
             return colliders.ToArray();
         }
