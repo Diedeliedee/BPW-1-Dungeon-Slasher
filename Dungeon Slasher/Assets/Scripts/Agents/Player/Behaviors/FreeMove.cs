@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace DungeonSlasher.Agents
 {
-    public partial class Player : Agent
+    public partial class Player
     {
         [System.Serializable]
         public class FreeMove : State
@@ -13,10 +13,9 @@ namespace DungeonSlasher.Agents
             [SerializeField] private float m_speed = 10f;
             [SerializeField] private float m_grip = 0.1f;
 
-            public override void OnEnter()
+            public override void OnStart()
             {
-                blackBoard.movement.speed = m_speed;
-                blackBoard.movement.grip = m_grip;
+                behavior.SetBehaviors(new Control());
             }
 
             public override void OnTick()
@@ -27,12 +26,7 @@ namespace DungeonSlasher.Agents
                     return;
                 }
 
-                blackBoard.movement.MoveDirection(Controls.leftInput.normalized, blackBoard.deltaTime);
-            }
-
-            public override void OnExit()
-            {
-                blackBoard.movement.ResetProperties();
+                blackBoard.movement.MoveVelocity(behavior.GetDesiredVelocity(blackBoard.flatPosition, m_speed), m_grip, blackBoard.deltaTime);
             }
         }
     }

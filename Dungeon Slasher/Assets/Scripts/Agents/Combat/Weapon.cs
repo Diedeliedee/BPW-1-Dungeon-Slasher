@@ -40,6 +40,7 @@ namespace DungeonSlasher.Agents
         /// </summary>
         private void Hit(Agent agent)
         {
+            agent.ChangeHealth(-1);
             m_caughtAgents.Add(agent.collider);
         }
 
@@ -52,7 +53,7 @@ namespace DungeonSlasher.Agents
             if (!enabled) m_caughtAgents.Clear();
         }
 
-        private void OnDrawGizmosSelected()
+        public void DrawGizmos()
         {
             if (Application.isPlaying && !m_active) return;
             foreach (var hurtbox in m_hurtboxes) hurtbox?.DrawGizmos();

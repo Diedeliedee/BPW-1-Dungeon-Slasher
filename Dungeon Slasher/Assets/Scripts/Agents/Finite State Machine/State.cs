@@ -11,12 +11,18 @@ namespace DungeonSlasher.Agents
         /// </summary>
         public abstract class State
         {
-            private FiniteStateMachine m_parentStateMachine = null;
+            private FiniteStateMachine m_parentStateMachine     = null;
+            private BehaviorHandler m_behaviorHandler           = null;
 
             /// <summary>
             /// The state machine this state is a part of.
             /// </summary>
             protected FiniteStateMachine parent { get => m_parentStateMachine; }
+
+            /// <summary>
+            /// The behavior handler helping with movement behaviors.
+            /// </summary>
+            protected BehaviorHandler behavior { get => m_behaviorHandler; }
 
             /// <summary>
             /// The state machine this state is a part of.
@@ -29,6 +35,7 @@ namespace DungeonSlasher.Agents
             public void Initialize(FiniteStateMachine parent)
             {
                 m_parentStateMachine = parent;
+                m_behaviorHandler = new BehaviorHandler();
             }
 
             /// <summary>

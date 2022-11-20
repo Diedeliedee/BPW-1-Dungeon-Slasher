@@ -40,15 +40,27 @@ namespace DungeonSlasher.Agents
         /// <summary>
         /// Updates the logic of the agent.
         /// </summary>
-        public virtual  void Tick(float deltaTime)
+        public virtual void Tick(float deltaTime)
         {
             m_blackBoard.UpdateBlackboard(deltaTime);
             m_stateMachine.Tick();
             m_combat.Tick(m_movement.collider);
         }
 
+        #region Public Accesibility
+
+
+        public void ChangeHealth(int amount)
+        {
+            m_health.AddHealth(amount);
+        }
+
+        #endregion
+
         private void OnDrawGizmosSelected()
         {
+            m_combat.DrawGizmos();
+
             if (!Application.isPlaying) return;
 
             m_movement.DrawGizmos(transform.position);

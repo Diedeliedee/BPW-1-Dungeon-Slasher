@@ -9,7 +9,7 @@ namespace DungeonSlasher.Agents
 {
     public partial class Player
     {
-        private static class Controls
+        public static class Controls
         {
             public static Vector2 leftInput { get; private set; }
             public static Vector2 rightInput { get; private set; }

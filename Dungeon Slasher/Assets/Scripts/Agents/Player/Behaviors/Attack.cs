@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace DungeonSlasher.Agents
 {
-    public partial class Player : Agent
+    public partial class Player
     {
         [System.Serializable]
         public class Attack : State
@@ -23,24 +23,23 @@ namespace DungeonSlasher.Agents
             public override void OnEnter()
             {
                 m_attackDirection = Controls.rightInput.normalized;
-                blackBoard.movement.drag = m_brakeDrag;
             }
 
             public override void OnTick()
             {
-                blackBoard.movement.TickPhysics(blackBoard.deltaTime);
                 switch (m_state)
                 {
                     //  Braking phase.
                     case 0:
+                        blackBoard.movement.TickPhysics(m_brakeDrag, blackBoard.deltaTime);
                         if (blackBoard.movement.velocity.magnitude > m_attackTreshhold) break;
-                        blackBoard.movement.drag = m_attackDrag;
                         blackBoard.movement.SetVelocity(m_attackDirection * m_attackSpeed);
                         blackBoard.combat.SetWeaponState(0, true);
                         m_state = 1;
                         break;
 
                     case 1:
+                        blackBoard.movement.TickPhysics(m_attackDrag, blackBoard.deltaTime);
                         if (blackBoard.movement.velocity.magnitude > 0f) break;
                         parent.SwitchToState(typeof(FreeMove));
                         break;
@@ -52,7 +51,6 @@ namespace DungeonSlasher.Agents
             {
                 m_attackDirection = Vector2.zero;
                 m_state = 0;
-                blackBoard.movement.ResetProperties();
                 blackBoard.combat.RetractWeapons();
             }
 

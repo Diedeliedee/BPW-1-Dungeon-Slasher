@@ -11,28 +11,19 @@ namespace DungeonSlasher.Agents
         {
             [SerializeField] private CharacterController m_controller = null;
 
-            private float m_speed = 0f;
-            private float m_grip = 0f;
-            private float m_drag = 0f;
-
             private Vector2 m_currentVelocity = Vector2.zero;
             private Vector2 m_currentSteering = Vector2.zero;
 
             private const float m_epsilon = 0.05f;
 
             public Vector2 velocity { get => m_currentVelocity; }
-            public float speed { get => m_speed; set => m_speed = value; }
-            public float grip { get => m_grip; set => m_grip = value; }
-            public float drag { get => m_drag; set => m_drag = value; }
             public Collider collider { get => m_controller; }
 
-            public void MoveDirection(Vector2 direction, float deltaTime)
+            public void MoveVelocity(Vector2 desiredVelocity, float grip, float deltaTime)
             {
-                var desiredVelocity = direction * m_speed;
-
                 //  Calculating steering.
                 m_currentSteering = desiredVelocity - m_currentVelocity;
-                m_currentSteering *= m_grip;
+                m_currentSteering *= grip;
 
                 //  Calculating velocity.
                 m_currentVelocity += m_currentSteering;
@@ -46,9 +37,9 @@ namespace DungeonSlasher.Agents
                 m_controller.Move(Calc.FlatToVector(m_currentVelocity * deltaTime, 0f));
             }
 
-            public void TickPhysics(float deltaTime)
+            public void TickPhysics(float drag, float deltaTime)
             {
-                var dampenedSpeed = m_currentVelocity.magnitude - m_drag * deltaTime;
+                var dampenedSpeed = m_currentVelocity.magnitude - drag * deltaTime;
 
                 if (dampenedSpeed < 0f) dampenedSpeed = 0f;
                 m_currentSteering = Vector2.zero;
@@ -64,13 +55,6 @@ namespace DungeonSlasher.Agents
             public void SetVelocity(Vector2 velocity)
             {
                 m_currentVelocity = velocity;
-            }
-
-            public void ResetProperties()
-            {
-                m_speed = 0f;
-                m_grip = 0f;
-                m_drag = 0f;
             }
 
             public void DrawGizmos(Vector3 position)
