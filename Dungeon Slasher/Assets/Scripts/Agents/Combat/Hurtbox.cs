@@ -14,12 +14,14 @@ namespace DungeonSlasher.Agents
         private Vector3 m_startPosition { get => transform.position; }
         private Vector3 m_endPosition { get => transform.position + transform.forward * m_addedLength; }
 
-        private Agent[] GetAgents()
+        /// <returns>True if there are agents present within the hurtbox.</returns>
+        public bool DetectedAgents(out Agent[] agents)
         {
-            if (!Calc.Contains(out Agent[] agents, GetColliders())) return null;
-            return agents;
+            if (!Calc.Contains(out agents, GetColliders())) return false;
+            return true;
         }
 
+        /// <returns>All colliders currently present in the hurtbox.</returns>
         private Collider[] GetColliders()
         {
             if (m_addedLength > 0f)
@@ -29,9 +31,10 @@ namespace DungeonSlasher.Agents
             return Physics.OverlapSphere(m_startPosition, m_radius, m_hitMask);
         }
 
-
-
-        private void OnDrawGizmosSelected()
+        /// <summary>
+        /// Draws the hurtbox in a spherical representation.
+        /// </summary>
+        public void DrawGizmos()
         {
             var color = Color.red;
             var opacity = 0.75f;

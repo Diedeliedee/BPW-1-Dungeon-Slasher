@@ -6,27 +6,18 @@ namespace DungeonSlasher.Agents
 {
     public partial class Combat
     {
-        private Hurtbox[] m_hurtboxes = null;
-        private List<HurtInstance> m_hurtInstances = null;
+        private Weapon[] m_weapons = null;
+        private List<Agent> m_hitAgents = null;
 
-        public Combat(Hurtbox[] hurtboxes)
+        public Combat(Weapon[] weapons)
         {
-            m_hurtboxes = hurtboxes;
-            m_hurtInstances = new List<HurtInstance>();
+            m_weapons = weapons;
+            m_hitAgents = new List<Agent>();
         }
 
         public void Tick(float deltaTime)
         {
-            foreach (var hurtBox in m_hurtboxes)
-            {
-                if (!hurtBox.gameObject.activeSelf) continue;
-                if (!hurtBox.DetectedAgents(out Agent[] agents)) continue;
-                foreach (var instances in collection)
-                {
-
-                }
-
-            }
+            foreach (var weapon in m_weapons) weapon.Tick();
         }
     }
 }
