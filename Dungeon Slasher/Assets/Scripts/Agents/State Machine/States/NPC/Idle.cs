@@ -6,7 +6,7 @@ namespace DungeonSlasher.Agents
 {
     public partial class NPC
     {
-        public class Idle : State
+        public class Idle : AgentState
         {
         }
     }

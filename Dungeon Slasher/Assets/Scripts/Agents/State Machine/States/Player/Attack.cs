@@ -7,7 +7,7 @@ namespace DungeonSlasher.Agents
     public partial class Player
     {
         [System.Serializable]
-        public class Attack : State
+        public class Attack : AgentState
         {
             //  Properties:
             [SerializeField] private float m_attackTreshhold = 3f;   //  The maximum speed until the player can slash.

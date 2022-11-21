@@ -12,7 +12,7 @@ namespace DungeonSlasher.Agents
         [SerializeField] protected Combat m_combat      = null;
 
         //  Background:
-        protected FiniteStateMachine m_stateMachine     = null;
+        protected AgentFSM m_stateMachine     = null;
 
         //  Run-time Variables:
         protected Blackboard m_blackBoard               = null;

@@ -7,7 +7,7 @@ namespace DungeonSlasher.Agents
     public partial class Player
     {
         [System.Serializable]
-        public class FreeMove : State
+        public class FreeMove : AgentState
         {
             //  Properties:
             [SerializeField] private float m_speed = 10f;

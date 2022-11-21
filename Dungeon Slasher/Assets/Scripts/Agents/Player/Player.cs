@@ -13,7 +13,7 @@ namespace DungeonSlasher.Agents
         public override void Initialize()
         {
             base.Initialize();
-            m_stateMachine = new FiniteStateMachine(m_blackBoard, typeof(FreeMove), m_freeMove, m_attack);
+            m_stateMachine = new AgentFSM(m_blackBoard, typeof(FreeMove), m_freeMove, m_attack);
         }
 
         public override void Tick(float deltaTime)

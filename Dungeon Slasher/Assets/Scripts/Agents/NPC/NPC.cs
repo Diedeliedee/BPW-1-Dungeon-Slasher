@@ -9,7 +9,7 @@ namespace DungeonSlasher.Agents
         public override void Initialize()
         {
             base.Initialize();
-            m_stateMachine = new FiniteStateMachine(m_blackBoard, typeof(Idle), new Idle());
+            m_stateMachine = new AgentFSM(m_blackBoard, typeof(Idle), new Idle());
         }
     }
 }
