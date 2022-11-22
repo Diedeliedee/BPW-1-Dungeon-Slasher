@@ -20,9 +20,9 @@ namespace DungeonSlasher.Agents
             private int m_state = 0;
             private Vector2 m_attackDirection = Vector2.zero;
 
-            public override void OnEnter()
+            public void SetAttackDirection(Vector2 direction)
             {
-                m_attackDirection = Controls.rightInput.normalized;
+                m_attackDirection = direction;
             }
 
             public override void OnTick()
@@ -31,8 +31,10 @@ namespace DungeonSlasher.Agents
                 {
                     //  Braking phase.
                     case 0:
-                        blackBoard.movement.TickPhysics(m_brakeDrag, blackBoard.deltaTime);
+                        blackBoard.movement.TickPhysics(blackBoard.deltaTime, m_brakeDrag);
+
                         if (blackBoard.movement.velocity.magnitude > m_attackTreshhold) break;
+
                         blackBoard.movement.SetVelocity(m_attackDirection * m_attackSpeed);
                         blackBoard.combat.SetWeaponState(0, true);
                         m_state = 1;
@@ -40,9 +42,11 @@ namespace DungeonSlasher.Agents
 
                     //  Attacking phase.
                     case 1:
-                        blackBoard.movement.TickPhysics(m_attackDrag, blackBoard.deltaTime);
+                        blackBoard.movement.TickPhysics(blackBoard.deltaTime, m_attackDrag);
+
                         if (blackBoard.movement.velocity.magnitude > 0f) break;
-                        parent.SwitchToState(typeof(FreeMove));
+
+                        parent.SwitchToState<FreeMove>();
                         break;
 
                 }
@@ -53,12 +57,6 @@ namespace DungeonSlasher.Agents
                 m_attackDirection = Vector2.zero;
                 m_state = 0;
                 blackBoard.combat.RetractWeapons();
-            }
-
-            public override void OnDrawGizmos()
-            {
-                var height = blackBoard.transform.position.y;
-                var endPosition3D = Calc.FlatToVector(m_attackDirection, height);
             }
         }
     }

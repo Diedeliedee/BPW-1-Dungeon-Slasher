@@ -10,15 +10,22 @@ namespace DungeonSlasher.Agents
         [SerializeField] private FreeMove m_freeMove    = null;
         [SerializeField] private Attack m_attack        = null;
 
+        private PlayerControls m_controls               = null;
+
         public override void Initialize()
         {
             base.Initialize();
-            m_stateMachine = new AgentFSM(m_blackBoard, typeof(FreeMove), m_freeMove, m_attack);
+
+            m_controls              = new PlayerControls();
+            m_freeMove.controls     = m_controls;
+
+            SetStates(typeof(FreeMove), m_freeMove, m_attack);
         }
 
         public override void Tick(float deltaTime)
         {
-            Controls.CheckInput(m_blackBoard);
+            m_controls.CheckInput(m_blackBoard);
+
             base.Tick(deltaTime);
         }
     }

@@ -1,32 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Dodelie.Tools;
 
 namespace DungeonSlasher.Agents
 {
     public partial class Player
     {
         [System.Serializable]
-        public class FreeMove : AgentState
+        public class FreeMove : MovementState
         {
-            //  Properties:
-            [SerializeField] private float m_speed = 10f;
-            [SerializeField] private float m_grip = 0.1f;
+            public PlayerControls controls = null;
 
             public override void OnStart()
             {
-                behavior.SetBehaviors(new Control());
+                SetBehaviors(new Control(controls));
             }
 
             public override void OnTick()
             {
-                if (Controls.slashButtonPressed)
+                if (controls.slashButtonPressed)
                 {
-                    parent.SwitchToState(typeof(Attack));
+                    parent.SwitchToState<Attack>().SetAttackDirection(Calc.RotateVector2(controls.rightInput, 45f));
                     return;
                 }
 
-                blackBoard.movement.MoveVelocity(behavior.GetDesiredVelocity(blackBoard.flatPosition, m_speed), m_grip, blackBoard.deltaTime);
+                TickMovement();
             }
         }
     }

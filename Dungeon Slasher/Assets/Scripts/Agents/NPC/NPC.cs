@@ -6,10 +6,13 @@ namespace DungeonSlasher.Agents
 {
     public partial class NPC : Agent
     {
+        [Header("NPC States:")]
+        [SerializeField] private ChaseAgent m_chaseAgent = null;
+
         public override void Initialize()
         {
             base.Initialize();
-            m_stateMachine = new AgentFSM(m_blackBoard, typeof(Idle), new Idle());
+            SetStates(m_chaseAgent.GetType(), m_chaseAgent);
         }
     }
 }

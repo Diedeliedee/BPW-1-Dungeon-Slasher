@@ -1,18 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Dodelie.Tools;
 
 namespace DungeonSlasher.Agents
 {
     public abstract partial class Agent : MonoBehaviour
     {
         [Header("Agent Properties:")]
-        [SerializeField] protected Health m_health      = null;
-        [SerializeField] protected Movement m_movement  = null;
-        [SerializeField] protected Combat m_combat      = null;
+        [SerializeField] private Health m_health        = null;
+        [SerializeField] private Movement m_movement    = null;
+        [SerializeField] private Combat m_combat        = null;
 
         //  Background:
-        protected AgentFSM m_stateMachine     = null;
+        private AgentFSM m_stateMachine                 = null;
 
         //  Run-time Variables:
         protected Blackboard m_blackBoard               = null;
@@ -49,13 +50,17 @@ namespace DungeonSlasher.Agents
 
         #region Public Accesibility
 
-
         public void ChangeHealth(int amount)
         {
             m_health.AddHealth(amount);
         }
 
         #endregion
+
+        protected void SetStates(System.Type startState, params AgentState[] states)
+        {
+            m_stateMachine = new AgentFSM(m_blackBoard, startState, states);
+        }
 
         private void OnDrawGizmosSelected()
         {

@@ -1,59 +1,62 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public static class CommonRoutines
+namespace Dodelie.Tools
 {
-    public static IEnumerator WaitForSeconds(float time, Event onFinish)
+    public static class CommonRoutines
     {
-        yield return new WaitForSeconds(time);
-        onFinish.Invoke();
-    }
-
-    public static IEnumerator Progression(float time, ProgressionEvent onTick, Event onFinish)
-    {
-        var timer = 0f;
-
-        while (timer < time)
+        public static IEnumerator WaitForSeconds(float time, Event onFinish)
         {
-            timer += Time.deltaTime;
-            onTick.Invoke(timer / time);
-            yield return null;
+            yield return new WaitForSeconds(time);
+            onFinish.Invoke();
         }
-        onFinish.Invoke();
-    }
 
-    public static IEnumerator DoubleProgression(float time, float subTime, Event onTick, Event onFinish)
-    {
-        var timer = 0f;
-        var subTimer = 0f;
-
-        while (timer < time)
+        public static IEnumerator Progression(float time, ProgressionEvent onTick, Event onFinish)
         {
-            timer += Time.deltaTime;
-            while (subTimer < subTime)
+            var timer = 0f;
+
+            while (timer < time)
             {
-                subTimer += Time.deltaTime;
+                timer += Time.deltaTime;
+                onTick.Invoke(timer / time);
                 yield return null;
             }
-            onTick.Invoke();
-            subTimer = 0f;
+            onFinish.Invoke();
         }
-        onFinish.Invoke();
-    }
 
-    public static IEnumerator CustomProgression(float time, AnimationCurve curve, ProgressionEvent onTick, Event onFinish)
-    {
-        var timer = 0f;
-
-        while (timer < time)
+        public static IEnumerator DoubleProgression(float time, float subTime, Event onTick, Event onFinish)
         {
-            timer += Time.deltaTime;
-            onTick.Invoke(curve.Evaluate(timer / time));
-            yield return null;
-        }
-        onFinish.Invoke();
-    }
+            var timer = 0f;
+            var subTimer = 0f;
 
-    public delegate void Event();
-    public delegate void ProgressionEvent(float progression);
+            while (timer < time)
+            {
+                timer += Time.deltaTime;
+                while (subTimer < subTime)
+                {
+                    subTimer += Time.deltaTime;
+                    yield return null;
+                }
+                onTick.Invoke();
+                subTimer = 0f;
+            }
+            onFinish.Invoke();
+        }
+
+        public static IEnumerator CustomProgression(float time, AnimationCurve curve, ProgressionEvent onTick, Event onFinish)
+        {
+            var timer = 0f;
+
+            while (timer < time)
+            {
+                timer += Time.deltaTime;
+                onTick.Invoke(curve.Evaluate(timer / time));
+                yield return null;
+            }
+            onFinish.Invoke();
+        }
+
+        public delegate void Event();
+        public delegate void ProgressionEvent(float progression);
+    }
 }

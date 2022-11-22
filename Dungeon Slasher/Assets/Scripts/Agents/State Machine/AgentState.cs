@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Dodelie.Tools;
 
 namespace DungeonSlasher.Agents
 {
@@ -8,11 +9,6 @@ namespace DungeonSlasher.Agents
     {
         public abstract class AgentState : State
         {
-            /// <summary>
-            /// The behavior handler helping with movement behaviors.
-            /// </summary>
-            protected BehaviorHandler behavior { get; private set; }
-
             /// <summary>
             /// The state machine this state is a part of.
             /// </summary>
@@ -24,7 +20,6 @@ namespace DungeonSlasher.Agents
             public override void Initialize(FStateMachine parent)
             {
                 base.Initialize(parent);
-                this.behavior   = new BehaviorHandler();
             }
         }
     }
