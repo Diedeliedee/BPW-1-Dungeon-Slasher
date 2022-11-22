@@ -3081,3 +3081,9 @@ MonoBehaviour:
     m_hitMask:
       serializedVersion: 2
       m_Bits: 64
+  m_chaseAgent:
+    m_speed: 10
+    m_grip: 0.1
+    m_rotation: 0.05
+    m_lookAheadTime: 0.5
+    m_target: {fileID: 1791736262}

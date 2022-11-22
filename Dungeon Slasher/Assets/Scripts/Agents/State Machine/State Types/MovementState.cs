@@ -14,8 +14,9 @@ namespace DungeonSlasher.Agents
         public class MovementState : AgentState
         {
             //  Properties:
-            [SerializeField] private float m_speed = 10f;
-            [SerializeField] private float m_grip = 0.1f;
+            [SerializeField] private float m_speed      = 10f;
+            [SerializeField] private float m_grip       = 0.1f;
+            [SerializeField] private float m_rotation   = 0.05f;
 
             private BehaviorHandler m_behavior = null;
 
@@ -41,10 +42,10 @@ namespace DungeonSlasher.Agents
             /// </summary>
             protected void TickMovement()
             {
-                var context = new Behavior.Context(blackBoard.deltaTime, m_speed, blackBoard.flatPosition, blackBoard.movement.velocity);
+                var context         = new Behavior.Context(blackBoard.deltaTime, m_speed, blackBoard.flatPosition, blackBoard.movement.velocity);
                 var desiredVelocity = Calc.RotateVector2(m_behavior.GetDesiredVelocity(context), 45f);
 
-                blackBoard.movement.MoveVelocity(blackBoard.deltaTime, desiredVelocity, m_grip);
+                blackBoard.movement.MoveVelocity(blackBoard.deltaTime, desiredVelocity, m_grip, m_rotation);
             }
         }
     }

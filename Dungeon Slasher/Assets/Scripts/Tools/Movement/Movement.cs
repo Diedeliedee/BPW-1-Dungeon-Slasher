@@ -34,7 +34,7 @@ namespace Dodelie.Tools
         /// <param name="desiredVelocity">The velocity the agents shall aim for.</param>
         /// <param name="grip">How much grip the agent has in it's movement.</param>
         /// <param name="deltaTime">Seconds since the last frame passed.</param>
-        public void MoveVelocity(float deltaTime, Vector2 desiredVelocity, float grip, float rotationSmoothening = 0f)
+        public void MoveVelocity(float deltaTime, Vector2 desiredVelocity, float grip, float rotationSmoothening)
         {
             //  Calculating steering.
             m_currentSteering = desiredVelocity - m_currentVelocity;
@@ -52,17 +52,25 @@ namespace Dodelie.Tools
             m_controller.Move(Calc.FlatToVector(m_currentVelocity * deltaTime, 0f));
 
             //  Rotating.
-            if (rotationSmoothening <= 0f) return;
-            RotateTo(deltaTime, Calc.FlatToVector(m_currentVelocity), rotationSmoothening);
+            RotateTo(deltaTime, m_currentVelocity, rotationSmoothening);
         }
 
         private void RotateTo(float deltaTime, Vector2 direction, float smoothening)
         {
+            var target = Quaternion.LookRotation(Calc.FlatToVector(direction), Vector3.up);
             var current = m_controller.transform.rotation;
-            var target  = Quaternion.LookRotation(direction, Vector3.up);
-            var eulers  = current.eulerAngles;
+            var eulers = current.eulerAngles;
 
-            eulers.y    = Quaternion.Slerp(current, target, smoothening / deltaTime).eulerAngles.y;
+            //  If smoothening is non-existent, simply alter the rotation to the target.
+            if (smoothening <= 0f)
+            {
+                eulers.y = target.eulerAngles.y;
+                m_controller.transform.eulerAngles = eulers;
+                return;
+            }
+
+            //  Interpolate otherwise.
+            eulers.y = Quaternion.Slerp(current, target, deltaTime / smoothening).eulerAngles.y;
             m_controller.transform.eulerAngles = eulers;
         }
 
