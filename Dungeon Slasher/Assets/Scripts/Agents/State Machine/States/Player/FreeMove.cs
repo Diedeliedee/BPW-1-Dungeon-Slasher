@@ -14,7 +14,7 @@ namespace DungeonSlasher.Agents
 
             public override void OnStart()
             {
-                SetBehaviors(new Control(controls));
+                SetBehaviors(new Control(controls, 45f));
             }
 
             public override void OnTick()

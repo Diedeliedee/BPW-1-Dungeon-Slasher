@@ -32,8 +32,10 @@ namespace Dodelie.Tools
 
         public override void DrawGizmos(Vector3 position)
         {
+            var targetPosition = m_target.position;
+
             GizmoTools.DrawLine(position, m_target.position, Color.red);
-            GizmoTools.DrawLine(m_target.position, m_futureTargetPosition, Color.blue);
+            GizmoTools.DrawLine(targetPosition, Calc.FlatToVector(m_futureTargetPosition, targetPosition.y), Color.blue);
         }
     }
 }

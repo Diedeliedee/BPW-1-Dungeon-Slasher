@@ -42,10 +42,9 @@ namespace DungeonSlasher.Agents
             /// </summary>
             protected void TickMovement()
             {
-                var context         = new Behavior.Context(blackBoard.deltaTime, m_speed, blackBoard.flatPosition, blackBoard.movement.velocity);
-                var desiredVelocity = Calc.RotateVector2(m_behavior.GetDesiredVelocity(context), 45f);
+                var context = new Behavior.Context(blackBoard.deltaTime, m_speed, blackBoard.flatPosition, blackBoard.movement.velocity);
 
-                blackBoard.movement.MoveVelocity(blackBoard.deltaTime, desiredVelocity, m_grip, m_rotation);
+                blackBoard.movement.MoveVelocity(blackBoard.deltaTime, m_behavior.GetDesiredVelocity(context), m_grip, m_rotation);
             }
 
             public override void OnDrawGizmos()
