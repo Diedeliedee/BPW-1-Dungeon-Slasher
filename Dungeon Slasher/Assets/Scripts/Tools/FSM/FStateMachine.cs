@@ -44,10 +44,7 @@ namespace Dodelie.Tools
         /// </summary>
         public T SwitchToState<T>() where T : State
         {
-            m_currentState?.OnExit();
-            m_currentState = m_states[typeof(T)];
-            m_currentState?.OnEnter();
-            return m_currentState as T;
+            return SwitchToState(typeof(T)) as T;
         }
 
         /// <summary>

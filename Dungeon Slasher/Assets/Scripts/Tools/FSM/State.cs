@@ -22,6 +22,26 @@ namespace Dodelie.Tools
             this.parent = parent;
         }
 
+        #region Local Interface
+
+        /// <summary>
+        /// Switches to another state using a generic variable.
+        /// </summary>
+        protected T SwitchToState<T>() where T : State
+        {
+            return parent.SwitchToState<T>();
+        }
+
+        /// <summary>
+        /// Switches to another state using a type variable.
+        /// </summary>
+        protected State SwitchToState(System.Type state)
+        {
+            return parent.SwitchToState(state);
+        }
+
+        #endregion
+
         /// <summary>
         /// Called at the very beginning of the state.
         /// </summary>

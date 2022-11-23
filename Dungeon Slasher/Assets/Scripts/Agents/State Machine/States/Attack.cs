@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace DungeonSlasher.Agents
 {
-    public partial class Player
+    public partial class Agent
     {
         [System.Serializable]
         public class Attack : AgentState
@@ -19,10 +19,12 @@ namespace DungeonSlasher.Agents
             //  Run-time:
             private int m_state = 0;
             private Vector2 m_attackDirection = Vector2.zero;
+            private System.Type m_returnState = null;
 
-            public void SetAttackDirection(Vector2 direction)
+            public void SetAttack(Vector2 direction, System.Type returnState)
             {
-                m_attackDirection = direction;
+                m_attackDirection = direction.normalized;
+                m_returnState = returnState;
             }
 
             public override void OnTick()
@@ -46,7 +48,7 @@ namespace DungeonSlasher.Agents
 
                         if (blackBoard.movement.velocity.magnitude > 0f) break;
 
-                        parent.SwitchToState<FreeMove>();
+                        parent.SwitchToState(m_returnState);
                         break;
 
                 }
@@ -54,8 +56,10 @@ namespace DungeonSlasher.Agents
 
             public override void OnExit()
             {
-                m_attackDirection = Vector2.zero;
                 m_state = 0;
+                m_attackDirection = Vector2.zero;
+                m_returnState = null;
+
                 blackBoard.combat.RetractWeapons();
             }
         }

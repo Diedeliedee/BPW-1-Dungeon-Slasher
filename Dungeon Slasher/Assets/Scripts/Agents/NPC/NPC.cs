@@ -8,11 +8,12 @@ namespace DungeonSlasher.Agents
     {
         [Header("NPC States:")]
         [SerializeField] private ChaseAgent m_chaseAgent = null;
+        [SerializeField] private Attack m_attack = null;
 
         public override void Initialize()
         {
             base.Initialize();
-            SetStates(m_chaseAgent.GetType(), m_chaseAgent);
+            SetStates(m_chaseAgent.GetType(), m_chaseAgent, m_attack);
         }
     }
 }

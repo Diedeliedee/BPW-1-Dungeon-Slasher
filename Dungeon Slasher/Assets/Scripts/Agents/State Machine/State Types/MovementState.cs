@@ -47,6 +47,11 @@ namespace DungeonSlasher.Agents
 
                 blackBoard.movement.MoveVelocity(blackBoard.deltaTime, desiredVelocity, m_grip, m_rotation);
             }
+
+            public override void OnDrawGizmos()
+            {
+                m_behavior.DrawGizmos(blackBoard.transform.position);
+            }
         }
     }
 }
