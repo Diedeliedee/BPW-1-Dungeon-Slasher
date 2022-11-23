@@ -193,7 +193,7 @@ MonoBehaviour:
   m_freeMove:
     m_speed: 12.5
     m_grip: 0.15
-    m_rotation: 0.035
+    m_rotation: 0.05
   m_attack:
     m_attackTreshhold: 0
     m_brakeDrag: 50
