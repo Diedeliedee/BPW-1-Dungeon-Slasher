@@ -16,15 +16,17 @@ namespace DungeonSlasher.Agents
             public readonly Transform transform;
             public readonly Movement movement;
             public readonly Combat combat;
+            public readonly Animator animator;
 
             public Vector2 flatPosition { get => new Vector2(transform.position.x, transform.position.z); set => transform.position = new Vector3(value.x, transform.position.y, value.y); }
 
-            public Blackboard(GameObject gameObject, Movement movement, Combat combat)
+            public Blackboard(GameObject gameObject, Movement movement, Combat combat, Animator animator)
             {
                 this.gameObject = gameObject;
                 this.transform = gameObject.transform;
                 this.movement = movement;
                 this.combat = combat;
+                this.animator = animator;
             }
 
             public void UpdateBlackboard(float deltaTime)

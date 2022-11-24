@@ -12,6 +12,9 @@ namespace DungeonSlasher.Agents
         [SerializeField] private Movement m_movement    = null;
         [SerializeField] private Combat m_combat        = null;
 
+        [Header("Agent References:")]
+        [SerializeField] private Animator m_animator    = null;
+
         //  Background:
         private AgentFSM m_stateMachine                 = null;
 
@@ -35,7 +38,7 @@ namespace DungeonSlasher.Agents
         /// </summary>
         public virtual void Initialize()
         {
-            m_blackBoard = new Blackboard(gameObject, m_movement, m_combat);
+            m_blackBoard = new Blackboard(gameObject, m_movement, m_combat, m_animator);
         }
 
         /// <summary>

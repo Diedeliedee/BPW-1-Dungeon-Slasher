@@ -7,19 +7,20 @@ namespace DungeonSlasher.Agents
 {
     public abstract partial class Agent
     {
+        [System.Serializable]
         public abstract class AgentState : State
         {
+            [SerializeField] private AnimationClip m_animation = null;
+
             /// <summary>
             /// The state machine this state is a part of.
             /// </summary>
             protected Blackboard blackBoard { get => (parent as AgentFSM).blackboard; }
 
-            /// <summary>
-            /// Called whenever the finite state machine the state is in, is created.
-            /// </summary>
-            public override void Initialize(FStateMachine parent)
+            protected void CrossFadeAnimation()
             {
-                base.Initialize(parent);
+                if (m_animation == null) return;
+                blackBoard.animator.CrossFade(m_animation.name, 0f);
             }
         }
     }

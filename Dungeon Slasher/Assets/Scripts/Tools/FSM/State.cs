@@ -43,11 +43,6 @@ namespace Dodelie.Tools
         #endregion
 
         /// <summary>
-        /// Called at the very beginning of the state.
-        /// </summary>
-        public virtual void OnStart() { }
-
-        /// <summary>
         /// Update function for the state.
         /// </summary>
         public virtual void OnTick() { }

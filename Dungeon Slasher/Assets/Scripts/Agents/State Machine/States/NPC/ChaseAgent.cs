@@ -18,8 +18,9 @@ namespace DungeonSlasher.Agents
             [Space]
             [SerializeField] private Transform m_target = null;
 
-            public override void OnStart()
+            public override void Initialize(FStateMachine parent)
             {
+                base.Initialize(parent);
                 SetBehaviors(new Pursue(m_lookAheadTime, m_target));
             }
 

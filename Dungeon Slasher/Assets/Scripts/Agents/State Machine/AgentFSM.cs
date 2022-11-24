@@ -17,6 +17,7 @@ namespace DungeonSlasher.Agents
             public AgentFSM(Blackboard blackboard, System.Type startState, params AgentState[] states) : base(startState, states)
             {
                 this.blackboard = blackboard;
+                SwitchToState(startState);
             }
         }
     }

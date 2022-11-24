@@ -20,12 +20,8 @@ namespace Dodelie.Tools
             foreach (var state in states)
             {
                 state.Initialize(this);
-                state.OnStart();
                 m_states.Add(state.GetType(), state);
             }
-
-            //  Whatever state is set as the start state, gets activated.
-            SwitchToState(startState);
         }
 
         /// <summary>

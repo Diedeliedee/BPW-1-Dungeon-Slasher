@@ -10,11 +10,18 @@ namespace DungeonSlasher.Agents
         [System.Serializable]
         public class FreeMove : MovementState
         {
+            [Space]
             public PlayerControls controls = null;
 
-            public override void OnStart()
+            public override void Initialize(FStateMachine parent)
             {
+                base.Initialize(parent);
                 SetBehaviors(new Control(controls, 45f));
+            }
+
+            public override void OnEnter()
+            {
+                CrossFadeAnimation();
             }
 
             public override void OnTick()

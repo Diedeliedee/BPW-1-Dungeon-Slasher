@@ -17,6 +17,7 @@ namespace DungeonSlasher.Agents
             /// 
 
             //  Properties:
+            [Space]
             [SerializeField] private float m_attackTreshhold = 3f;   //  The maximum speed until the player can slash.
             [SerializeField] private float m_brakeDrag = 75f;
             [Space]
@@ -32,6 +33,11 @@ namespace DungeonSlasher.Agents
             {
                 m_attackDirection = direction.normalized;
                 m_returnState = returnState;
+            }
+
+            public override void OnEnter()
+            {
+                CrossFadeAnimation();
             }
 
             public override void OnTick()
