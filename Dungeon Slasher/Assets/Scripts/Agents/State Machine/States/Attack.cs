@@ -9,6 +9,13 @@ namespace DungeonSlasher.Agents
         [System.Serializable]
         public class Attack : AgentState
         {
+            /// Velocity    = Time     * Drag
+            /// Velocity    = Distance / Time
+            /// Drag        = Velocity / Time
+            /// Time        = Velocity / Drag
+            /// Distance    = Velocity * Time (If the velocity would'nt have drag.)
+            /// 
+
             //  Properties:
             [SerializeField] private float m_attackTreshhold = 3f;   //  The maximum speed until the player can slash.
             [SerializeField] private float m_brakeDrag = 75f;
