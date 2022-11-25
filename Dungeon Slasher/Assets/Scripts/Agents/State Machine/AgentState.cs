@@ -17,10 +17,10 @@ namespace DungeonSlasher.Agents
             /// </summary>
             protected Blackboard blackBoard { get => (parent as AgentFSM).blackboard; }
 
-            protected void CrossFadeAnimation()
+            protected void CrossFadeAnimation(float seconds = 0f)
             {
                 if (m_animation == null) return;
-                blackBoard.animator.CrossFade(m_animation.name, 0f);
+                blackBoard.animator.CrossFadeInFixedTime(m_animation.name, seconds);
             }
         }
     }

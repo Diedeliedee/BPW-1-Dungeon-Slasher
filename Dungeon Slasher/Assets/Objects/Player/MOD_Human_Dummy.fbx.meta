@@ -18,6 +18,18 @@ ModelImporter:
   - first:
       74: -4315385823716174377
     second: Scythe|Player_Idle.002
+  - first:
+      74: -8156123022999958022
+    second: Armature|Player_Attack_Left_A
+  - first:
+      74: 1520931767486810045
+    second: Armature|Player_Attack_Left_B
+  - first:
+      74: 885944232402757753
+    second: Armature|Action
+  - first:
+      74: -95973122398185516
+    second: Scythe|Action
   externalObjects: {}
   materials:
     materialImportMode: 0
@@ -32,19 +44,7 @@ ModelImporter:
     removeConstantScaleCurves: 1
     motionNodeName: 
     rigImportErrors: 
-    rigImportWarnings: "Avatar Rig Configuration mis-match. Bone length in configuration
-      does not match position in animation file:\n\t'Thigh.L' : position error =
-      153.674835 mm\n\t'Shin.L' : position error = 384.187317 mm\n\t'Foot.L' : position
-      error = 428.343445 mm\n\t'Hips' : position error = 127.865227 mm\n\t'Midriff'
-      : position error = 127.865059 mm\n\t'Chest' : position error = 196.476288 mm\n\t'Neck'
-      : position error = 255.730240 mm\n\t'Head' : position error = 67.390739 mm\n\t'Shoulder.L'
-      : position error = 191.797638 mm\n\t'Upperarm.L' : position error = 156.602249
-      mm\n\t'Forearm.L' : position error = 320.372498 mm\n\t'Hand.L' : position error
-      = 320.372742 mm\n\t'Shoulder.R' : position error = 191.797638 mm\n\t'Upperarm.R'
-      : position error = 156.602264 mm\n\t'Forearm.R' : position error = 320.372772
-      mm\n\t'Hand.R' : position error = 320.372742 mm\n\t'Thigh.R' : position error
-      = 153.674835 mm\n\t'Shin.R' : position error = 384.187622 mm\n\t'Foot.R' :
-      position error = 428.343414 mm\n"
+    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 

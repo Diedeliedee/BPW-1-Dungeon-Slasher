@@ -38,7 +38,7 @@ namespace Dodelie.Tools
         {
             //  Calculating steering.
             m_currentSteering = desiredVelocity - m_currentVelocity;
-            m_currentSteering *= grip;
+            m_currentSteering *= grip * deltaTime;
 
             //  Calculating velocity.
             m_currentVelocity += m_currentSteering;
