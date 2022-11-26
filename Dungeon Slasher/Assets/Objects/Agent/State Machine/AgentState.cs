@@ -10,6 +10,7 @@ namespace DungeonSlasher.Agents
         [System.Serializable]
         public abstract class AgentState : State
         {
+            [Header("State Properties:")]
             [SerializeField] private AnimationClip m_animation = null;
 
             /// <summary>

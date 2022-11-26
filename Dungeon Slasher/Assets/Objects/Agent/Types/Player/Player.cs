@@ -8,7 +8,7 @@ namespace DungeonSlasher.Agents
     {
         [Header("Player States:")]
         [SerializeField] private FreeMove m_freeMove    = null;
-        [SerializeField] private Attack m_attack        = null;
+        [SerializeField] private AttackState m_attack   = null;
 
         private PlayerControls m_controls               = null;
 

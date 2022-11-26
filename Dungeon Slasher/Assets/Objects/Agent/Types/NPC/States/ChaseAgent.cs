@@ -30,7 +30,7 @@ namespace DungeonSlasher.Agents
 
                 if (Vector2.Distance(blackBoard.flatPosition, targetPosition) < m_attackDistance)
                 {
-                    SwitchToState<Attack>().SetAttack(targetPosition - blackBoard.flatPosition, GetType());
+                    SwitchToState<AttackState>().InitiateAttack(targetPosition - blackBoard.flatPosition, GetType());
                     return;
                 }
 

@@ -28,7 +28,7 @@ namespace DungeonSlasher.Agents
             {
                 if (controls.slashButtonPressed)
                 {
-                    parent.SwitchToState<Attack>().SetAttack(Calc.RotateVector2(controls.rightInput, 45f), GetType());
+                    parent.SwitchToState<AttackState>().InitiateAttack(Calc.RotateVector2(controls.rightInput, 45f));
                     return;
                 }
 

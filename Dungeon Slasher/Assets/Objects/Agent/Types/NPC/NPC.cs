@@ -8,7 +8,7 @@ namespace DungeonSlasher.Agents
     {
         [Header("NPC States:")]
         [SerializeField] private ChaseAgent m_chaseAgent = null;
-        [SerializeField] private Attack m_attack = null;
+        [SerializeField] private AttackState m_attack = null;
 
         public override void Initialize()
         {

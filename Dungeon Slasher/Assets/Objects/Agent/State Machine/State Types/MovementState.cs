@@ -11,10 +11,10 @@ namespace DungeonSlasher.Agents
     public partial class Agent
     {
         [System.Serializable]
-        public class MovementState : AgentState
+        public abstract class MovementState : AgentState
         {
             //  Properties:
-            [Space]
+            [Header("Movement Properties:")]
             [SerializeField] private float m_speed      = 10f;
             [SerializeField] private float m_grip       = 0.1f;
             [SerializeField] private float m_rotation   = 0.05f;
