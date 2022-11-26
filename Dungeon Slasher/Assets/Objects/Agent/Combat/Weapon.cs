@@ -11,6 +11,8 @@ namespace DungeonSlasher.Agents
     public class Weapon : MonoBehaviour
     {
         [SerializeField] private Hurtbox[] m_hurtboxes = new Hurtbox[1];
+        [Space]
+        [SerializeField] private TrailRenderer m_trail = null;
 
         private List<Collider> m_caughtAgents = new List<Collider>();
         private bool m_active = false;
@@ -50,6 +52,7 @@ namespace DungeonSlasher.Agents
         public void SetEnabled(bool enabled)
         {
             m_active = enabled;
+            m_trail.gameObject.SetActive(enabled);
             if (!enabled) m_caughtAgents.Clear();
         }
 
