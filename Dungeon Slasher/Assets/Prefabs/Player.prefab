@@ -109,8 +109,17 @@ MonoBehaviour:
     m_speed: 12.5
     m_grip: 18.75
     m_rotation: 0.05
-  m_attack:
+  m_leftAttack:
     m_animation: {fileID: 1520931767486810045, guid: ce3154e1f09838d4bb4cfe125fdab30f,
+      type: 3}
+    m_attackMark: 0.05
+    m_followThroughMark: 0.2
+    m_recoverMark: 0.45
+    m_endMark: 1
+    m_attackSpeed: 60
+    m_followThroughPercent: 0.1
+  m_rightAttack:
+    m_animation: {fileID: -4576670636193915225, guid: ce3154e1f09838d4bb4cfe125fdab30f,
       type: 3}
     m_attackMark: 0.05
     m_followThroughMark: 0.2

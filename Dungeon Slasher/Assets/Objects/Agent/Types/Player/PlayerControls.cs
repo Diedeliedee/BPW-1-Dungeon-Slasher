@@ -12,26 +12,28 @@ namespace DungeonSlasher.Agents
     {
         public class PlayerControls : Controls
         {
-            public bool slashButtonPressed { get; private set; }
+            public const float inputRotation = 45f;
 
-            public void CheckInput(Blackboard blackboard)
+            public static bool slashButtonPressed { get; private set; }
+
+            public static void CheckInput(Blackboard blackboard)
             {
                 leftInput = GetLeftInput();
                 rightInput = GetRightInput(blackboard);
                 slashButtonPressed = GetSlashButtonPressed();
             }
 
-            private Vector2 GetLeftInput()
+            private static Vector2 GetLeftInput()
             {
                 return Vector2.ClampMagnitude(new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")), 1f);
             }
 
-            private Vector2 GetRightInput(Blackboard blackboard)
+            private static Vector2 GetRightInput(Blackboard blackboard)
             {
-                return Vector2.ClampMagnitude(Input.mousePosition - Camera.main.WorldToScreenPoint(blackboard.transform.position), 1f);
+                return (Input.mousePosition - Camera.main.WorldToScreenPoint(blackboard.transform.position)).normalized;
             }
 
-            private bool GetSlashButtonPressed()
+            private static bool GetSlashButtonPressed()
             {
                 return Input.GetButtonDown("Fire1");
             }

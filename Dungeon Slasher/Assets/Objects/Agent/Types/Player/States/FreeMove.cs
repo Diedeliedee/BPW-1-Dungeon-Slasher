@@ -10,13 +10,10 @@ namespace DungeonSlasher.Agents
         [System.Serializable]
         public class FreeMove : MovementState
         {
-            [Space]
-            public PlayerControls controls = null;
-
             public override void Initialize(FStateMachine parent)
             {
                 base.Initialize(parent);
-                SetBehaviors(new Control(controls, 45f));
+                SetBehaviors(new Control(PlayerControls.inputRotation));
             }
 
             public override void OnEnter()
@@ -26,9 +23,9 @@ namespace DungeonSlasher.Agents
 
             public override void OnTick()
             {
-                if (controls.slashButtonPressed)
+                if (PlayerControls.slashButtonPressed)
                 {
-                    parent.SwitchToState<AttackState>().InitiateAttack(Calc.RotateVector2(controls.rightInput, 45f));
+                    parent.SwitchToState<LeftAttack>().InitiateAttack(Controls.rightInput);
                     return;
                 }
 

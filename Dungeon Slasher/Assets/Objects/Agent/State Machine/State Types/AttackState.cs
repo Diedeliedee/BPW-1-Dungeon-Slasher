@@ -24,7 +24,7 @@ namespace DungeonSlasher.Agents
             [Range(0f, 1f)] [SerializeField] private float m_followThroughPercent   = 0.1f;
 
             //  Transformational data:
-            private Vector2 m_attackDirection   = Vector2.zero;
+            protected Vector2 m_attackDirection = Vector2.zero;
             private Quaternion m_startRotation  = Quaternion.identity;
             private Quaternion m_endRotation    = Quaternion.identity;
 
@@ -117,7 +117,6 @@ namespace DungeonSlasher.Agents
             }
 
             #endregion
-
 
             #region Events
 
