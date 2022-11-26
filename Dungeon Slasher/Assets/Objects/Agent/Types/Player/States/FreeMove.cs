@@ -18,7 +18,7 @@ namespace DungeonSlasher.Agents
 
             public override void OnEnter()
             {
-                CrossFadeAnimation();
+                CrossFadeAnimation(0.3f);
             }
 
             public override void OnTick()

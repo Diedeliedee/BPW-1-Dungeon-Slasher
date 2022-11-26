@@ -28,6 +28,10 @@ namespace DungeonSlasher.Agents
             {
                 base.DuringFollowThrough();
                 if (BufferOnAttackInput() || m_buffer != null) return;
+            }
+
+            protected override void DuringRecover()
+            {
                 if (Controls.activeLeftInput)
                 {
                     SwitchToState<FreeMove>();
