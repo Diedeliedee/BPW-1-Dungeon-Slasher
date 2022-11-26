@@ -30,16 +30,6 @@ namespace DungeonSlasher.Agents
                 if (BufferOnAttackInput() || m_buffer != null) return;
             }
 
-            protected override void DuringRecover()
-            {
-                if (Controls.activeLeftInput)
-                {
-                    SwitchToState<FreeMove>();
-                    return;
-                }
-            }
-
-
             protected override void ToFinish()
             {
                 SwitchToState<FreeMove>();
