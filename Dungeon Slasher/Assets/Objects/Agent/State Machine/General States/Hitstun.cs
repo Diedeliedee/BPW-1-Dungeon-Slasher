@@ -11,13 +11,13 @@ namespace DungeonSlasher.Agents
 
             public void Initiate(System.Type returnType, Vector2 force)
             {
-                blackBoard.movement.SetVelocity(force);
+                root.movement.SetVelocity(force);
             }
 
-            public override void OnTick()
+            public override void OnTick(float deltaTime)
             {
-                blackBoard.movement.TickPhysics(blackBoard.deltaTime, 5f);
-                if (blackBoard.movement.velocity.magnitude <= 0f) SwitchToState(m_returnType);
+                root.movement.TickPhysics(deltaTime, 5f);
+                if (root.movement.velocity.magnitude <= 0f) SwitchToState(m_returnType);
             }
         }
     }

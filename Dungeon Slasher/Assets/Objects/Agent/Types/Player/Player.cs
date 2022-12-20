@@ -20,7 +20,7 @@ namespace DungeonSlasher.Agents
 
         public override void Tick(float deltaTime)
         {
-            PlayerControls.CheckInput(m_blackBoard);
+            PlayerControls.CheckInput(transform.position);
 
             base.Tick(deltaTime);
         }

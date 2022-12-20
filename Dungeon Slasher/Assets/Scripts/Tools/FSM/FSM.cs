@@ -7,14 +7,19 @@ namespace Dodelie.Tools
     /// <summary>
     /// Class handling a class-based finite state machine system,
     /// </summary>
-    public class FStateMachine
+    public class FSM<Root> where Root : Object
     {
-        private readonly Dictionary<System.Type, State> m_states = null;
-        private State m_currentState = null;
+        private readonly Root m_root                                    = null;
+        private readonly Dictionary<System.Type, State<Root>> m_states  = null;
 
-        public FStateMachine(System.Type startState, params State[] states)
+        private State<Root> m_currentState                              = null;
+
+        public Root root { get => m_root; }
+
+        public FSM(Root root, System.Type startState, params State<Root>[] states)
         {
-            m_states = new Dictionary<System.Type, State>();
+            m_root      = root;
+            m_states    = new Dictionary<System.Type, State<Root>>();
 
             //  All the state instances in the parameter get initialized, and added to the dictionary.
             foreach (var state in states)
@@ -22,12 +27,13 @@ namespace Dodelie.Tools
                 state.Initialize(this);
                 m_states.Add(state.GetType(), state);
             }
+            SwitchToState(startState);
         }
 
         /// <summary>
         /// Switches to a new state based on the passed in type parameter.
         /// </summary>
-        public State SwitchToState(System.Type state)
+        public State<Root> SwitchToState(System.Type state)
         {
             m_currentState?.OnExit();
             m_currentState = m_states[state];
@@ -38,17 +44,17 @@ namespace Dodelie.Tools
         /// <summary>
         /// Switches to a new state based on the generic parameter.
         /// </summary>
-        public T SwitchToState<T>() where T : State
+        public State SwitchToState<State>() where State : State<Root>
         {
-            return SwitchToState(typeof(T)) as T;
+            return SwitchToState(typeof(State)) as State;
         }
 
         /// <summary>
         /// Updates the finite state machine's logic.
         /// </summary>
-        public virtual void Tick()
+        public virtual void Tick(float deltaTime)
         {
-            m_currentState.OnTick();
+            m_currentState.OnTick(deltaTime);
         }
 
         /// <summary>

@@ -18,30 +18,30 @@ namespace DungeonSlasher.Agents
             [Space]
             [SerializeField] private Transform m_target = null;
 
-            public override void Initialize(FStateMachine parent)
+            public override void Initialize(FSM<Agent> parent)
             {
                 base.Initialize(parent);
                 SetBehaviors(new Pursue(m_lookAheadTime, m_target));
             }
 
-            public override void OnTick()
+            public override void OnTick(float deltaTime)
             {
                 var targetPosition = Calc.VectorToFlat(m_target.position);
 
-                if (Vector2.Distance(blackBoard.flatPosition, targetPosition) < m_attackDistance)
+                if (Vector2.Distance(root.flatPosition, targetPosition) < m_attackDistance)
                 {
-                    SwitchToState<AttackState>().InitiateAttack(targetPosition - blackBoard.flatPosition);
+                    SwitchToState<AttackState>().InitiateAttack(targetPosition - root.flatPosition);
                     return;
                 }
 
-                TickMovement();
+                TickMovement(deltaTime);
             }
 
             public override void OnDrawGizmos()
             {
                 base.OnDrawGizmos();
 
-                GizmoTools.DrawOutlinedDisc(blackBoard.transform.position, m_attackDistance, Color.red, Color.white, 0.15f);
+                GizmoTools.DrawOutlinedDisc(root.transform.position, m_attackDistance, Color.red, Color.white, 0.15f);
             }
         }
     }

@@ -10,7 +10,7 @@ namespace DungeonSlasher.Agents
         [System.Serializable]
         public class FreeMove : MovementState
         {
-            public override void Initialize(FStateMachine parent)
+            public override void Initialize(FSM<Agent> parent)
             {
                 base.Initialize(parent);
                 SetBehaviors(new Control(PlayerControls.inputRotation));
@@ -21,7 +21,7 @@ namespace DungeonSlasher.Agents
                 CrossFadeAnimation(0.3f);
             }
 
-            public override void OnTick()
+            public override void OnTick(float deltaTime)
             {
                 if (PlayerControls.slashButtonPressed)
                 {
@@ -29,7 +29,7 @@ namespace DungeonSlasher.Agents
                     return;
                 }
 
-                TickMovement();
+                TickMovement(deltaTime);
             }
         }
     }

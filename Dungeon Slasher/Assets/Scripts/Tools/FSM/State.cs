@@ -7,17 +7,19 @@ namespace Dodelie.Tools
     /// <summary>
     /// Abstract base for a state within a state machine.
     /// </summary>
-    public abstract class State
+    public abstract class State<Root> where Root : Object
     {
         /// <summary>
         /// The state machine this state is a part of.
         /// </summary>
-        protected FStateMachine parent { get; private set; }
+        protected FSM<Root> parent { get; private set; }
+
+        protected Root root { get => parent.root; }
 
         /// <summary>
         /// Called whenever the finite state machine the state is in, is created.
         /// </summary>
-        public virtual void Initialize(FStateMachine parent)
+        public virtual void Initialize(FSM<Root> parent)
         {
             this.parent = parent;
         }
@@ -27,15 +29,15 @@ namespace Dodelie.Tools
         /// <summary>
         /// Switches to another state using a generic variable.
         /// </summary>
-        protected T SwitchToState<T>() where T : State
+        protected State SwitchToState<State>() where State : State<Root>
         {
-            return parent.SwitchToState<T>();
+            return parent.SwitchToState<State>();
         }
 
         /// <summary>
         /// Switches to another state using a type variable.
         /// </summary>
-        protected State SwitchToState(System.Type state)
+        protected State<Root> SwitchToState(System.Type state)
         {
             return parent.SwitchToState(state);
         }
@@ -45,7 +47,7 @@ namespace Dodelie.Tools
         /// <summary>
         /// Update function for the state.
         /// </summary>
-        public virtual void OnTick() { }
+        public virtual void OnTick(float deltaTime) { }
 
         /// <summary>
         /// Called whenevet the state is entered.

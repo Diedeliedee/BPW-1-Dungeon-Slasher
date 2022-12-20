@@ -18,17 +18,17 @@ namespace DungeonSlasher.Agents
 
             public void Initiate(System.Type returnType, Vector2 velocity, float time)
             {
-                m_shake         = new ShakeInstancer(blackBoard.transform.position, ForceToAmpltidue(velocity.magnitude), 60f, 0.5f);
+                m_shake         = new ShakeInstancer(root.transform.position, ForceToAmpltidue(velocity.magnitude), 60f, 0.5f);
                 m_returnType    = returnType;
                 m_velocity      = velocity;
                 m_time          = time;
             }
 
-            public override void OnTick()
+            public override void OnTick(float deltaTime)
             {
-                blackBoard.transform.position = m_shake.GetPosition(blackBoard.deltaTime);
+                root.transform.position = m_shake.GetPosition(deltaTime);
 
-                m_timer += blackBoard.deltaTime;
+                m_timer += deltaTime;
                 if (m_timer < m_time) return;
 
                 SwitchToState<Hitstun>();
@@ -36,7 +36,7 @@ namespace DungeonSlasher.Agents
 
             public override void OnExit()
             {
-                blackBoard.transform.position = m_shake.startPosition;
+                root.transform.position = m_shake.startPosition;
                 m_shake     = null;
                 m_velocity  = Vector2.zero;
                 m_time      = 0f;

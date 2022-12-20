@@ -46,17 +46,17 @@ namespace DungeonSlasher.Agents
                 var followThroughSpeed = m_attackSpeed * m_followThroughPercent;
 
                 m_attackDirection = direction.normalized;
-                m_startRotation = blackBoard.transform.rotation;
-                m_endRotation = Quaternion.LookRotation(Calc.FlatToVector(m_attackDirection, blackBoard.transform.position.y));
+                m_startRotation = root.transform.rotation;
+                m_endRotation = Quaternion.LookRotation(Calc.FlatToVector(m_attackDirection, root.transform.position.y));
 
-                m_brakeDrag = blackBoard.movement.velocity.magnitude / m_attackMark;
+                m_brakeDrag = root.movement.velocity.magnitude / m_attackMark;
                 m_attackDrag = (m_attackSpeed - followThroughSpeed) / (m_followThroughMark - m_attackMark);
                 m_followThroughDrag = followThroughSpeed / (m_recoverMark - m_followThroughMark);
 
                 CrossFadeAnimation(m_attackMark);
             }
 
-            public override void OnTick()
+            public override void OnTick(float deltaTime)
             {
                 void ExecuteOnExceed(float time, AttackEvent onExceed)
                 {
@@ -64,26 +64,26 @@ namespace DungeonSlasher.Agents
                     onExceed.Invoke();
                 }
 
-                m_timer += blackBoard.deltaTime;
+                m_timer += deltaTime;
                 switch (m_phase)
                 {
                     case Phase.WindUp:
                         //  Brake to prepare for the attack, and turn in the right direction.
-                        DuringBrake();
+                        DuringBrake(deltaTime);
                         ExecuteOnExceed(m_attackMark, ToAttack);
                         break;
 
                     case Phase.Attack:
                         //  Slide swiftly to the attack direction.
-                        DuringAttack();
+                        DuringAttack(deltaTime);
                         ExecuteOnExceed(m_followThroughMark, ToFollowThrough);
                         break;
 
                     case Phase.FollowThrough:
                         //  Slide slowly attempting to brake again.
-                        DuringFollowThrough();
+                        DuringFollowThrough(deltaTime);
                         ExecuteOnExceed(m_recoverMark, ToFinish);
-                        Debug.Log($"Switched to recovering state with a remaining velocity of {blackBoard.movement.velocity.magnitude}, and a remaining deceleration of {m_attackDrag * blackBoard.deltaTime}.");
+                        Debug.Log($"Switched to recovering state with a remaining velocity of {root.movement.velocity.magnitude}, and a remaining deceleration of {m_attackDrag * deltaTime}.");
                         break;
 
                 }
@@ -91,20 +91,20 @@ namespace DungeonSlasher.Agents
 
             #region Updaters
 
-            protected virtual void DuringBrake()
+            protected virtual void DuringBrake(float deltaTime)
             {
-                blackBoard.movement.TickPhysics(blackBoard.deltaTime, m_brakeDrag);
-                blackBoard.transform.rotation = Quaternion.Slerp(m_startRotation, m_endRotation, m_timer / m_attackMark);
+                root.movement.TickPhysics(deltaTime, m_brakeDrag);
+                root.transform.rotation = Quaternion.Slerp(m_startRotation, m_endRotation, m_timer / m_attackMark);
             }
 
-            protected virtual void DuringAttack()
+            protected virtual void DuringAttack(float deltaTime)
             {
-                blackBoard.movement.TickPhysics(blackBoard.deltaTime, m_attackDrag);
+                root.movement.TickPhysics(deltaTime, m_attackDrag);
             }
 
-            protected virtual void DuringFollowThrough()
+            protected virtual void DuringFollowThrough(float deltaTime)
             {
-                blackBoard.movement.TickPhysics(blackBoard.deltaTime, m_followThroughDrag);
+                root.movement.TickPhysics(deltaTime, m_followThroughDrag);
             }
 
             #endregion
@@ -117,8 +117,8 @@ namespace DungeonSlasher.Agents
             protected virtual void ToAttack()
             {
                 m_phase = Phase.Attack;
-                blackBoard.movement.SetVelocity(m_attackDirection * m_attackSpeed);
-                blackBoard.combat.SetWeaponState(0, true);
+                root.movement.SetVelocity(m_attackDirection * m_attackSpeed);
+                root.combat.SetWeaponState(0, true);
             }
 
             /// <summary>
@@ -127,7 +127,7 @@ namespace DungeonSlasher.Agents
             protected virtual void ToFollowThrough()
             {
                 m_phase = Phase.FollowThrough;
-                blackBoard.combat.RetractWeapons();
+                root.combat.RetractWeapons();
             }
 
             /// <summary>
@@ -150,7 +150,7 @@ namespace DungeonSlasher.Agents
                 m_phase = Phase.WindUp;
                 m_timer = 0f;
 
-                blackBoard.movement.SetVelocity(Vector2.zero);
+                root.movement.SetVelocity(Vector2.zero);
             }
 
             private enum Phase { WindUp, Attack, FollowThrough }

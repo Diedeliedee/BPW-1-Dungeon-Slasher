@@ -16,10 +16,10 @@ namespace DungeonSlasher.Agents
 
             public static bool slashButtonPressed { get; private set; }
 
-            public static void CheckInput(Blackboard blackboard)
+            public static void CheckInput(Vector3 position)
             {
                 leftInput = GetLeftInput();
-                rightInput = GetRightInput(blackboard);
+                rightInput = GetRightInput(position);
                 slashButtonPressed = GetSlashButtonPressed();
             }
 
@@ -28,9 +28,9 @@ namespace DungeonSlasher.Agents
                 return Vector2.ClampMagnitude(new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")), 1f);
             }
 
-            private static Vector2 GetRightInput(Blackboard blackboard)
+            private static Vector2 GetRightInput(Vector3 position)
             {
-                return (Input.mousePosition - Camera.main.WorldToScreenPoint(blackboard.transform.position)).normalized;
+                return (Input.mousePosition - Camera.main.WorldToScreenPoint(position)).normalized;
             }
 
             private static bool GetSlashButtonPressed()

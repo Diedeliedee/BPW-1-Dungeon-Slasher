@@ -24,7 +24,7 @@ namespace DungeonSlasher.Agents
             /// <summary>
             /// Called whenever the finite state machine the state is in, is created.
             /// </summary>
-            public override void Initialize(FStateMachine parent)
+            public override void Initialize(FSM<Agent> parent)
             {
                 base.Initialize(parent);
                 m_behavior = new BehaviorHandler();
@@ -41,16 +41,16 @@ namespace DungeonSlasher.Agents
             /// <summary>
             /// Calculates the desired velocity based on the set movement behaviors, and moves the agent.
             /// </summary>
-            protected void TickMovement()
+            protected void TickMovement(float deltaTime)
             {
-                var context = new Behavior.Context(blackBoard.deltaTime, m_speed, blackBoard.flatPosition, blackBoard.movement.velocity);
+                var context = new Behavior.Context(deltaTime, m_speed, root.flatPosition, root.movement.velocity);
 
-                blackBoard.movement.MoveVelocity(blackBoard.deltaTime, m_behavior.GetDesiredVelocity(context), m_grip, m_rotation);
+                root.movement.MoveVelocity(deltaTime, m_behavior.GetDesiredVelocity(context), m_grip, m_rotation);
             }
 
             public override void OnDrawGizmos()
             {
-                m_behavior.DrawGizmos(blackBoard.transform.position);
+                m_behavior.DrawGizmos(root.transform.position);
             }
         }
     }
