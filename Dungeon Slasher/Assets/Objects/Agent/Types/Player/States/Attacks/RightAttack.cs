@@ -11,9 +11,9 @@ namespace DungeonSlasher.Agents
         [System.Serializable]
         public class RightAttack : PlayerAttack
         {
-            protected override void DuringFollowThrough()
+            protected override void DuringFollowThrough(float deltaTime)
             {
-                base.DuringFollowThrough();
+                base.DuringFollowThrough(deltaTime);
                 if (m_buffer == null) return;
 
                 var input = m_buffer.input;

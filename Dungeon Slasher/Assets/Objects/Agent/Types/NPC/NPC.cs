@@ -10,6 +10,16 @@ namespace DungeonSlasher.Agents
         [SerializeField] private ChaseAgent m_chaseAgent = null;
         [SerializeField] private AttackState m_attack = null;
 
+        private void OnEnable()
+        {
+            Initialize();
+        }
+
+        private void OnDisable()
+        {
+            
+        }
+
         public override void Initialize()
         {
             base.Initialize();

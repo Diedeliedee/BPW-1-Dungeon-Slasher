@@ -18,15 +18,15 @@ namespace DungeonSlasher.Agents
                 base.InitiateAttack(direction);
             }
 
-            protected override void DuringAttack()
+            protected override void DuringAttack(float deltaTime)
             {
-                base.DuringAttack();
+                base.DuringAttack(deltaTime);
                 BufferOnAttackInput();
             }
 
-            protected override void DuringFollowThrough()
+            protected override void DuringFollowThrough(float deltaTime)
             {
-                base.DuringFollowThrough();
+                base.DuringFollowThrough(deltaTime);
                 if (BufferOnAttackInput() || m_buffer != null) return;
             }
 

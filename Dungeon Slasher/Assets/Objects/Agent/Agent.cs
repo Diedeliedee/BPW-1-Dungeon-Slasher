@@ -16,29 +16,14 @@ namespace DungeonSlasher.Agents
         [SerializeField] private Animator m_animator    = null;
 
         //  Background:
-        private AgentFSM m_stateMachine                 = null;
-
-        //  Run-time Variables:
-        protected Blackboard m_blackBoard               = null;
-
-        public Collider collider { get => m_movement.collider; }
-
-        private void Awake()
-        {
-            Initialize();
-        }
-
-        private void Update()
-        {
-            Tick(Time.deltaTime);
-        }
+        private FSM<Agent> m_stateMachine               = null;
 
         /// <summary>
         /// 'Awake' function for the agent.
         /// </summary>
         public virtual void Initialize()
         {
-            m_blackBoard = new Blackboard(gameObject, m_movement, m_combat, m_animator);
+            
         }
 
         /// <summary>
@@ -46,23 +31,13 @@ namespace DungeonSlasher.Agents
         /// </summary>
         public virtual void Tick(float deltaTime)
         {
-            m_blackBoard.UpdateBlackboard(deltaTime);
-            m_stateMachine.Tick();
+            m_stateMachine.Tick(deltaTime);
             m_combat.Tick(m_movement.collider);
         }
 
-        #region Public Accesibility
-
-        public void ChangeHealth(int amount)
-        {
-            m_health.AddHealth(amount);
-        }
-
-        #endregion
-
         protected void SetStates(System.Type startState, params AgentState[] states)
         {
-            m_stateMachine = new AgentFSM(m_blackBoard, startState, states);
+            m_stateMachine = new FSM<Agent>(this, startState, states);
         }
 
         private void OnDrawGizmosSelected()
