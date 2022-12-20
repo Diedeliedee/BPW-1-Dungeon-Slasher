@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Dodelie.Tools
@@ -92,6 +87,12 @@ namespace Dodelie.Tools
         {
             if (array == null || array.Length == 0) return true;
             return false;
+        }
+
+        /// <returns>A "random" point in a 3D sphere, defined by the radius.</returns>
+        public static Vector3 RandomSpherePoint(float radius = 1f)
+        {
+            return new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * radius;
         }
     }
 }
