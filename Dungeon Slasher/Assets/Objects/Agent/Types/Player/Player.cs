@@ -24,5 +24,16 @@ namespace DungeonSlasher.Agents
 
             base.Tick(deltaTime);
         }
+
+        public override void Hit(int damage, Agent source)
+        {
+            base.Hit(damage, source);
+            GameManager.instance.events.onPlayerHit.Invoke();
+        }
+
+        public override void OnDeath()
+        {
+
+        }
     }
 }

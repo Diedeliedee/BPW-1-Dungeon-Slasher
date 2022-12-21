@@ -19,9 +19,9 @@ namespace DungeonSlasher.Agents
 
         public Vector2 flatPosition { get => new Vector2(transform.position.x, transform.position.z); set => transform.position = new Vector3(value.x, transform.position.y, value.y); }
 
-        public void ChangeHealth(int amount)
+        public virtual void Hit(int damage, Agent source)
         {
-            m_health.AddHealth(amount);
+            m_health.AddHealth(-damage);
         }
     }
 }

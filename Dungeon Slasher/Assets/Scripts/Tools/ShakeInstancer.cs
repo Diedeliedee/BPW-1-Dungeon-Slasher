@@ -11,13 +11,14 @@ namespace Dodelie.Tools
     {
         private float m_magnitude       = 0f;
         private float m_frequency       = 0f;
-        private float m_time            = 0f;  
+        private float m_smoothening     = 0f;  
         private float m_tickMark        = 0f;
 
-        private float m_scaleVelocity   = 0f;
         private float m_tickTimer       = 0f;  
         private Vector3 m_startPosition = Vector3.zero;
         private Vector3 m_currentOffset = Vector3.zero;
+
+        private const float m_epsilon   = 0.05f;
 
         public Vector3 startPosition    { get => m_startPosition; }
         public Vector3 currentOffset    { get => m_currentOffset; }
@@ -43,24 +44,24 @@ namespace Dodelie.Tools
             }
         }
 
-        public float time
+        public float smoothening
         {
-            get => m_time;
+            get => m_smoothening;
             set
             {
-                m_time = value;
+                m_smoothening = value;
                 ReInitialize();
             }
         }
 
         public float mark { get => m_tickMark; }
 
-        public ShakeInstancer(Vector3 startPosition, float magnitude, float frequency, float time)
+        public ShakeInstancer(Vector3 startPosition, float magnitude, float frequency, float smoothening)
         {
             m_startPosition = startPosition;
             m_magnitude     = magnitude;
             m_frequency     = frequency;
-            m_time          = time;
+            m_smoothening   = smoothening;
             m_tickMark      = 1f / frequency;
 
             m_tickTimer     = m_tickMark;
@@ -81,8 +82,8 @@ namespace Dodelie.Tools
         /// <returns>The offset generated.</returns>
         public Vector3 GetOffset(float deltaTime)
         {
-            //  Rest if the magnitude is zero.
-            if (m_magnitude <= 0f)
+            //  Rest if the magnitude is lower than epsilon.
+            if (m_magnitude <= m_epsilon)
             {
                 m_currentOffset = Vector3.zero;
                 return Vector3.zero;
@@ -94,7 +95,7 @@ namespace Dodelie.Tools
             m_tickTimer = 0f;
 
             //  Create new offset, and lower the magnitude.
-            m_magnitude = Mathf.SmoothDamp(m_magnitude, 0f, ref m_scaleVelocity, m_time, Mathf.Infinity, deltaTime);
+            m_magnitude = Mathf.Lerp(m_magnitude, 0f, deltaTime / smoothening);
             m_currentOffset = Calc.RandomSpherePoint(m_magnitude);
 
             //  Return.
@@ -103,7 +104,6 @@ namespace Dodelie.Tools
 
         public void ReInitialize()
         {
-            m_scaleVelocity = 0f;
             m_tickMark      = 1f / m_frequency;
             m_tickTimer     = m_tickMark;
             m_currentOffset = Vector3.zero;

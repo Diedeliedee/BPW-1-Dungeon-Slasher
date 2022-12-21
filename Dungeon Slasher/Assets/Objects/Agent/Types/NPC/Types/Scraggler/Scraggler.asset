@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb85253d50b7c64e87fa8e2703b3585, type: 3}
   m_Name: Scraggler
   m_EditorClassIdentifier: 
-  prefab: {fileID: 0}
-  enemyName: New Enemy
+  prefab: {fileID: 1041467746458205087, guid: 13378c90ca3d65643bf6364226233133, type: 3}
+  enemyName: Scraggler
   radius: 0.3
-  definingColor: {r: 1, g: 0, b: 0, a: 1}
+  definingColor: {r: 0.5, g: 0.3561321, b: 0.3561321, a: 1}

@@ -5,7 +5,7 @@ using Dodelie.Tools;
 
 namespace DungeonSlasher.Agents.Management
 {
-    public partial class AgentMananager : MonoBehaviour
+    public partial class AgentManager : MonoBehaviour
     {
         [SerializeField] private Player m_player = null;
 
@@ -18,12 +18,14 @@ namespace DungeonSlasher.Agents.Management
         {
             player.Initialize();
             InitializeNPCPools();
+
+            for (int i = 0; i < m_constantSpawners.Length; i++) m_constantSpawners[i].Spawn();
         }
 
         public void Tick(float deltaTime)
         {
             player.Tick(deltaTime);
-            foreach (KeyValuePair<NPCType, ObjectPool<NPC>> pair in m_pools)
+            foreach (KeyValuePair<NPCConcept.Type, ObjectPool<NPC>> pair in m_pools)
             {
                 for (int i = 0; i < pair.Value.activeItems.Count; i++)
                 {

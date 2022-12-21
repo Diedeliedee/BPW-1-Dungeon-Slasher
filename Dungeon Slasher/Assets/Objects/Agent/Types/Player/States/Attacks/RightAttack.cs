@@ -9,7 +9,7 @@ namespace DungeonSlasher.Agents
     public partial class Player
     {
         [System.Serializable]
-        public class RightAttack : PlayerAttack
+        public class RightAttack : Attack
         {
             protected override void DuringFollowThrough(float deltaTime)
             {

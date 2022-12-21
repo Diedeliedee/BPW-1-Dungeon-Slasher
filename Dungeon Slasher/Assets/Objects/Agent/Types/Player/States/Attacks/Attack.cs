@@ -8,7 +8,7 @@ namespace DungeonSlasher.Agents
     public partial class Player
     {
         [System.Serializable]
-        public class PlayerAttack : AttackState
+        public class Attack : AttackState
         {
             protected AttackBuffer m_buffer = null;
 

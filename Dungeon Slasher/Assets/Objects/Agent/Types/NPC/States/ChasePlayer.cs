@@ -10,17 +10,20 @@ namespace DungeonSlasher.Agents
     public partial class NPC
     {
         [System.Serializable]
-        public class ChaseAgent : MovementState
+        public class ChasePlayer : MovementState
         {
             [Space]
             [SerializeField] private float m_lookAheadTime = 0.5f;
             [SerializeField] private float m_attackDistance = 1.5f;
-            [Space]
-            [SerializeField] private Transform m_target = null;
+            
+            private Transform m_target = null;
 
             public override void Initialize(FSM<Agent> parent)
             {
                 base.Initialize(parent);
+
+                m_target = GameManager.instance.agents.player.transform;
+
                 SetBehaviors(new Pursue(m_lookAheadTime, m_target));
             }
 
@@ -30,7 +33,7 @@ namespace DungeonSlasher.Agents
 
                 if (Vector2.Distance(root.flatPosition, targetPosition) < m_attackDistance)
                 {
-                    SwitchToState<AttackState>().InitiateAttack(targetPosition - root.flatPosition);
+                    SwitchToState<Attack>().InitiateAttack(targetPosition - root.flatPosition);
                     return;
                 }
 

@@ -2,20 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraFollower : MonoBehaviour
+public partial class PlayerCamera
 {
+    [Header("Following Player Options:")]
     [SerializeField] private Transform m_target;
     [SerializeField] private float m_followTime = 0.025f;
 
     private Vector3 m_offset = Vector3.zero;
     private Vector3 m_velocity = Vector3.zero;
 
-    private void Start()
+    private void SetOffset()
     {
         m_offset = transform.position - m_target.position;
     }
 
-    private void Update()
+    private void FollowPlayer()
     {
         if (m_followTime <= 0)
         {

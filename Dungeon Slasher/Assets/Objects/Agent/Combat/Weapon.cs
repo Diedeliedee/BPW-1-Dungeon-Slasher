@@ -10,12 +10,13 @@ namespace DungeonSlasher.Agents
     /// </summary>
     public class Weapon : MonoBehaviour
     {
-        [SerializeField] private Hurtbox[] m_hurtboxes = new Hurtbox[1];
+        [SerializeField] private Agent m_root           = null;
+        [SerializeField] private Hurtbox[] m_hurtboxes  = new Hurtbox[1];
         [Space]
-        [SerializeField] private TrailRenderer m_trail = null;
+        [SerializeField] private TrailRenderer m_trail  = null;
 
-        private List<Collider> m_caughtAgents = new List<Collider>();
-        private bool m_active = false;
+        private List<Collider> m_caughtAgents           = new List<Collider>();
+        private bool m_active                           = false;
 
         public void Tick(LayerMask mask, Collider ownCollider)
         {
@@ -42,7 +43,7 @@ namespace DungeonSlasher.Agents
         /// </summary>
         private void Hit(Agent agent)
         {
-            agent.ChangeHealth(-1);
+            agent.Hit(1, m_root);
             m_caughtAgents.Add(agent.collider);
         }
 
@@ -52,7 +53,7 @@ namespace DungeonSlasher.Agents
         public void SetEnabled(bool enabled)
         {
             m_active = enabled;
-            m_trail.gameObject.SetActive(enabled);
+            if (m_trail != null) m_trail.gameObject.SetActive(enabled);
             if (!enabled) m_caughtAgents.Clear();
         }
 

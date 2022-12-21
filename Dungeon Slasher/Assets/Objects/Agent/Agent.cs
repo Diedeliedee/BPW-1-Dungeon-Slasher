@@ -7,6 +7,8 @@ namespace DungeonSlasher.Agents
 {
     public abstract partial class Agent : MonoBehaviour
     {
+        public event System.Action onDespawn = null;
+
         [Header("Agent Properties:")]
         [SerializeField] private Health m_health        = null;
         [SerializeField] private Movement m_movement    = null;
@@ -19,14 +21,6 @@ namespace DungeonSlasher.Agents
         private FSM<Agent> m_stateMachine               = null;
 
         /// <summary>
-        /// 'Awake' function for the agent.
-        /// </summary>
-        public virtual void Initialize()
-        {
-            
-        }
-
-        /// <summary>
         /// Updates the logic of the agent.
         /// </summary>
         public virtual void Tick(float deltaTime)
@@ -35,10 +29,20 @@ namespace DungeonSlasher.Agents
             m_combat.Tick(m_movement.collider);
         }
 
+        /// <summary>
+        /// 'Awake' function for the agent.
+        /// </summary>
+        public virtual void Initialize()
+        {
+            m_health.onDeath += OnDeath;
+        }
+
         protected void SetStates(System.Type startState, params AgentState[] states)
         {
             m_stateMachine = new FSM<Agent>(this, startState, states);
         }
+
+        public abstract void OnDeath();
 
         private void OnDrawGizmosSelected()
         {

@@ -5,16 +5,15 @@ using UnityEngine;
 [System.Serializable]
 public class Health
 {
+    public event System.Action onDeath          = null; 
+
     [SerializeField] private int m_maxHealth    = 10;
     [SerializeField] private int m_health       = 10;
-
-    private HealthEvent m_onDeath = null;
 
     #region Properties
 
     public int health { get => m_health; }
     public int maxHealth { get => m_maxHealth; }
-    public HealthEvent onDeath { get => m_onDeath; }
 
     #endregion
 
@@ -28,6 +27,7 @@ public class Health
     public int SetHealth(int health)
     {
         m_health = Mathf.Clamp(health, 0, m_maxHealth);
+        if (m_health == 0) onDeath?.Invoke();
         return health;
     }
 
@@ -35,6 +35,4 @@ public class Health
     {
         return SetHealth(m_health + health);
     }
-
-    public delegate void HealthEvent();
 }

@@ -6,24 +6,33 @@ namespace DungeonSlasher.Agents
 {
     public partial class NPC : Agent
     {
-        [Header("NPC States:")]
-        [SerializeField] private ChaseAgent m_chaseAgent = null;
-        [SerializeField] private AttackState m_attack = null;
+        [Header("NPC Properties:")]
+        [SerializeField] private NPCConcept.Type m_type     = 0;
 
-        private void OnEnable()
+        [Header("NPC States:")]
+        [SerializeField] private ChasePlayer m_chaseAgent   = null;
+        [SerializeField] private Attack m_attack            = null;
+
+        private void Awake()
         {
             Initialize();
-        }
-
-        private void OnDisable()
-        {
-            
         }
 
         public override void Initialize()
         {
             base.Initialize();
             SetStates(m_chaseAgent.GetType(), m_chaseAgent, m_attack);
+        }
+
+        public override void Hit(int damage, Agent source)
+        {
+            base.Hit(damage, source);
+            GameManager.instance.events.onEnemyHit.Invoke();
+        }
+
+        public override void OnDeath()
+        {
+            GameManager.instance.agents.TakeBack(m_type, this);
         }
     }
 }

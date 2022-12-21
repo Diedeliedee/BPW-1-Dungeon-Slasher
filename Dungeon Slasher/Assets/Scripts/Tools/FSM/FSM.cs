@@ -36,7 +36,8 @@ namespace Dodelie.Tools
         public State<Root> SwitchToState(System.Type state)
         {
             m_currentState?.OnExit();
-            m_currentState = m_states[state];
+            try     { m_currentState = m_states[state]; }
+            catch   { Debug.LogError($"The state: '{state.Name}' is not found within the available state dictionary.", m_root); return null; }
             m_currentState?.OnEnter();
             return m_currentState;
         }
