@@ -64,7 +64,7 @@ namespace Dodelie.Tools
         public virtual void DrawGizmos(Vector3 position)
         {
             //  Drawing text in the world describing the current state the agent is in.
-            GizmoTools.DrawLabel(position, m_currentState.GetType().ToString(), Color.black);
+            GizmoTools.DrawLabel(position, m_currentState.GetType().Name, Color.black);
 
             //  Drawing the gizmos of the current state, if it isn't null.
             m_currentState?.OnDrawGizmos();

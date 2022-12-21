@@ -19,7 +19,7 @@ public partial class PlayerCamera : MonoBehaviour
     public void Initialize()
     {
         m_cameraShake = new ShakeInstancer(m_camera.localPosition, 0f, 60f, m_recovery);
-        GameManager.instance.events.onEnemyHit.AddListener(MildShake);
+        //GameManager.instance.events.onEnemyHit.AddListener(MildShake);
         GameManager.instance.events.onPlayerHit.AddListener(BigShake);
 
         SetOffset();

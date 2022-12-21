@@ -49,8 +49,14 @@ namespace DungeonSlasher.Agents
         /// </summary>
         private void Hit(Agent agent)
         {
-            agent.Hit(m_damage, m_root, out System.Action onRetract);
-            m_onRetract += onRetract;
+            if (m_root == null) 
+            { 
+                Debug.LogError("Weapon's root agent is not configured.", gameObject); 
+                return; 
+            }
+
+            agent.Hit(m_damage, m_root, out System.Action retractEvent);
+            m_onRetract += retractEvent;
             m_caughtAgents.Add(agent.collider);
         }
 

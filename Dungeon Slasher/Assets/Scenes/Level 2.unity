@@ -1485,5 +1485,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Game
       objectReference: {fileID: 0}
+    - target: {fileID: 8188030697805460530, guid: 33cc996ebd683814d8a8f50088425e41,
+        type: 3}
+      propertyPath: m_constantSpawners.Array.data[0]
+      value: 
+      objectReference: {fileID: 1749333581}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 33cc996ebd683814d8a8f50088425e41, type: 3}

@@ -40,7 +40,7 @@ namespace DungeonSlasher
                 Time.timeScale = 1f;
             }
 
-            StartCoroutine(CommonRoutines.WaitForSecondsRealtime(0.05f, OnFinish));
+            StartCoroutine(CommonRoutines.WaitForSecondsRealtime(0.1f, OnFinish));
         }
     }
 }
