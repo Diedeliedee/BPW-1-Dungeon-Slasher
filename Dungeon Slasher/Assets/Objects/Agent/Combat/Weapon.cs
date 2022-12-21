@@ -10,6 +10,8 @@ namespace DungeonSlasher.Agents
     /// </summary>
     public class Weapon : MonoBehaviour
     {
+        [SerializeField] private int m_damage           = 5;
+        [Space]
         [SerializeField] private Agent m_root           = null;
         [SerializeField] private Hurtbox[] m_hurtboxes  = new Hurtbox[1];
         [Space]
@@ -17,6 +19,10 @@ namespace DungeonSlasher.Agents
 
         private List<Collider> m_caughtAgents           = new List<Collider>();
         private bool m_active                           = false;
+
+        private event System.Action m_onRetract         = null;
+
+        public bool isActive { get => m_active; }
 
         public void Tick(LayerMask mask, Collider ownCollider)
         {
@@ -43,7 +49,8 @@ namespace DungeonSlasher.Agents
         /// </summary>
         private void Hit(Agent agent)
         {
-            agent.Hit(1, m_root);
+            agent.Hit(m_damage, m_root, out System.Action onRetract);
+            m_onRetract += onRetract;
             m_caughtAgents.Add(agent.collider);
         }
 
@@ -54,7 +61,12 @@ namespace DungeonSlasher.Agents
         {
             m_active = enabled;
             if (m_trail != null) m_trail.gameObject.SetActive(enabled);
-            if (!enabled) m_caughtAgents.Clear();
+            if (!enabled)
+            {
+                m_onRetract?.Invoke();
+                m_caughtAgents.Clear();
+                m_onRetract = null;
+            }
         }
 
         public void DrawGizmos()

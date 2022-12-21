@@ -69,6 +69,11 @@ namespace Dodelie.Tools
             return new Vector3(vector.x, height, vector.y);
         }
 
+        public static Vector2 ToDirection(Vector2 from, Vector2 to, float multiplier = 1f)
+        {
+            return (to - from).normalized * multiplier;
+        }
+
         /// <returns>Whether a list of colliders containts the desired component.</returns>
         public static bool Contains<T>(out T[] containingComponents, params Collider[] colliders)
         {

@@ -7,10 +7,8 @@ namespace DungeonSlasher.Agents
     [System.Serializable]
     public partial class Combat
     {
-        [SerializeField] private Weapon[] m_weapons = null;
-        [SerializeField] private LayerMask m_hitMask = new LayerMask();
-
-        private List<Agent> m_hitAgents = new List<Agent>();
+        [SerializeField] private Weapon[] m_weapons     = null;
+        [SerializeField] private LayerMask m_hitMask    = new LayerMask();
 
         public void Tick(Collider ownCollider)
         {
@@ -30,7 +28,7 @@ namespace DungeonSlasher.Agents
 
         public void RetractWeapons()
         {
-            foreach (var weapon in m_weapons) weapon.SetEnabled(false);
+            foreach (var weapon in m_weapons) if (weapon.isActive) weapon.SetEnabled(false);
         }
 
         public void DrawGizmos()

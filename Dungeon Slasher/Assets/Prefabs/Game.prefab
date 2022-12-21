@@ -97,6 +97,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_mildMagnitude: 0.1
   m_bigMagnitude: 0.25
+  m_recovery: 0.15
   m_camera: {fileID: 7550902852076738741}
   m_target: {fileID: 8729985700086069830}
   m_followTime: 0.025

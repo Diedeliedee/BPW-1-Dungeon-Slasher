@@ -37,11 +37,17 @@ namespace DungeonSlasher.Agents
             m_health.onDeath += OnDeath;
         }
 
+        /// <summary>
+        /// Create, and configure a new state machine with the given states.
+        /// </summary>
         protected void SetStates(System.Type startState, params AgentState[] states)
         {
             m_stateMachine = new FSM<Agent>(this, startState, states);
         }
 
+        /// <summary>
+        /// Called the moment the agent's health is depleted.
+        /// </summary>
         public abstract void OnDeath();
 
         private void OnDrawGizmosSelected()

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Dodelie.Tools;
 using UnityEngine;
-using Dodelie.Tools;
 
 namespace DungeonSlasher.Agents
 {
@@ -19,9 +14,17 @@ namespace DungeonSlasher.Agents
 
         public Vector2 flatPosition { get => new Vector2(transform.position.x, transform.position.z); set => transform.position = new Vector3(value.x, transform.position.y, value.y); }
 
-        public virtual void Hit(int damage, Agent source)
+        /// <summary>
+        /// Function to 'hit' the agent from outside.
+        /// </summary>
+        public abstract void Hit(int damage, Agent source, out System.Action onRetract);
+
+        /// <summary>
+        /// Public accessibility function to switch to another state the agent possesses from outside.
+        /// </summary>
+        public State SwitchToState<State>() where State : State<Agent>
         {
-            m_health.AddHealth(-damage);
+            return m_stateMachine.SwitchToState<State>();
         }
     }
 }

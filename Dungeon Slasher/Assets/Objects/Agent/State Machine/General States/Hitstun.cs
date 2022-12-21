@@ -9,8 +9,14 @@ namespace DungeonSlasher.Agents
         {
             private System.Type m_returnType = null;
 
-            public void Initiate(System.Type returnType, Vector2 force)
+            public Hitstun(System.Type returnType)
             {
+                m_returnType = returnType;
+            }
+
+            public void Initiate(int damage, Vector2 force)
+            {
+                root.health.AddHealth(-damage);
                 root.movement.SetVelocity(force);
             }
 

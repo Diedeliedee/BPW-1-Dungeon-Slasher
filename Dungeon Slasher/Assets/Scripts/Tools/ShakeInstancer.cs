@@ -13,6 +13,7 @@ namespace Dodelie.Tools
         private float m_frequency       = 0f;
         private float m_smoothening     = 0f;  
         private float m_tickMark        = 0f;
+        private float m_velocity        = 0f;
 
         private float m_tickTimer       = 0f;  
         private Vector3 m_startPosition = Vector3.zero;
@@ -91,12 +92,15 @@ namespace Dodelie.Tools
 
             //  Wait until the timer has passed the mark for further action.
             m_tickTimer += deltaTime;
+            m_magnitude = Mathf.SmoothDamp(m_magnitude, 0f, ref m_velocity, m_smoothening, Mathf.Infinity, deltaTime);
+            //m_magnitude = Mathf.Lerp(m_magnitude, 0f, deltaTime / smoothening);
             if (m_tickTimer < m_tickMark) return m_currentOffset;
             m_tickTimer = 0f;
 
             //  Create new offset, and lower the magnitude.
-            m_magnitude = Mathf.Lerp(m_magnitude, 0f, deltaTime / smoothening);
             m_currentOffset = Calc.RandomSpherePoint(m_magnitude);
+
+            Debug.Log(m_magnitude);
 
             //  Return.
             return m_currentOffset;
@@ -104,6 +108,7 @@ namespace Dodelie.Tools
 
         public void ReInitialize()
         {
+            m_velocity      = 0f;
             m_tickMark      = 1f / m_frequency;
             m_tickTimer     = m_tickMark;
             m_currentOffset = Vector3.zero;

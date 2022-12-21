@@ -7,45 +7,42 @@ namespace DungeonSlasher.Agents
     {
         public class Hitpause : AgentState
         {
-            private const float m_forceMultiplier = 0.25f;
+            private int m_damage = 0;
+            private Vector2 m_forceDirection = Vector2.zero;
 
-            private ShakeInstancer m_shake      = null;
-            private System.Type m_returnType    = null;
-            private Vector2 m_velocity          = Vector2.zero;
-            private float m_time                = 0f;
+            private ShakeInstancer m_shake  = null;
 
-            private float m_timer               = 0f;
-
-            public void Initiate(System.Type returnType, Vector2 velocity, float time)
+            public void Initiate(int damage, Vector2 forceDirection, out System.Action onRetract)
             {
-                m_shake         = new ShakeInstancer(root.transform.position, ForceToAmpltidue(velocity.magnitude), 60f, 0.5f);
-                m_returnType    = returnType;
-                m_velocity      = velocity;
-                m_time          = time;
+                m_damage = damage;
+                m_forceDirection = forceDirection;
+                onRetract = Resume;
+            }
+
+            public override void OnEnter()
+            {
+                m_shake = new ShakeInstancer(root.transform.position, 0.1f, 60f, 0.1f);
             }
 
             public override void OnTick(float deltaTime)
             {
-                root.transform.position = m_shake.GetPosition(deltaTime);
-
-                m_timer += deltaTime;
-                if (m_timer < m_time) return;
-
-                SwitchToState<Hitstun>();
+                root.transform.position = m_shake.GetPosition(Time.unscaledDeltaTime);
             }
 
             public override void OnExit()
             {
                 root.transform.position = m_shake.startPosition;
-                m_shake     = null;
-                m_velocity  = Vector2.zero;
-                m_time      = 0f;
-                m_timer     = 0f;
+
+                m_damage = 0;
+                m_forceDirection = Vector2.zero;
+
+                m_shake = null;
             }
 
-            private float ForceToAmpltidue(float force)
+            private void Resume()
             {
-                return Mathf.Sqrt(force) * m_forceMultiplier;
+                Debug.LogWarning("Yay, this shit is succesfull.");
+                SwitchToState<Hitstun>().Initiate(m_damage, m_forceDirection);
             }
         }
     }

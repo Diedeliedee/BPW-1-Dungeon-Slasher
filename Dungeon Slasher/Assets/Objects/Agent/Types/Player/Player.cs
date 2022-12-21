@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Dodelie.Tools;
 
 namespace DungeonSlasher.Agents
 {
@@ -15,7 +16,7 @@ namespace DungeonSlasher.Agents
         {
             base.Initialize();
 
-            SetStates(typeof(FreeMove), m_freeMove, m_leftAttack, m_rightAttack);
+            SetStates(m_freeMove.GetType(), m_freeMove, m_leftAttack, m_rightAttack, new Hitstun(m_freeMove.GetType()));
         }
 
         public override void Tick(float deltaTime)
@@ -25,10 +26,12 @@ namespace DungeonSlasher.Agents
             base.Tick(deltaTime);
         }
 
-        public override void Hit(int damage, Agent source)
+        public override void Hit(int damage, Agent source, out System.Action onRetract)
         {
-            base.Hit(damage, source);
+            onRetract = null;
+
             GameManager.instance.events.onPlayerHit.Invoke();
+            SwitchToState<Hitstun>().Initiate(damage, Calc.ToDirection(source.flatPosition, flatPosition));
         }
 
         public override void OnDeath()

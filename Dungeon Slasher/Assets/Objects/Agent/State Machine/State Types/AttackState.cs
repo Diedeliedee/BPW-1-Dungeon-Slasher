@@ -151,6 +151,7 @@ namespace DungeonSlasher.Agents
                 m_timer = 0f;
 
                 root.movement.SetVelocity(Vector2.zero);
+                root.combat.RetractWeapons();
             }
 
             private enum Phase { WindUp, Attack, FollowThrough }

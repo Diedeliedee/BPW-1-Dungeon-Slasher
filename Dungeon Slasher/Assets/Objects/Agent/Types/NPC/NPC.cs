@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Dodelie.Tools;
 
 namespace DungeonSlasher.Agents
 {
@@ -21,13 +22,13 @@ namespace DungeonSlasher.Agents
         public override void Initialize()
         {
             base.Initialize();
-            SetStates(m_chaseAgent.GetType(), m_chaseAgent, m_attack);
+            SetStates(m_chaseAgent.GetType(), m_chaseAgent, m_attack, new Hitpause(), new Hitstun(m_chaseAgent.GetType()));
         }
 
-        public override void Hit(int damage, Agent source)
+        public override void Hit(int damage, Agent source, out System.Action onRetract)
         {
-            base.Hit(damage, source);
             GameManager.instance.events.onEnemyHit.Invoke();
+            SwitchToState<Hitpause>().Initiate(damage, Calc.ToDirection(source.flatPosition, flatPosition), out onRetract);
         }
 
         public override void OnDeath()
