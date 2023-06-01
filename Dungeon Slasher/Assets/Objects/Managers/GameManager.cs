@@ -33,7 +33,7 @@ namespace DungeonSlasher
 
         private void HitPause()
         {
-            Time.timeScale = 0;
+            Time.timeScale = 0.1f;
 
             void OnFinish()
             {

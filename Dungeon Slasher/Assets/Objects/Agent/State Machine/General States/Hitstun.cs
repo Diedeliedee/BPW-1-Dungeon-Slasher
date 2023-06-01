@@ -7,8 +7,8 @@ namespace DungeonSlasher.Agents
     {
         public class Hitstun : AgentState
         {
-            private float m_knockback  = 50f;
-            private float m_drag       = 50f;
+            private float m_knockback  = 20f;
+            private float m_drag       = 125f;
 
             private System.Type m_returnType = null;
 
