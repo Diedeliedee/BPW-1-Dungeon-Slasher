@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using Joeri.Tools.Debugging;
 
-namespace Dodelie.Tools
+namespace Joeri.Tools
 {
     public struct Beam
     {

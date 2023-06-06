@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Dodelie.Tools
+namespace Joeri.Tools.Debugging
 {
     public static class GizmoTools
     {
@@ -104,6 +104,21 @@ namespace Dodelie.Tools
 
             Gizmos.color = new Color(color.r, color.g, color.b, opacity * solidOpacityMultiplier);
             Gizmos.DrawSphere(position, radius);
+#endif
+        }
+
+        public static void DrawOutlinedBox(Vector3 position, Vector3 size, Color color, float opacity = 1, bool solid = false, float solidOpacityMultiplier = 0.5f)
+        {
+#if UNITY_EDITOR
+            if (size.sqrMagnitude <= 0 || opacity <= 0) return;
+
+            Gizmos.color = new Color(color.r, color.g, color.b, opacity);
+            Gizmos.DrawWireCube(position, size);
+
+            if (!solid) return;
+
+            Gizmos.color = new Color(color.r, color.g, color.b, opacity * solidOpacityMultiplier);
+            Gizmos.DrawCube(position, size);
 #endif
         }
 

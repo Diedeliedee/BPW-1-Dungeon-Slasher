@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using Joeri.Tools.Utilities;
 
-namespace Dodelie.Tools
+namespace Joeri.Tools
 {
     public class ShakeInstancer
     {
@@ -98,7 +99,7 @@ namespace Dodelie.Tools
             m_tickTimer = 0f;
 
             //  Create new offset, and lower the magnitude.
-            m_currentOffset = Calc.RandomSpherePoint(m_magnitude);
+            m_currentOffset = Vectors.RandomSpherePoint(m_magnitude);
 
             Debug.Log(m_magnitude);
 
