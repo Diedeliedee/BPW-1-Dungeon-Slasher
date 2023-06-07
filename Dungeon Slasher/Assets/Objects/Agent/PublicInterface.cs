@@ -5,13 +5,6 @@ using Joeri.Tools.Utilities;
 
 public partial class Agent
 {
-    public Health health { get => m_combat.health; }
-    public MovementBase movement { get => m_movement; protected set => m_movement = value; }
-    public Combat combat { get => m_combat; }
-    public Animator animator { get => m_animator; }
-
-    public Collider collider { get => m_movement.controller; }
-
     public Vector2 flatPosition { get => Vectors.VectorToFlat(transform.position); set => transform.position = Vectors.FlatToVector(value, transform.position.y); }
 
     /// <summary>
@@ -28,5 +21,10 @@ public partial class Agent
     public T SwitchToState<T>() where T : State
     {
         return m_stateMachine.SwitchToState<T>();
+    }
+
+    public T GetMovement<T>() where T : MovementBase
+    {
+        return m_movement as T;
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using Joeri.Tools.Utilities;
 
 public partial class Player
 {
@@ -25,7 +26,7 @@ public partial class Player
 
         private Vector2 GetLeftInput()
         {
-            return Vector2.ClampMagnitude(new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")), 1f);
+            return Vectors.RotateVector2(Vector2.ClampMagnitude(new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")), 1f), -Camera.main.transform.eulerAngles.y);
         }
 
         private Vector2 GetRightInput(Vector3 position)

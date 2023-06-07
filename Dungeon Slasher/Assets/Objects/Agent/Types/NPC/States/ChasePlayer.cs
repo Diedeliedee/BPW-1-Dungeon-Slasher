@@ -12,7 +12,7 @@ public partial class NPC
 {
     public class ChasePlayer : FlexState<NPC>
     {
-        public Settings settings { get => base.settings as Settings; }
+        public Settings settings { get => GetSettings<Settings>(); }
 
         public ChasePlayer(NPC root, Settings settings) : base(root, settings) { }
 
@@ -41,7 +41,7 @@ public partial class NPC
             GizmoTools.DrawOutlinedDisc(root.transform.position, Mathf.Pow(settings.sqrAttackDistance, 2), Color.red, Color.white, 0.15f);
         }
 
-        public class Settings : ISettings
+        public class Settings : FlexState<NPC>.Settings
         {
             public float lookAheadTime = 0.5f;
             public float sqrAttackDistance = 1.5f;

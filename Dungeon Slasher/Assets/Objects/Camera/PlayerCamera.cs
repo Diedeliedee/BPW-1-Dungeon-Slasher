@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Joeri.Tools;
-using DungeonSlasher;
 
 public partial class PlayerCamera : MonoBehaviour
 {
@@ -16,7 +15,7 @@ public partial class PlayerCamera : MonoBehaviour
 
     private ShakeInstancer m_cameraShake            = null;
 
-    public void Initialize()
+    public void Setup()
     {
         m_cameraShake = new ShakeInstancer(m_camera.localPosition, 0f, 60f, m_recovery);
         //GameManager.instance.events.onEnemyHit.AddListener(MildShake);

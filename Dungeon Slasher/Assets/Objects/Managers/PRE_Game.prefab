@@ -112,7 +112,7 @@ GameObject:
   - component: {fileID: 7274535441756571448}
   - component: {fileID: 7274535441756571449}
   m_Layer: 0
-  m_Name: Game
+  m_Name: PRE_Game
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -197,10 +197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_player: {fileID: 8729985700086069831}
-  m_npcTypes:
-  - {fileID: 11400000, guid: 7602dc4b316b5a84fb3518cb88904b4e, type: 2}
-  m_constantSpawners:
-  - {fileID: 0}
+  m_enemies: []
 --- !u!1001 &7274535441249299940
 PrefabInstance:
   m_ObjectHideFlags: 0

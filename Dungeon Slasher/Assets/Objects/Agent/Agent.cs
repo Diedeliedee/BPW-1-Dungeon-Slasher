@@ -7,18 +7,23 @@ using Joeri.Tools.Movement;
 
 public abstract partial class Agent : MonoBehaviour
 {
-    [Header("Agent Properties:")]
-    [SerializeField] private MovementBase m_movement = null;
-    [SerializeField] private Combat m_combat = null;
+    [Header("Agent Components:")]
+    [SerializeField] protected Combat m_combat;
 
     [Header("Agent References:")]
-    [SerializeField] private Animator m_animator = null;
+    [SerializeField] protected MovementBase.Settings m_movementSettings;
 
     //  Run-time:
+    protected MovementBase m_movement = null;
     protected FSM m_stateMachine = null;
+
+    //  Reference:
+    protected Animator m_animator;
 
     public virtual void Setup()
     {
+        m_animator = GetComponent<Animator>();
+
         m_combat.Setup(this);
         m_combat.health.onDeath += OnDeath;
     }
@@ -38,6 +43,7 @@ public abstract partial class Agent : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
+        if (!Application.isPlaying) return;
         m_movement.DrawGizmos();
         m_stateMachine.DrawGizmos(transform.position);
     }

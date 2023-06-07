@@ -4,7 +4,7 @@ using UnityEngine;
 
 public partial class AgentManager : MonoBehaviour
 {
-    [SerializeField] private Player m_player = null;
+    [SerializeField] private Player m_player;
     [SerializeField] private NPC[] m_enemies = new NPC[1];
 
     public Player player { get => m_player; }
@@ -12,9 +12,9 @@ public partial class AgentManager : MonoBehaviour
     /// <summary>
     /// Initializes all the agents in the scene.
     /// </summary>
-    public void Initialize()
+    public void Setup()
     {
-        player.Setup();
+        m_player.Setup();
         for (int i = 0; i < m_enemies.Length; i++)
         {
             m_enemies[i].Setup();
@@ -24,7 +24,7 @@ public partial class AgentManager : MonoBehaviour
 
     public void Tick(float deltaTime)
     {
-        player.Tick(deltaTime);
+        m_player.Tick(deltaTime);
         for (int i = 0; i < m_enemies.Length; i++)
         {
             m_enemies[i].Tick(deltaTime);

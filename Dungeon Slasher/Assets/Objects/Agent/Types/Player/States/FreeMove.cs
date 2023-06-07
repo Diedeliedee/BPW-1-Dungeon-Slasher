@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Joeri.Tools.Structure;
+using Joeri.Tools.Utilities;
 
 public partial class Player
 {
     public class FreeMove : FlexState<Player>
     {
-        private Settings settings { get => base.settings as Settings; }
+        public Settings settings { get => GetSettings<Settings>(); }
 
         public FreeMove(Player root, Settings settings) : base(root, settings) { }
 
@@ -27,7 +28,8 @@ public partial class Player
             root.movement.ApplyInput(root.m_controls.leftInput, deltaTime);
         }
 
-        public class Settings : ISettings
+        [System.Serializable]
+        public class Settings : FlexState<Player>.Settings
         {
             public AnimationClip animation;
         }

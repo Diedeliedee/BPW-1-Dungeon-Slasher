@@ -6,18 +6,19 @@ using Joeri.Tools.Structure;
 
 public partial class Player : Agent
 {
-    [Header("Player States:")]
+    [Header("States:")]
     [SerializeField] private FreeMove.Settings m_freeMove = null;
     [SerializeField] private LeftAttack.Settings m_leftAttack = null;
     [SerializeField] private RightAttack.Settings m_rightAttack = null;
 
     private Controls m_controls = new Controls();
 
-    public PlayerController movement { get => base.movement as PlayerController; }
+    public PlayerController movement { get => GetMovement<PlayerController>(); }
 
     public override void Setup()
     {
         base.Setup();
+        m_movement = new PlayerController(gameObject, m_movementSettings);
         m_stateMachine = new FSM
             (
                 typeof(FreeMove),

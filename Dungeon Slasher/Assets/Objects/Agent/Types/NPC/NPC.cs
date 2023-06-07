@@ -6,21 +6,13 @@ using Joeri.Tools.Movement;
 
 public partial class NPC : Agent
 {
-    [Header("NPC Properties:")]
-    [SerializeField] private NPCConcept.Type m_type = 0;
-
-    [Header("NPC States:")]
-    [SerializeField] private ChasePlayer.Settings m_chasePlayer = null;
-    [SerializeField] private Attack.Settings m_attack = null;
+    [Header("States:")]
+    [SerializeField] private ChasePlayer.Settings m_chase;
+    [SerializeField] private Attack.Settings m_attack;
 
     private Player m_player = null;
 
-    protected AgentController movement { get => base.movement as AgentController; }
-
-    private void Awake()
-    {
-        Setup();
-    }
+    protected AgentController movement { get => GetMovement<AgentController>(); }
 
     public void AssignPlayer(Player player)
     {
@@ -30,11 +22,11 @@ public partial class NPC : Agent
     public override void Setup()
     {
         base.Setup();
-        base.movement = base.movement as AgentController;
+        m_movement = new AgentController(gameObject, m_movementSettings);
         m_stateMachine = new FSM
             (
                 typeof(ChasePlayer),
-                new ChasePlayer(this, m_chasePlayer),
+                new ChasePlayer(this, m_chase),
                 new Attack(this, m_attack)
             );
     }

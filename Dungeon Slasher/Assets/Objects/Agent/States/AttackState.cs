@@ -23,7 +23,7 @@ public partial class Agent
         private Phase m_phase = Phase.WindUp;
         private float m_timer = 0f;
 
-        private Settings settings { get => base.settings as Settings; }
+        public Settings settings { get => GetSettings<Settings>(); }
 
         public AttackState(T root, Settings settings) : base(root, settings) { }
 
@@ -38,7 +38,7 @@ public partial class Agent
             m_startRotation = root.transform.rotation;
             m_endRotation = Quaternion.LookRotation(Vectors.FlatToVector(m_attackDirection, root.transform.position.y));
 
-            m_brakeDrag = root.movement.velocity.magnitude / settings.attackMark;
+            m_brakeDrag = root.m_movement.velocity.magnitude / settings.attackMark;
             m_attackDrag = (settings.attackSpeed - followThroughSpeed) / (settings.followThroughMark - settings.attackMark);
             m_followThroughDrag = followThroughSpeed / (settings.recoverMark - settings.followThroughMark);
 
@@ -72,7 +72,7 @@ public partial class Agent
                     //  Slide slowly attempting to brake again.
                     DuringFollowThrough(deltaTime);
                     ExecuteOnExceed(settings.recoverMark, ToFinish);
-                    Debug.Log($"Switched to recovering state with a remaining velocity of {root.movement.velocity.magnitude}, and a remaining deceleration of {m_attackDrag * deltaTime}.");
+                    Debug.Log($"Switched to recovering state with a remaining velocity of {root.m_movement.velocity.magnitude}, and a remaining deceleration of {m_attackDrag * deltaTime}.");
                     break;
 
             }
@@ -107,8 +107,8 @@ public partial class Agent
         protected virtual void ToAttack()
         {
             m_phase = Phase.Attack;
-            root.movement.flatVelocity = m_attackDirection * settings.attackSpeed;
-            root.combat.ActivateWeapon();
+            root.m_movement.flatVelocity = m_attackDirection * settings.attackSpeed;
+            root.m_combat.ActivateWeapon();
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ public partial class Agent
         protected virtual void ToFollowThrough()
         {
             m_phase = Phase.FollowThrough;
-            root.combat.DeactivateWeapon();
+            root.m_combat.DeactivateWeapon();
         }
 
         /// <summary>
@@ -140,12 +140,13 @@ public partial class Agent
             m_phase = Phase.WindUp;
             m_timer = 0f;
 
-            root.movement.flatVelocity = Vector2.zero;
+            root.m_movement.flatVelocity = Vector2.zero;
         }
 
         private enum Phase { WindUp, Attack, FollowThrough }
 
-        public class Settings : ISettings
+        [System.Serializable]
+        public class Settings : FlexState<T>.Settings
         {
             /// Velocity    = Time          * Drag
             /// Drag        = Velocity      / Time

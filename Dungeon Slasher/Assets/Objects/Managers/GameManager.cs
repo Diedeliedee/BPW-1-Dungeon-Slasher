@@ -17,8 +17,8 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
-        agents.Initialize();
-        camera.Initialize();
+        agents.Setup();
+        camera.Setup();
 
         events.onEnemyHit.AddListener(HitPause);
     }

@@ -65,6 +65,7 @@ public class Weapon : MonoBehaviour
 
         for (int i = 0; i < m_hurtboxes.Length; i++)
         {
+            if (m_hurtboxes[i] == null) continue;
             GizmoTools.DrawSphere(m_hurtboxes[i].position, m_radius, Color.red, 0.75f, true);
         }
     }

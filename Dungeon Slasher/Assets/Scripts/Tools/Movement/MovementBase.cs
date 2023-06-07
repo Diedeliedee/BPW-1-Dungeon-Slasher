@@ -9,32 +9,38 @@ using Joeri.Tools.Debugging;
 
 namespace Joeri.Tools.Movement
 {
-    [System.Serializable]
-    public abstract class MovementBase
+    public class MovementBase
     {
-        [HideInInspector] public bool rotate = true;    //  Temporary?
-        [HideInInspector] public float speed = 10f;
-        [HideInInspector] public float grip = 5f;
-
-        [SerializeField] private CharacterController m_controller = null;
-        [SerializeField] private LayerMask m_movementLayer;
-
+        //  Components:
         protected Accel.Flat m_horizontal = new Accel.Flat();
         protected Accel.Uncontrolled m_vertical = new Accel.Uncontrolled(0f, 0f, 0f);
 
+        //  Run-time:
         protected bool m_onGround = false;
         protected GroundInfo m_groundInfo = null;
 
+        private float m_rotationVelocity = 0f;
+
+        // Reference:
+        private LayerMask m_movementMask;
+
         #region Properties
 
+        //  Movement Properties:
+        public float speed { get; set; }
+        public float grip { get; set; }
         public float gravity
         {
             get => m_vertical.acceleration;
             set => m_vertical.acceleration = value;
         }
 
-        public CharacterController controller { get => m_controller; }
+        //  Rotation Properties:
+        public float rotationTime { get; set; }
+        public bool canRotate { get; set; }
 
+
+        //  Run-time data:
         public Vector3 velocity
         {
             get => new Vector3(m_horizontal.velocity.x, m_vertical.velocity, m_horizontal.velocity.y);
@@ -59,19 +65,42 @@ namespace Joeri.Tools.Movement
         public bool onGround { get => m_onGround; }
         public GroundInfo groundInfo { get => m_groundInfo; }
 
+        //  Reference:
+        public CharacterController controller { get; private set; }
+
+        //  Utilities:
         protected Vector3 groundCheckOrigin
         {
             get
             {
-                var position = m_controller.transform.position + m_controller.center;
+                var position = controller.transform.position + controller.center;
 
-                position += Vector3.down * m_controller.height / 2;                             //  Go to the bottom of the controller's collider.
-                position += Vector3.up * (m_controller.radius - m_controller.skinWidth * 2);    //  Set the center so that the overlap slightly reaches under the collider.
+                position += Vector3.down * controller.height / 2;                             //  Go to the bottom of the controller's collider.
+                position += Vector3.up * (controller.radius - controller.skinWidth * 2);    //  Set the center so that the overlap slightly reaches under the collider.
                 return position;
             }
         }
 
         #endregion
+
+        public MovementBase(GameObject root, Settings settings)
+        {
+            controller = root.GetComponent<CharacterController>();
+
+            if (controller == null)
+            {
+                Debug.LogError($"No character controller found on agent: {root.name}.", root);
+                return;
+            }
+
+            speed = settings.baseSpeed;
+            grip = settings.baseGrip;
+            gravity = settings.baseGravity;
+            rotationTime = settings.baseRotationTime;
+            canRotate = settings.baseRotationTime < Mathf.Infinity;
+
+            m_movementMask = settings.movementMask;
+        }
 
         /// <summary>
         /// Iterates the velocity based on the passed in desired velocity.
@@ -81,12 +110,7 @@ namespace Joeri.Tools.Movement
             m_horizontal.CalculateVelocity(desiredVelocity, grip, deltaTime);
             m_vertical.CalculateVelocity(deltaTime);
 
-            if (flatVelocity != Vector2.zero && rotate)
-            {
-                var lookDir = Vectors.FlatToVector(flatVelocity, m_controller.transform.position.y);
-
-                m_controller.transform.rotation = Quaternion.LookRotation(lookDir);
-            }
+            if (canRotate && flatVelocity != Vector2.zero) RotateToVelocity(deltaTime);
 
             ApplyVelocity(deltaTime);
         }
@@ -105,12 +129,30 @@ namespace Joeri.Tools.Movement
         /// <summary>
         /// Applies the velocity of the of the two acceleration classes to the character controller.
         /// </summary>
-        /// <param name="deltaTime"></param>
         private void ApplyVelocity(float deltaTime)
         {
-            m_controller.Move(velocity * deltaTime);
+            controller.Move(velocity * deltaTime);
             m_onGround = isOnGround(out GroundInfo groundInfo);
             m_groundInfo = groundInfo;
+        }
+
+        /// <summary>
+        /// Rotates the transform bearing the character controller to the direction of the velocity, with 
+        /// </summary>
+        private void RotateToVelocity(float deltaTime)
+        {
+            var currentAngle = controller.transform.eulerAngles.y;
+            var desiredAngle = Vectors.VectorToAngle(flatVelocity);
+
+            if (rotationTime > 0)
+            {
+                currentAngle = Mathf.SmoothDampAngle(currentAngle, desiredAngle, ref m_rotationVelocity, rotationTime, Mathf.Infinity, deltaTime);
+            }
+            else
+            {
+                currentAngle = desiredAngle;
+            }
+            controller.transform.eulerAngles = new Vector3(controller.transform.eulerAngles.x, currentAngle, controller.transform.eulerAngles.z);
         }
 
         /// <returns>True if the player is standing on valid ground. Calculated by a Physics.OverlapSphere(...).</returns>
@@ -118,9 +160,9 @@ namespace Joeri.Tools.Movement
         {
             info = null;
 
-            if (m_controller == null) return false;
+            if (controller == null) return false;
 
-            var overlappingColliders = Physics.OverlapSphere(groundCheckOrigin, m_controller.radius, m_movementLayer, QueryTriggerInteraction.Ignore);
+            var overlappingColliders = Physics.OverlapSphere(groundCheckOrigin, controller.radius, m_movementMask, QueryTriggerInteraction.Ignore);
 
             if (overlappingColliders.Length > 0)
             {
@@ -135,17 +177,9 @@ namespace Joeri.Tools.Movement
         /// </summary>
         public virtual void DrawGizmos()
         {
-            GizmoTools.DrawSphere(groundCheckOrigin, m_controller.radius, onGround ? Color.white : Color.black, 0.5f, true, 0.75f);
-            m_horizontal.Draw(m_controller.transform.position, Color.blue, Color.black, 0.75f);
-            m_vertical.Draw(m_controller.transform.position, Vector3.up, Color.green, 0.5f);
-        }
-
-        //  Adds the given velocity to the movement.
-        public void AddVelocity(Vector3 velocity)
-        {
-            m_horizontal.velocity.x += velocity.x;
-            m_horizontal.velocity.y += velocity.z;
-            m_vertical.velocity += velocity.y;
+            GizmoTools.DrawSphere(groundCheckOrigin, controller.radius, onGround ? Color.white : Color.black, 0.5f, true, 0.75f);
+            m_horizontal.Draw(controller.transform.position, Color.blue, Color.black, 0.75f);
+            m_vertical.Draw(controller.transform.position, Vector3.up, Color.green, 0.5f);
         }
 
         /// <summary>
@@ -164,6 +198,18 @@ namespace Joeri.Tools.Movement
             {
                 return Util.Contains(out containingComponents, colliders);
             }
+        }
+
+        [System.Serializable]
+        public class Settings
+        {
+            public float baseSpeed;
+            public float baseGrip;
+            public float baseGravity;
+            [Space]
+            public float baseRotationTime;
+            [Space]
+            public LayerMask movementMask;
         }
     }
 }
