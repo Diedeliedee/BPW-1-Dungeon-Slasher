@@ -8,6 +8,7 @@ public class Arena : MonoBehaviour
     [Header("Properties:")]
     [SerializeField] private float m_minSpawnTime = 1f;
     [SerializeField] private float m_maxSpawnTime = 1f;
+    [SerializeField] private int m_maxEnemies = 3;
 
     [Header("Reference")]
     [SerializeField] private ArenaActivator[] m_activators;
@@ -38,7 +39,7 @@ public class Arena : MonoBehaviour
         if (m_state != State.Acitve) return;
         if (!m_spawnTimer.HasReached(deltaTime)) return;
 
-        //  Spawn enemy
+        GameManager.instance.agents.SpawnEnemy(GetRandomSpawnPoint(), Vector2.down);
         m_spawnTimer.Reset(Random.Range(m_minSpawnTime, m_maxSpawnTime));
     }
 
@@ -46,6 +47,11 @@ public class Arena : MonoBehaviour
     {
         foreach (var blockade in m_blockades) blockade.Fall();
         m_state = State.Beaten;
+    }
+
+    private Vector3 GetRandomSpawnPoint()
+    {
+        return m_spawnPoints[Random.Range(0, m_spawnPoints.Length)].position;
     }
 
     public enum State { Dormant, Acitve, Beaten }

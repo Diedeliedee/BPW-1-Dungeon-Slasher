@@ -16,7 +16,7 @@ public partial class NPC
 
         public ChasePlayer(NPC root, Settings settings) : base(root, settings) { }
 
-        public void Setup()
+        public override void OnEnter()
         {
             root.movement.SetBehaviors(new Pursue(settings.lookAheadTime, root.m_player.transform));
         }
@@ -40,7 +40,8 @@ public partial class NPC
 
             GizmoTools.DrawOutlinedDisc(root.transform.position, Mathf.Pow(settings.sqrAttackDistance, 2), Color.red, Color.white, 0.15f);
         }
-
+        
+        [System.Serializable]
         public class Settings : FlexState<NPC>.Settings
         {
             public float lookAheadTime = 0.5f;

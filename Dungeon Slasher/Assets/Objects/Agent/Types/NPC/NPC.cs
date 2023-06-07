@@ -42,7 +42,6 @@ public partial class NPC : Agent
 
     protected override void OnDeath()
     {
-        Destroy(gameObject);
-        //GameManager.instance.agents.TakeBack(m_type, this);
+        GameManager.instance.agents.DespawnEnemy(this);
     }
 }
