@@ -2,63 +2,43 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Dodelie.Tools;
+using Joeri.Tools.Structure;
+using Joeri.Tools.Movement;
 
-namespace DungeonSlasher.Agents
+public abstract partial class Agent : MonoBehaviour
 {
-    public abstract partial class Agent : MonoBehaviour
+    [Header("Agent Properties:")]
+    [SerializeField] private MovementBase m_movement = null;
+    [SerializeField] private Combat m_combat = null;
+
+    [Header("Agent References:")]
+    [SerializeField] private Animator m_animator = null;
+
+    //  Run-time:
+    protected FSM m_stateMachine = null;
+
+    public virtual void Setup()
     {
-        public event System.Action onDespawn = null;
+        m_combat.Setup(this);
+        m_combat.health.onDeath += OnDeath;
+    }
 
-        [Header("Agent Properties:")]
-        [SerializeField] private Health m_health        = null;
-        [SerializeField] private Movement m_movement    = null;
-        [SerializeField] private Combat m_combat        = null;
+    public virtual void Tick(float deltaTime)
+    {
+        m_stateMachine.Tick(deltaTime);
+    }
 
-        [Header("Agent References:")]
-        [SerializeField] private Animator m_animator    = null;
+    public void CrossFadeAnimation(AnimationClip clip, float seconds = 0f)
+    {
+        if (clip == null) return;
+        m_animator.CrossFadeInFixedTime(clip.name, seconds);
+    }
 
-        //  Background:
-        private FSM<Agent> m_stateMachine               = null;
+    protected abstract void OnDeath();
 
-        /// <summary>
-        /// Updates the logic of the agent.
-        /// </summary>
-        public virtual void Tick(float deltaTime)
-        {
-            m_stateMachine.Tick(deltaTime);
-            m_combat.Tick(m_movement.collider);
-        }
-
-        /// <summary>
-        /// 'Awake' function for the agent.
-        /// </summary>
-        public virtual void Initialize()
-        {
-            m_health.onDeath += OnDeath;
-        }
-
-        /// <summary>
-        /// Create, and configure a new state machine with the given states.
-        /// </summary>
-        protected void SetStates(System.Type startState, params AgentState[] states)
-        {
-            m_stateMachine = new FSM<Agent>(this, startState, states);
-        }
-
-        /// <summary>
-        /// Called the moment the agent's health is depleted.
-        /// </summary>
-        public abstract void OnDeath();
-
-        private void OnDrawGizmosSelected()
-        {
-            m_combat.DrawGizmos();
-
-            if (!Application.isPlaying) return;
-
-            m_movement.DrawGizmos(transform.position);
-            m_stateMachine.DrawGizmos(transform.position);
-        }
+    private void OnDrawGizmosSelected()
+    {
+        m_movement.DrawGizmos();
+        m_stateMachine.DrawGizmos(transform.position);
     }
 }

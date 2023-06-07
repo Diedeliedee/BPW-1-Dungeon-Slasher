@@ -1,39 +1,56 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Dodelie.Tools;
+using Joeri.Tools.Structure;
+using Joeri.Tools.Movement;
 
-namespace DungeonSlasher.Agents
+public partial class NPC : Agent
 {
-    public partial class NPC : Agent
+    [Header("NPC Properties:")]
+    [SerializeField] private NPCConcept.Type m_type = 0;
+
+    [Header("NPC States:")]
+    [SerializeField] private ChasePlayer.Settings m_chasePlayer = null;
+    [SerializeField] private Attack.Settings m_attack = null;
+
+    private Player m_player = null;
+
+    protected AgentController movement { get => base.movement as AgentController; }
+
+    private void Awake()
     {
-        [Header("NPC Properties:")]
-        [SerializeField] private NPCConcept.Type m_type     = 0;
+        Setup();
+    }
 
-        [Header("NPC States:")]
-        [SerializeField] private ChasePlayer m_chaseAgent   = null;
-        [SerializeField] private Attack m_attack            = null;
+    public void AssignPlayer(Player player)
+    {
+        m_player = player;
+    }
 
-        private void Awake()
-        {
-            Initialize();
-        }
+    public override void Setup()
+    {
+        base.Setup();
+        base.movement = base.movement as AgentController;
+        m_stateMachine = new FSM
+            (
+                typeof(ChasePlayer),
+                new ChasePlayer(this, m_chasePlayer),
+                new Attack(this, m_attack)
+            );
+    }
 
-        public override void Initialize()
-        {
-            base.Initialize();
-            SetStates(m_chaseAgent.GetType(), m_chaseAgent, m_attack, new Hitpause(), new Hitstun(m_chaseAgent.GetType()));
-        }
+    public override void OnHit(int damage, Agent source)
+    {
+        base.OnHit(damage, source);
+        /*
+        GameManager.instance.events.onEnemyHit.Invoke();
+        SwitchToState<Hitpause>().Initiate(damage, Calc.ToDirection(source.flatPosition, flatPosition), out onRetract);
+        */
+    }
 
-        public override void Hit(int damage, Agent source, out System.Action onRetract)
-        {
-            GameManager.instance.events.onEnemyHit.Invoke();
-            SwitchToState<Hitpause>().Initiate(damage, Calc.ToDirection(source.flatPosition, flatPosition), out onRetract);
-        }
-
-        public override void OnDeath()
-        {
-            GameManager.instance.agents.TakeBack(m_type, this);
-        }
+    protected override void OnDeath()
+    {
+        Destroy(gameObject);
+        //GameManager.instance.agents.TakeBack(m_type, this);
     }
 }

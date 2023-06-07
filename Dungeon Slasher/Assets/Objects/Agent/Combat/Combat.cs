@@ -1,40 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Joeri.Tools.Utilities;
 
-namespace DungeonSlasher.Agents
+[System.Serializable]
+public partial class Combat
 {
-    [System.Serializable]
-    public partial class Combat
+    [Header("Properties:")]
+    [SerializeField] private Health m_health = null;
+
+    [Header("Weapons:")]
+    [SerializeField] private Weapon m_weapon;
+    [SerializeField] private LayerMask m_hitMask = new LayerMask();
+
+    public Health health { get => m_health; }
+
+    public void Setup(Agent agent)
     {
-        [SerializeField] private Weapon[] m_weapons     = null;
-        [SerializeField] private LayerMask m_hitMask    = new LayerMask();
+        m_weapon.Setup(agent, m_hitMask);
+    }
 
-        public void Tick(Collider ownCollider)
-        {
-            if (m_weapons == null || m_weapons.Length <= 0) return;
-            for (int i = 0; i < m_weapons.Length; i++) m_weapons[i].Tick(m_hitMask, ownCollider);
-        }
+    public void TickWeapon()
+    {
+        m_weapon.Tick();
+    }
 
-        public void SetWeaponState(int index, bool active)
-        {
-            if (index > 0 || index >= m_weapons.Length)
-            {
-                Debug.LogError("Requested weapon index is out of range.");
-                return;
-            }
-            m_weapons[index].SetEnabled(active);
-        }
+    public void ActivateWeapon()
+    {
+        m_weapon.Activate();
+    }
 
-        public void RetractWeapons()
-        {
-            foreach (var weapon in m_weapons) if (weapon.isActive) weapon.SetEnabled(false);
-        }
-
-        public void DrawGizmos()
-        {
-            if (m_weapons == null || m_weapons.Length <= 0) return;
-            for (int i = 0; i < m_weapons.Length; i++) m_weapons[i].DrawGizmos();
-        }
+    public void DeactivateWeapon()
+    {
+        m_weapon.Deactivate();
     }
 }

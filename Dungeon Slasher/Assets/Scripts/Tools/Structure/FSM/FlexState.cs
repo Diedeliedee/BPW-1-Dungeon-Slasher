@@ -12,20 +12,20 @@ namespace Joeri.Tools.Structure
         /// <summary>
         /// The settings of the state, as an abstract settings interface.
         /// </summary>
-        protected ISettings m_settings { get; private set; }
+        protected ISettings settings { get; private set; }
 
         /// <summary>
         /// The root class that the state machine is harbored in.
         /// </summary>
-        protected Root m_root { get; private set; }
+        protected Root root { get; private set; }
 
         /// <summary>
         /// Create a new state, and pass in the state's settings.
         /// </summary>
         public FlexState(Root root, ISettings settings)
         {
-            m_root = root;
-            m_settings = settings;
+            this.root = root;
+            this.settings = settings;
         }
 
         /// <summary>
@@ -33,8 +33,8 @@ namespace Joeri.Tools.Structure
         /// </summary>
         public FlexState(Root root)
         {
-            m_root = root;
-            m_settings = null;
+            this.root = root;
+            settings = null;
         }
 
         /// <summary>

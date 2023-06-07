@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Dodelie.Tools;
+using Joeri.Tools;
 using DungeonSlasher;
 
 public partial class PlayerCamera : MonoBehaviour

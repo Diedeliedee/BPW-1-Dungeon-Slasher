@@ -1,36 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Dodelie.Tools;
+using Joeri.Tools.Structure;
 
-namespace DungeonSlasher.Agents
+public partial class Player
 {
-    public partial class Player
+    public class FreeMove : FlexState<Player>
     {
-        [System.Serializable]
-        public class FreeMove : MovementState
+        private Settings settings { get => base.settings as Settings; }
+
+        public FreeMove(Player root, Settings settings) : base(root, settings) { }
+
+        public override void OnEnter()
         {
-            public override void Initialize(FSM<Agent> parent)
+            root.CrossFadeAnimation(settings.animation, 0.3f);
+        }
+
+        public override void OnTick(float deltaTime)
+        {
+            if (root.m_controls.slashButtonPressed)
             {
-                base.Initialize(parent);
-                SetBehaviors(new Control(PlayerControls.inputRotation));
+                SwitchToState<LeftAttack>().Setup(root.m_controls.rightInput);
+                return;
             }
 
-            public override void OnEnter()
-            {
-                CrossFadeAnimation(0.3f);
-            }
+            root.movement.ApplyInput(root.m_controls.leftInput, deltaTime);
+        }
 
-            public override void OnTick(float deltaTime)
-            {
-                if (PlayerControls.slashButtonPressed)
-                {
-                    parent.SwitchToState<LeftAttack>().InitiateAttack(Controls.rightInput);
-                    return;
-                }
-
-                TickMovement(deltaTime);
-            }
+        public class Settings : ISettings
+        {
+            public AnimationClip animation;
         }
     }
 }

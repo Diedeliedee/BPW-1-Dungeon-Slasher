@@ -35,8 +35,8 @@ namespace Joeri.Tools.Movement
 
         public CharacterController controller { get => m_controller; }
 
-        public Vector3 velocity 
-        { 
+        public Vector3 velocity
+        {
             get => new Vector3(m_horizontal.velocity.x, m_vertical.velocity, m_horizontal.velocity.y);
             set
             {
@@ -45,8 +45,8 @@ namespace Joeri.Tools.Movement
                 m_vertical.velocity = value.y;
             }
         }
-        public Vector2 flatVelocity 
-        { 
+        public Vector2 flatVelocity
+        {
             get => m_horizontal.velocity;
             set => m_horizontal.velocity = value;
         }
@@ -58,7 +58,6 @@ namespace Joeri.Tools.Movement
 
         public bool onGround { get => m_onGround; }
         public GroundInfo groundInfo { get => m_groundInfo; }
-
 
         protected Vector3 groundCheckOrigin
         {
@@ -74,25 +73,42 @@ namespace Joeri.Tools.Movement
 
         #endregion
 
+        /// <summary>
+        /// Iterates the velocity based on the passed in desired velocity.
+        /// </summary>
         public void ApplyDesiredVelocity(Vector2 desiredVelocity, float deltaTime)
         {
-            var newVelocity = Vector3.zero;
-
-            //  Calculating velocity in the horizontal class.
             m_horizontal.CalculateVelocity(desiredVelocity, grip, deltaTime);
+            m_vertical.CalculateVelocity(deltaTime);
 
-            //  Applying calculations.
-            newVelocity.x = m_horizontal.velocity.x;
-            newVelocity.z = m_horizontal.velocity.y;
+            if (flatVelocity != Vector2.zero && rotate)
+            {
+                var lookDir = Vectors.FlatToVector(flatVelocity, m_controller.transform.position.y);
 
-            //  Applying rotation, before vertical velocity gets calculated.
-            if (newVelocity != Vector3.zero && rotate) m_controller.transform.rotation = Quaternion.LookRotation(newVelocity);
+                m_controller.transform.rotation = Quaternion.LookRotation(lookDir);
+            }
 
-            //  Calculating, and applying vertical velocity.
-            newVelocity.y = m_vertical.CalculateVelocity(deltaTime);
+            ApplyVelocity(deltaTime);
+        }
 
-            //  Misc.
-            m_controller.Move(newVelocity * deltaTime);
+        /// <summary>
+        /// Iterates the velocity to stand still with passed in drag during deceleration.
+        /// </summary>
+        public void ApplyDrag(float drag, float deltaTime)
+        {
+            m_horizontal.CalculateVelocity(drag, deltaTime);
+            m_vertical.CalculateVelocity(deltaTime);
+
+            ApplyVelocity(deltaTime);
+        }
+
+        /// <summary>
+        /// Applies the velocity of the of the two acceleration classes to the character controller.
+        /// </summary>
+        /// <param name="deltaTime"></param>
+        private void ApplyVelocity(float deltaTime)
+        {
+            m_controller.Move(velocity * deltaTime);
             m_onGround = isOnGround(out GroundInfo groundInfo);
             m_groundInfo = groundInfo;
         }

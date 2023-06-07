@@ -1,30 +1,32 @@
-﻿using Dodelie.Tools;
-using UnityEngine;
+﻿using UnityEngine;
+using Joeri.Tools.Movement;
+using Joeri.Tools.Structure;
+using Joeri.Tools.Utilities;
 
-namespace DungeonSlasher.Agents
+public partial class Agent
 {
-    public partial class Agent
+    public Health health { get => m_combat.health; }
+    public MovementBase movement { get => m_movement; protected set => m_movement = value; }
+    public Combat combat { get => m_combat; }
+    public Animator animator { get => m_animator; }
+
+    public Collider collider { get => m_movement.controller; }
+
+    public Vector2 flatPosition { get => Vectors.VectorToFlat(transform.position); set => transform.position = Vectors.FlatToVector(value, transform.position.y); }
+
+    /// <summary>
+    /// Function to 'hit' the agent from outside.
+    /// </summary>
+    public virtual void OnHit(int damage, Agent source)
     {
-        public Health health { get => m_health; }
-        public Movement movement { get => m_movement; }
-        public Combat combat { get => m_combat; }
-        public Animator animator { get => m_animator; }
+        m_combat.health.AddHealth(-damage);
+    }
 
-        public Collider collider { get => m_movement.collider; }
-
-        public Vector2 flatPosition { get => new Vector2(transform.position.x, transform.position.z); set => transform.position = new Vector3(value.x, transform.position.y, value.y); }
-
-        /// <summary>
-        /// Function to 'hit' the agent from outside.
-        /// </summary>
-        public abstract void Hit(int damage, Agent source, out System.Action onRetract);
-
-        /// <summary>
-        /// Public accessibility function to switch to another state the agent possesses from outside.
-        /// </summary>
-        public State SwitchToState<State>() where State : State<Agent>
-        {
-            return m_stateMachine.SwitchToState<State>();
-        }
+    /// <summary>
+    /// Public accessibility function to switch to another state the agent possesses from outside.
+    /// </summary>
+    public T SwitchToState<T>() where T : State
+    {
+        return m_stateMachine.SwitchToState<T>();
     }
 }

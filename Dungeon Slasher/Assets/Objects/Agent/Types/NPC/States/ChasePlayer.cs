@@ -1,51 +1,50 @@
-﻿using Dodelie.Tools;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using Joeri.Tools.Structure;
+using Joeri.Tools.Utilities;
+using Joeri.Tools.Debugging;
+using Joeri.Tools.Movement;
 
-namespace DungeonSlasher.Agents
+public partial class NPC
 {
-    public partial class NPC
+    public class ChasePlayer : FlexState<NPC>
     {
-        [System.Serializable]
-        public class ChasePlayer : MovementState
+        public Settings settings { get => base.settings as Settings; }
+
+        public ChasePlayer(NPC root, Settings settings) : base(root, settings) { }
+
+        public void Setup()
         {
-            [Space]
-            [SerializeField] private float m_lookAheadTime = 0.5f;
-            [SerializeField] private float m_attackDistance = 1.5f;
-            
-            private Transform m_target = null;
+            root.movement.SetBehaviors(new Pursue(settings.lookAheadTime, root.m_player.transform));
+        }
 
-            public override void Initialize(FSM<Agent> parent)
+        public override void OnTick(float deltaTime)
+        {
+            var targetPosition = Vectors.VectorToFlat(root.m_player.transform.position);
+
+            if ((targetPosition - root.flatPosition).sqrMagnitude < settings.sqrAttackDistance)
             {
-                base.Initialize(parent);
-
-                m_target = GameManager.instance.agents.player.transform;
-
-                SetBehaviors(new Pursue(m_lookAheadTime, m_target));
+                SwitchToState<Attack>().Setup(targetPosition - root.flatPosition);
+                return;
             }
 
-            public override void OnTick(float deltaTime)
-            {
-                var targetPosition = Calc.VectorToFlat(m_target.position);
+            root.movement.ApplyBehaviorVelocity(deltaTime);
+        }
 
-                if (Vector2.Distance(root.flatPosition, targetPosition) < m_attackDistance)
-                {
-                    SwitchToState<Attack>().InitiateAttack(targetPosition - root.flatPosition);
-                    return;
-                }
+        public override void OnDrawGizmos()
+        {
+            base.OnDrawGizmos();
 
-                TickMovement(deltaTime);
-            }
+            GizmoTools.DrawOutlinedDisc(root.transform.position, Mathf.Pow(settings.sqrAttackDistance, 2), Color.red, Color.white, 0.15f);
+        }
 
-            public override void OnDrawGizmos()
-            {
-                base.OnDrawGizmos();
-
-                GizmoTools.DrawOutlinedDisc(root.transform.position, m_attackDistance, Color.red, Color.white, 0.15f);
-            }
+        public class Settings : ISettings
+        {
+            public float lookAheadTime = 0.5f;
+            public float sqrAttackDistance = 1.5f;
         }
     }
 }

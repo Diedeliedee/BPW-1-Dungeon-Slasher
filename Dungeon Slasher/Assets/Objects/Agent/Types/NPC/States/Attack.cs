@@ -4,17 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DungeonSlasher.Agents
+public partial class NPC
 {
-    public partial class NPC
+    public class Attack : AttackState<NPC>
     {
-        [System.Serializable]
-        public class Attack : AttackState
+        public Attack(NPC root, Settings settings) : base(root, settings) { }
+
+        protected override void ToFinish()
         {
-            protected override void ToFinish()
-            {
-                SwitchToState<ChasePlayer>();
-            }
+            SwitchToState(typeof(ChasePlayer));
         }
     }
 }

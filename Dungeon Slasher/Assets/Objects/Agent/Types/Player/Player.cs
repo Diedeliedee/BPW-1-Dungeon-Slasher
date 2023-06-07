@@ -1,42 +1,49 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Dodelie.Tools;
+using Joeri.Tools.Movement;
+using Joeri.Tools.Structure;
 
-namespace DungeonSlasher.Agents
+public partial class Player : Agent
 {
-    public partial class Player : Agent
+    [Header("Player States:")]
+    [SerializeField] private FreeMove.Settings m_freeMove = null;
+    [SerializeField] private LeftAttack.Settings m_leftAttack = null;
+    [SerializeField] private RightAttack.Settings m_rightAttack = null;
+
+    private Controls m_controls = new Controls();
+
+    public PlayerController movement { get => base.movement as PlayerController; }
+
+    public override void Setup()
     {
-        [Header("Player States:")]
-        [SerializeField] private FreeMove m_freeMove        = null;
-        [SerializeField] private LeftAttack m_leftAttack    = null;
-        [SerializeField] private RightAttack m_rightAttack  = null;
+        base.Setup();
+        m_stateMachine = new FSM
+            (
+                typeof(FreeMove),
+                new FreeMove(this, m_freeMove),
+                new LeftAttack(this, m_leftAttack),
+                new RightAttack(this, m_rightAttack)
+            );
+    }
 
-        public override void Initialize()
-        {
-            base.Initialize();
+    public override void Tick(float deltaTime)
+    {
+        m_controls.CheckInput(transform.position);
+        base.Tick(deltaTime);
+    }
 
-            SetStates(m_freeMove.GetType(), m_freeMove, m_leftAttack, m_rightAttack, new Hitstun(m_freeMove.GetType()));
-        }
+    public override void OnHit(int damage, Agent source)
+    {
+        base.OnHit(damage, source);
+        /*
+        GameManager.instance.events.onPlayerHit.Invoke();
+        SwitchToState<Hitstun>().Initiate(damage, Calc.ToDirection(source.flatPosition, flatPosition));
+        */
+    }
 
-        public override void Tick(float deltaTime)
-        {
-            PlayerControls.CheckInput(transform.position);
-
-            base.Tick(deltaTime);
-        }
-
-        public override void Hit(int damage, Agent source, out System.Action onRetract)
-        {
-            onRetract = null;
-
-            GameManager.instance.events.onPlayerHit.Invoke();
-            SwitchToState<Hitstun>().Initiate(damage, Calc.ToDirection(source.flatPosition, flatPosition));
-        }
-
-        public override void OnDeath()
-        {
-
-        }
+    protected override void OnDeath()
+    {
+        
     }
 }
