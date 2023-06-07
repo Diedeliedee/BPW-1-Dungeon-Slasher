@@ -52,11 +52,13 @@ public class Weapon : MonoBehaviour
     public void Activate()
     {
         m_overlapper.Activate(Hit, null);
+        if (m_trail != null) m_trail.enabled = true;
     }
 
     public void Deactivate()
     {
         m_overlapper.Deactivate();
+        if (m_trail != null) m_trail.enabled = false;
     }
 
     public void OnDrawGizmos()

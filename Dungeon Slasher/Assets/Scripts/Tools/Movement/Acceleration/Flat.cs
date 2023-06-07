@@ -44,7 +44,8 @@ namespace Joeri.Tools.Movement
             /// </summary>
             public Vector2 CalculateVelocity(float drag, float deltaTime)
             {
-                return Vector2.ClampMagnitude(velocity, velocity.magnitude - drag * deltaTime);
+                velocity = Vector2.ClampMagnitude(velocity, velocity.magnitude - drag * deltaTime);
+                return velocity;
             }
 
             /// <summary>

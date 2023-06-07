@@ -38,7 +38,7 @@ public partial class Agent
             m_startRotation = root.transform.rotation;
             m_endRotation = Quaternion.LookRotation(Vectors.FlatToVector(m_attackDirection, root.transform.position.y));
 
-            m_brakeDrag = root.m_movement.velocity.magnitude / settings.attackMark;
+            m_brakeDrag = root.m_movement.flatVelocity.magnitude / settings.attackMark;
             m_attackDrag = (settings.attackSpeed - followThroughSpeed) / (settings.followThroughMark - settings.attackMark);
             m_followThroughDrag = followThroughSpeed / (settings.recoverMark - settings.followThroughMark);
 
