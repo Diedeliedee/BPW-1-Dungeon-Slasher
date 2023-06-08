@@ -229,7 +229,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_spawning:
-    npcToSpawn: {fileID: 1041467746458205087, guid: 13378c90ca3d65643bf6364226233133,
+    npcToSpawn: {fileID: 4781838140813168738, guid: 548a20403f7b32f47919bb014ecafc2f,
       type: 3}
     m_entitiesTransform: {fileID: 7624184115635564972}
   m_player: {fileID: 8729985700086069831}

@@ -13,11 +13,11 @@ public partial class AgentManager
         [SerializeField] private GameObject npcToSpawn;
         [SerializeField] private Transform m_entitiesTransform;
 
-        public NPC SpawnEnemy(Vector3 pos, Vector2 lookDir, ref List<NPC> listToAddTo)
+        public Enemy SpawnEnemy(Vector3 pos, Vector2 lookDir, ref List<Enemy> listToAddTo)
         {
             var angle = Vectors.VectorToAngle(lookDir);
             var rotation = Quaternion.Euler(0f, angle, 0f);
-            var spawnedObject = Object.Instantiate(npcToSpawn, pos, rotation, m_entitiesTransform).GetComponent<NPC>();
+            var spawnedObject = Object.Instantiate(npcToSpawn, pos, rotation, m_entitiesTransform).GetComponent<Enemy>();
 
             return spawnedObject;
         }

@@ -11,7 +11,7 @@ public partial class AgentManager : MonoBehaviour
     [SerializeField] private Player m_player;
 
 
-    private List<NPC> m_enemies = new List<NPC>();
+    private List<Enemy> m_enemies = new List<Enemy>();
 
     public Player player { get => m_player; }
 
@@ -34,7 +34,7 @@ public partial class AgentManager : MonoBehaviour
         }
     }
 
-    public NPC SpawnEnemy(Vector3 pos, Vector2 lookDir)
+    public Enemy SpawnEnemy(Vector3 pos, Vector2 lookDir)
     {
         var spawnedEnemy = m_spawning.SpawnEnemy(pos, lookDir, ref m_enemies);
 
@@ -45,7 +45,7 @@ public partial class AgentManager : MonoBehaviour
         return spawnedEnemy;
     }
 
-    public void DespawnEnemy(NPC enemy)
+    public void DespawnEnemy(Enemy enemy)
     {
         m_enemies.Remove(enemy);
         Destroy(enemy.gameObject);

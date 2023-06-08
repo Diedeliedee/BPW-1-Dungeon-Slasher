@@ -10,6 +10,8 @@ public class GameManager : Singleton<GameManager>
     [Space]
     public EventManager events = null;
 
+    private TimeManager m_timeManager = new TimeManager();
+
     private void Awake()
     {
         instance = this;
@@ -25,19 +27,14 @@ public class GameManager : Singleton<GameManager>
 
     private void Update()
     {
+        m_timeManager.Tick(Time.unscaledDeltaTime);
+
         agents.Tick(Time.deltaTime);
         camera.Tick(Time.unscaledDeltaTime);
     }
 
     private void HitPause()
     {
-        Time.timeScale = 0.1f;
-
-        void OnFinish()
-        {
-            Time.timeScale = 1f;
-        }
-
-        StartCoroutine(CommonRoutines.WaitForSecondsRealtime(0.1f, OnFinish));
+        m_timeManager.StartHitPause(0.075f, 0.15f);
     }
 }
