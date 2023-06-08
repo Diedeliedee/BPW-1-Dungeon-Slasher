@@ -48,6 +48,6 @@ public partial class AgentManager : MonoBehaviour
     public void DespawnEnemy(NPC enemy)
     {
         m_enemies.Remove(enemy);
-        Destroy(enemy);
+        Destroy(enemy.gameObject);
     }
 }
