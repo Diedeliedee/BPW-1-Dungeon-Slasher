@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Shade
   m_EditorClassIdentifier: 
   m_type: 0
-  m_prefab: {fileID: 0}
-  m_indicatorRadius: 0.3
-  m_indicatorColor: {r: 0, g: 0, b: 0, a: 0}
+  m_prefab: {fileID: 4781838140813168738, guid: 548a20403f7b32f47919bb014ecafc2f,
+    type: 3}
+  m_indicatorRadius: 0.5
+  m_indicatorColor: {r: 1, g: 0.9081436, b: 0.023584902, a: 0}

@@ -14,7 +14,7 @@ public class EnemySpawner : MonoBehaviour
 
     private Enemy m_spawnedEnemy = null;
 
-    private void Start()
+    public void Setup()
     {
         if (m_spawnOnStart)
         {

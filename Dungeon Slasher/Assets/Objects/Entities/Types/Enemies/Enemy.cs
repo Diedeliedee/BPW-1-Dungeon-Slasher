@@ -4,7 +4,7 @@ using UnityEngine;
 using Joeri.Tools.Structure;
 using Joeri.Tools.Movement;
 
-public abstract partial class Enemy : Entity
+public abstract partial class Enemy : Entity, IPoolItem
 {
     [Header("General:")]
     [SerializeField] private Type m_type;
@@ -25,15 +25,21 @@ public abstract partial class Enemy : Entity
 
     #endregion
 
-    protected override void OnEnable()
+    public virtual void OnCreate()
     {
-        base.OnEnable();
+        Setup();
+    }
+
+    public virtual void OnSpawn()
+    {
+        m_combat.health.SetHealth(m_combat.health.maxHealth);
         m_movement = new AgentController(gameObject, m_movementSettings);
     }
 
-    protected override void OnDisable()
+    public virtual void OnDespawn()
     {
-        base.OnDisable();
+        m_combat.DeactivateWeapon();
+        m_stateMachine = null;
         m_movement = null;
 
         onDespawn?.Invoke();
@@ -42,10 +48,10 @@ public abstract partial class Enemy : Entity
 
     public override void OnHit(int damage, Entity source)
     {
-        base.OnHit(damage, source);
-
-        SwitchToState<Hitstun>();
         GameManager.instance.events.onEnemyHit.Invoke();
+        SwitchToState<Hitstun>();
+        
+       base.OnHit(damage, source);
         
         //SwitchToState<Hitpause>().Initiate(damage, Calc.ToDirection(source.flatPosition, flatPosition), out onRetract);
     }

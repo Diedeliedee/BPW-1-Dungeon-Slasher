@@ -9,6 +9,8 @@ public class GameManager : Singleton<GameManager>
     public PlayerCamera camera = null;
     [Space]
     public EventManager events = null;
+    [Space]
+    public EnvironmentManager level = null;
 
     private TimeManager m_timeManager = new TimeManager();
 
@@ -19,7 +21,15 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
+        agents.Setup();
         camera.Setup();
+
+        if (level == null)
+        {
+            Debug.LogError("No environment manager found in the game manager. Be sure to reference the environment script!");
+            return;
+        }
+        level.Setup();
 
         events.onEnemyHit.AddListener(HitPause);
     }
@@ -30,6 +40,8 @@ public class GameManager : Singleton<GameManager>
 
         agents.Tick(Time.deltaTime);
         camera.Tick(Time.unscaledDeltaTime);
+
+        level.Tick(Time.deltaTime);
     }
 
     private void HitPause()

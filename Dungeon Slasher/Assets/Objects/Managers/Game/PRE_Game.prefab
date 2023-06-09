@@ -59,6 +59,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7624184115635564972}
+  - component: {fileID: 1694377109461652970}
   m_Layer: 0
   m_Name: Enemies
   m_TagString: Untagged
@@ -81,6 +82,20 @@ Transform:
   m_Father: {fileID: 7274535442689047223}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1694377109461652970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3289233958748974036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff7d49454299a524fbea5a4fc86828c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_concepts:
+  - {fileID: 11400000, guid: 7c09a4d6e67ddc64faa46689ea8223c1, type: 2}
 --- !u!1 &5695142328579997440
 GameObject:
   m_ObjectHideFlags: 0
@@ -182,6 +197,7 @@ MonoBehaviour:
   agents: {fileID: 8188030697805460530}
   camera: {fileID: 3084182242255891605}
   events: {fileID: 4435642208077466500}
+  level: {fileID: 0}
 --- !u!1 &7274535442689047220
 GameObject:
   m_ObjectHideFlags: 0
@@ -228,11 +244,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59ff5c85f3da47c45a04a67978becba6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_spawning:
-    npcToSpawn: {fileID: 4781838140813168738, guid: 548a20403f7b32f47919bb014ecafc2f,
-      type: 3}
-    m_entitiesTransform: {fileID: 7624184115635564972}
   m_player: {fileID: 8729985700086069831}
+  m_enemyPools: {fileID: 1694377109461652970}
 --- !u!1001 &7274535441249299940
 PrefabInstance:
   m_ObjectHideFlags: 0

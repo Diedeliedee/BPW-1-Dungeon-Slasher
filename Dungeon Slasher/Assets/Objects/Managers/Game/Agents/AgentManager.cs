@@ -12,6 +12,12 @@ public partial class AgentManager : MonoBehaviour
 
     public Player player { get => m_player; }
 
+    public void Setup()
+    {
+        m_player.Setup();
+        m_enemyPools.Setup();
+    }
+
     public void Tick(float deltaTime)
     {
         m_player.Tick(deltaTime);
