@@ -15,12 +15,14 @@ public partial class Entity
         m_combat.health.AddHealth(-damage);
     }
 
-    /// <summary>
-    /// Public accessibility function to switch to another state the agent possesses from outside.
-    /// </summary>
     public T SwitchToState<T>() where T : State
     {
         return m_stateMachine.SwitchToState<T>();
+    }
+
+    public State SwitchToState(System.Type state)
+    {
+        return m_stateMachine.SwitchToState(state);
     }
 
     public T GetMovement<T>() where T : MovementBase

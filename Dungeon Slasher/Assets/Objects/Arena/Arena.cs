@@ -5,7 +5,6 @@ using Joeri.Tools;
 
 public class Arena : MonoBehaviour
 {
-    /*
     [Header("Properties:")]
     [SerializeField] private float m_minSpawnTime = 1f;
     [SerializeField] private float m_maxSpawnTime = 1f;
@@ -14,12 +13,13 @@ public class Arena : MonoBehaviour
     [Header("Reference")]
     [SerializeField] private ArenaActivator[] m_activators;
     [SerializeField] private Blockade[] m_blockades;
-    [SerializeField] private Transform[] m_spawnPoints;
+    [SerializeField] private EnemySpawner[] m_spawnPoints;
 
     private Timer m_spawnTimer = null;
     private State m_state = State.Dormant;
+    private int m_spawnedEnemies = 0;
 
-    private void Start()
+    public void Setup()
     {
         foreach (var activator in m_activators) activator.Setup(StartFight);
         foreach (var blockade in m_blockades) blockade.Setup();
@@ -30,18 +30,38 @@ public class Arena : MonoBehaviour
         foreach (var blockade in m_blockades) blockade.Rise();
 
         m_spawnTimer = new Timer(Random.Range(m_minSpawnTime, m_maxSpawnTime));
-        m_state = State.Acitve;
+        m_state = State.Active;
     }
 
-    private void Update()
+    public void Tick(float deltaTime)
     {
-        var deltaTime = Time.deltaTime;
+        //  Return if the arena isn't active.
+        if (m_state != State.Active) return;
 
-        if (m_state != State.Acitve) return;
+        //  Return if it's not the time to take action yet.
         if (!m_spawnTimer.HasReached(deltaTime)) return;
 
-        GameManager.instance.agents.SpawnEnemy(GetRandomSpawnPoint(), Vector2.down);
+        //  Only spawn an enemy if a spawnpoint is available.
+        //  Caution: There is a better way to manage this, but for now this is fine.
+        EnemySpawner spawner = null;
+        for (int i = 0; i < m_spawnPoints.Length; i++)
+        {
+            if (m_spawnPoints[i].occupied) continue;
+            spawner = m_spawnPoints[i];
+        }
+        if (spawner == null) return;
+
+        //  Spawn the enemy.
+        spawner.Spawn();
         m_spawnTimer.Reset(Random.Range(m_minSpawnTime, m_maxSpawnTime));
+        m_spawnedEnemies++;
+
+        //  If this is the last enemy to be spawned, pend for the end of the fight.
+        if (m_spawnedEnemies >= m_maxEnemies)
+        {
+            m_state = State.Pending;
+            spawner.onEnemyDespawned += FinishFight;
+        }
     }
 
     private void FinishFight()
@@ -50,11 +70,5 @@ public class Arena : MonoBehaviour
         m_state = State.Beaten;
     }
 
-    private Vector3 GetRandomSpawnPoint()
-    {
-        return m_spawnPoints[Random.Range(0, m_spawnPoints.Length)].position;
-    }
-
-    public enum State { Dormant, Acitve, Beaten }
-    */
+    public enum State { Dormant, Active, Pending, Beaten }
 }

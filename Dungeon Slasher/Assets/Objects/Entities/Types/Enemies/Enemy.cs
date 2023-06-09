@@ -28,40 +28,35 @@ public abstract partial class Enemy : Entity, IPoolItem
     public virtual void OnCreate()
     {
         Setup();
+        m_movement = new AgentController(gameObject, m_movementSettings);
     }
 
     public virtual void OnSpawn()
     {
         m_combat.health.SetHealth(m_combat.health.maxHealth);
-        m_movement = new AgentController(gameObject, m_movementSettings);
-    }
-
-    public virtual void OnDespawn()
-    {
-        m_combat.DeactivateWeapon();
-        m_stateMachine = null;
-        m_movement = null;
-
-        onDespawn?.Invoke();
-        onDespawn = null;
     }
 
     public override void OnHit(int damage, Entity source)
     {
         GameManager.instance.events.onEnemyHit.Invoke();
-        SwitchToState<Hitstun>();
-        
-       base.OnHit(damage, source);
-        
-        //SwitchToState<Hitpause>().Initiate(damage, Calc.ToDirection(source.flatPosition, flatPosition), out onRetract);
+        SwitchToState(typeof(Hitstun));
+
+        base.OnHit(damage, source);
     }
 
     protected override void OnDeath()
     {
-        //  Call to death state?
-        //  For now, despawn.
+        SwitchToState(typeof(Death));
+        base.OnDeath();
+    }
 
-        GameManager.instance.agents.DespawnEnemy(this);
+    public virtual void OnDespawn()
+    {
+        m_combat.DeactivateWeapon();
+        m_movement.velocity = Vector3.zero;
+
+        onDespawn?.Invoke();
+        onDespawn = null;
     }
 
     public enum Type

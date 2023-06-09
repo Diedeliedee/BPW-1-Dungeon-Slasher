@@ -422,10 +422,13 @@ MonoBehaviour:
     movementMask:
       serializedVersion: 2
       m_Bits: 0
+  m_type: 0
+  m_spawning:
+    animation: {fileID: 7400000, guid: 2a94fffcfda1e95498b6972b1115ccf3, type: 2}
   m_chase:
     animation: {fileID: 7400000, guid: aff9b274bd3ae184d876edd5074b4435, type: 2}
     lookAheadTime: 0.25
-    sqrAttackDistance: 1.5
+    sqrAttackDistance: 2
   m_attack:
     animation: {fileID: 7400000, guid: 743fcd515d3f0ba4d8e0c7d31cea39b8, type: 2}
     attackMark: 1
@@ -435,6 +438,9 @@ MonoBehaviour:
     attackSpeed: 10
     followThroughPercent: 0.1
   m_hitStun:
-    animation: {fileID: 0}
-    magnitude: 0.35
-    duration: 0.15
+    magnitude: 0.15
+    duration: 0.25
+  m_death:
+    animation: {fileID: 7400000, guid: e0f3b1ce607b2bb41b68eadadebada1c, type: 2}
+    magnitude: 0.15
+    duration: 0.5

@@ -12,7 +12,12 @@ public class EnemySpawner : MonoBehaviour
     [Space]
     [SerializeField] private bool m_spawnOnStart = false;
 
+    public System.Action onEnemySpawned = null;
+    public System.Action onEnemyDespawned = null;
+
     private Enemy m_spawnedEnemy = null;
+
+    public bool occupied { get => m_spawnedEnemy != null; }
 
     public void Setup()
     {
@@ -24,18 +29,21 @@ public class EnemySpawner : MonoBehaviour
 
     public void Spawn()
     {
-        if (m_spawnedEnemy != null)
-        {
-            return;
-        }
+        if (occupied) return;
 
         m_spawnedEnemy = GameManager.instance.agents.SpawnEnemy(m_concept.type, transform.position, Vectors.VectorToFlat(transform.forward));
         m_spawnedEnemy.onDespawn += OnDespawn;
+
+        onEnemySpawned?.Invoke();
+        onEnemySpawned = null;
     }
 
     private void OnDespawn()
     {
         m_spawnedEnemy = null;
+
+        onEnemyDespawned?.Invoke();
+        onEnemyDespawned = null;
     }
 
     private void OnDrawGizmosSelected()
