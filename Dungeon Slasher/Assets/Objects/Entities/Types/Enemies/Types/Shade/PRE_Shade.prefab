@@ -434,3 +434,7 @@ MonoBehaviour:
     endMark: 2
     attackSpeed: 10
     followThroughPercent: 0.1
+  m_hitStun:
+    animation: {fileID: 0}
+    magnitude: 0.35
+    duration: 0.15

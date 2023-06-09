@@ -35,6 +35,6 @@ public class GameManager : Singleton<GameManager>
 
     private void HitPause()
     {
-        m_timeManager.StartHitPause(0.075f, 0.15f);
+        m_timeManager.StartHitPause(0.0625f, 0.25f);
     }
 }

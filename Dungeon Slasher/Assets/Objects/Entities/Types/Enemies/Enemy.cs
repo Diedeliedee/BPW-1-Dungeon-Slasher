@@ -24,7 +24,8 @@ public abstract partial class Enemy : Entity
     public override void OnHit(int damage, Entity source)
     {
         base.OnHit(damage, source);
-        
+
+        SwitchToState<Hitstun>();
         GameManager.instance.events.onEnemyHit.Invoke();
         
         //SwitchToState<Hitpause>().Initiate(damage, Calc.ToDirection(source.flatPosition, flatPosition), out onRetract);

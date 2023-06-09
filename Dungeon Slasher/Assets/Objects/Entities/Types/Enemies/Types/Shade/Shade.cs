@@ -9,6 +9,7 @@ public partial class Shade : Enemy
     [Header("States:")]
     [SerializeField] private ChasePlayer.Settings m_chase;
     [SerializeField] private Attack.Settings m_attack;
+    [SerializeField] private Hitstun.Settings m_hitStun;
 
     public override void Setup()
     {
@@ -17,7 +18,8 @@ public partial class Shade : Enemy
             (
                 typeof(ChasePlayer),
                 new ChasePlayer(this, m_chase),
-                new Attack(this, m_attack)
+                new Attack(this, m_attack),
+                new Hitstun(this, m_hitStun)
             );
     }
 }
