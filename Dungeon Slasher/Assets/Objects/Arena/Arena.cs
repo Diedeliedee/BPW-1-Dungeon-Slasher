@@ -5,6 +5,7 @@ using Joeri.Tools;
 
 public class Arena : MonoBehaviour
 {
+    /*
     [Header("Properties:")]
     [SerializeField] private float m_minSpawnTime = 1f;
     [SerializeField] private float m_maxSpawnTime = 1f;
@@ -55,4 +56,5 @@ public class Arena : MonoBehaviour
     }
 
     public enum State { Dormant, Acitve, Beaten }
+    */
 }

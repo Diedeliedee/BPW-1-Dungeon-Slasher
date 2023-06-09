@@ -11,9 +11,9 @@ public partial class Shade : Enemy
     [SerializeField] private Attack.Settings m_attack;
     [SerializeField] private Hitstun.Settings m_hitStun;
 
-    public override void Setup()
+    protected override void OnEnable()
     {
-        base.Setup();
+        base.OnEnable();
         m_stateMachine = new FSM
             (
                 typeof(ChasePlayer),

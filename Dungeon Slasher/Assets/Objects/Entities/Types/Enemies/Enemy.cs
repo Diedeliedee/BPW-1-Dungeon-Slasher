@@ -6,19 +6,38 @@ using Joeri.Tools.Movement;
 
 public abstract partial class Enemy : Entity
 {
-    private Player m_player = null;
+    [Header("General:")]
+    [SerializeField] private Type m_type;
 
+    #region Properties:
+
+    //  Properties:
+    public Type type { get => m_type; }
+
+    //  Events:
+    public System.Action onDespawn { get; set; }
+
+    //  Reference:
     protected AgentController movement { get => GetMovement<AgentController>(); }
 
-    public void AssignPlayer(Player player)
+    //  Utilities:
+    private Player player { get => GameManager.instance.agents.player; }
+
+    #endregion
+
+    protected override void OnEnable()
     {
-        m_player = player;
+        base.OnEnable();
+        m_movement = new AgentController(gameObject, m_movementSettings);
     }
 
-    public override void Setup()
+    protected override void OnDisable()
     {
-        base.Setup();
-        m_movement = new AgentController(gameObject, m_movementSettings);
+        base.OnDisable();
+        m_movement = null;
+
+        onDespawn?.Invoke();
+        onDespawn = null;
     }
 
     public override void OnHit(int damage, Entity source)
@@ -33,6 +52,14 @@ public abstract partial class Enemy : Entity
 
     protected override void OnDeath()
     {
+        //  Call to death state?
+        //  For now, despawn.
+
         GameManager.instance.agents.DespawnEnemy(this);
+    }
+
+    public enum Type
+    {
+        Shade
     }
 }

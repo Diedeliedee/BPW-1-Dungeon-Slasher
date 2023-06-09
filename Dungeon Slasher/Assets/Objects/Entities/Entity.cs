@@ -20,12 +20,24 @@ public abstract partial class Entity : MonoBehaviour
     //  Reference:
     protected Animator m_animator;
 
-    public virtual void Setup()
+    protected virtual void Start()
     {
         m_animator = GetComponent<Animator>();
 
         m_combat.Setup(this);
         m_combat.health.onDeath += OnDeath;
+    }
+
+    protected virtual void OnEnable()
+    {
+        m_combat.health.SetHealth(m_combat.health.maxHealth);
+    }
+
+    protected virtual void OnDisable()
+    {
+        m_combat.health.SetHealth(0);
+        m_combat.DeactivateWeapon();
+        m_stateMachine = null;
     }
 
     public virtual void Tick(float deltaTime)
@@ -39,7 +51,10 @@ public abstract partial class Entity : MonoBehaviour
         m_animator.CrossFadeInFixedTime(clip.name, seconds);
     }
 
-    protected abstract void OnDeath();
+    protected virtual void OnDeath()
+    {
+        
+    }
 
     private void OnDrawGizmosSelected()
     {

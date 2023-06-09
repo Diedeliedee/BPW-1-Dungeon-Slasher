@@ -18,13 +18,13 @@ public partial class Enemy
 
         public override void OnEnter()
         {
-            root.movement.SetBehaviors(new Pursue(settings.lookAheadTime, root.m_player.transform));
+            root.movement.SetBehaviors(new Pursue(settings.lookAheadTime, root.player.transform));
             root.CrossFadeAnimation(settings.animation, 0.55f);
         }
 
         public override void OnTick(float deltaTime)
         {
-            var targetPosition = Vectors.VectorToFlat(root.m_player.transform.position);
+            var targetPosition = Vectors.VectorToFlat(root.player.transform.position);
 
             if ((targetPosition - root.flatPosition).sqrMagnitude < settings.sqrAttackDistance)
             {

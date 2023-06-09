@@ -15,9 +15,9 @@ public partial class Player : Entity
 
     public PlayerController movement { get => GetMovement<PlayerController>(); }
 
-    public override void Setup()
+    protected override void OnEnable()
     {
-        base.Setup();
+        base.OnEnable();
         m_movement = new PlayerController(gameObject, m_movementSettings);
         m_stateMachine = new FSM
             (
@@ -26,6 +26,13 @@ public partial class Player : Entity
                 new LeftAttack(this, m_leftAttack),
                 new RightAttack(this, m_rightAttack)
             );
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        m_movement = null;
+        m_stateMachine = null;
     }
 
     public override void Tick(float deltaTime)
@@ -41,10 +48,5 @@ public partial class Player : Entity
         GameManager.instance.events.onPlayerHit.Invoke();
         SwitchToState<Hitstun>().Initiate(damage, Calc.ToDirection(source.flatPosition, flatPosition));
         */
-    }
-
-    protected override void OnDeath()
-    {
-        
     }
 }
