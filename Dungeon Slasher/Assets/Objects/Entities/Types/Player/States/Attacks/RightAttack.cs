@@ -17,11 +17,6 @@ public partial class Player
 
             var input = m_buffer.input;
 
-            if (BackwardAttack())
-            {
-                SwitchToState<RightAttack>().Setup(input);
-                return;
-            }
             SwitchToState<LeftAttack>().Setup(input);
         }
     }
