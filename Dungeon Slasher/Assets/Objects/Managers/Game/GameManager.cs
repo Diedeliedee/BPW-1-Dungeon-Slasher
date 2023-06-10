@@ -31,7 +31,7 @@ public class GameManager : Singleton<GameManager>
         }
         level.Setup();
 
-        events.onEnemyHit.AddListener(HitPause);
+        events.onEnemyHit.AddListener(EnemyHitPause);
     }
 
     private void Update()
@@ -44,8 +44,8 @@ public class GameManager : Singleton<GameManager>
         level.Tick(Time.deltaTime);
     }
 
-    private void HitPause()
+    private void EnemyHitPause()
     {
-        m_timeManager.StartHitPause(0.0625f, 0.25f);
+        m_timeManager.StartHitPause(0.065f, 0f);
     }
 }

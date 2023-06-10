@@ -37,9 +37,7 @@ public partial class Player : Entity
     public override void OnHit(int damage, Entity source)
     {
         base.OnHit(damage, source);
-        /*
+
         GameManager.instance.events.onPlayerHit.Invoke();
-        SwitchToState<Hitstun>().Initiate(damage, Calc.ToDirection(source.flatPosition, flatPosition));
-        */
     }
 }

@@ -6,9 +6,8 @@ using Joeri.Tools;
 public partial class PlayerCamera : MonoBehaviour
 {
     [Header("Camera Shake Options:")]
-    [SerializeField] private float m_mildMagnitude  = 0.25f;
-    [SerializeField] private float m_bigMagnitude   = 1f;
-    [SerializeField] private float m_recovery       = 0.1f;
+    [SerializeField] private ShakeInstance m_enemyHitShake;
+    [SerializeField] private ShakeInstance m_playerHitShake;
 
     [Header("Reference")]
     [SerializeField] private Transform m_camera     = null;
@@ -17,8 +16,8 @@ public partial class PlayerCamera : MonoBehaviour
 
     public void Setup()
     {
-        m_cameraShake = new ShakeInstancer(m_camera.localPosition, 0f, 60f, m_recovery);
-        //GameManager.instance.events.onEnemyHit.AddListener(MildShake);
+        m_cameraShake = new ShakeInstancer(m_camera.localPosition, 0f, 60f, 0f);
+        GameManager.instance.events.onEnemyHit.AddListener(MildShake);
         GameManager.instance.events.onPlayerHit.AddListener(BigShake);
 
         SetOffset();
@@ -32,13 +31,24 @@ public partial class PlayerCamera : MonoBehaviour
 
     private void MildShake()
     {
-        m_cameraShake.magnitude = m_mildMagnitude;
-        m_cameraShake.smoothening = 0.05f;
+        m_enemyHitShake.Activate(this);
     }
 
     private void BigShake()
     {
-        m_cameraShake.magnitude = m_bigMagnitude;
-        m_cameraShake.smoothening = 0.1f;
+        m_playerHitShake.Activate(this);
+    }
+
+    [System.Serializable]
+    public class ShakeInstance
+    {
+        public float magnitude;
+        public float duration;
+
+        public void Activate(PlayerCamera root)
+        {
+            root.m_cameraShake.smoothening = duration;
+            root.m_cameraShake.magnitude = magnitude;
+        }
     }
 }

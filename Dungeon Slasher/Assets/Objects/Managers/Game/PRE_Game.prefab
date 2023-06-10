@@ -141,9 +141,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37e3827ee3d932d43b9750706404dc66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_mildMagnitude: 0.1
-  m_bigMagnitude: 0.25
-  m_recovery: 0.15
+  m_enemyHitShake:
+    magnitude: 0.1
+    duration: 0.065
+  m_playerHitShake:
+    magnitude: 0.3
+    duration: 0
   m_camera: {fileID: 7550902852076738741}
   m_target: {fileID: 8729985700086069830}
   m_followTime: 0.025
