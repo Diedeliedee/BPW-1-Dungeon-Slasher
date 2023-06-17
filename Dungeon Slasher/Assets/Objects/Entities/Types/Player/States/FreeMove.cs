@@ -26,6 +26,7 @@ public partial class Player
             }
 
             root.movement.ApplyInput(root.m_controls.leftInput, deltaTime);
+            root.movement.RotateToDir(root.m_controls.rightInputWorldDir, deltaTime);
         }
 
         [System.Serializable]

@@ -58,11 +58,18 @@ public class Weapon : MonoBehaviour
     public void Activate()
     {
         m_overlapper.Activate(Hit, null);
-        if (m_trail != null) m_trail.enabled = true;
 
-        if (m_sound == null) return;
-        m_sound.pitch = m_basePitch + Random.Range(-m_pitchRandomness, m_pitchRandomness);
-        m_sound.Play();
+        if (m_trail != null)
+        {
+            m_trail.Clear();
+            m_trail.enabled = true;
+        }
+
+        if (m_sound != null)
+        {
+            m_sound.pitch = m_basePitch + Random.Range(-m_pitchRandomness, m_pitchRandomness);
+            m_sound.Play();
+        }
     }
 
     public void Deactivate()

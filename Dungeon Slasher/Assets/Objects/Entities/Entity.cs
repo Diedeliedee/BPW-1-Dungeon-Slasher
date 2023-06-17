@@ -7,18 +7,24 @@ using Joeri.Tools.Movement;
 
 public abstract partial class Entity : MonoBehaviour
 {
+    [Header("Agent Properties:")]
+    [SerializeField] protected AudioClip m_hurtSound;
+    [SerializeField] protected AudioClip m_deathSound;
+
     [Header("Agent Components:")]
     [SerializeField] protected Combat m_combat;
 
     [Header("Agent References:")]
     [SerializeField] protected MovementBase.Settings m_movementSettings;
+    [SerializeField] protected ParticleSystem m_aura;
 
     //  Run-time:
     protected MovementBase m_movement = null;
     protected FSM m_stateMachine = null;
 
     //  Reference:
-    protected Animator m_animator;
+    protected Animator m_animator = null;
+    protected AudioSource m_audio = null;
 
     #region Properties
 
@@ -39,6 +45,7 @@ public abstract partial class Entity : MonoBehaviour
     public virtual void Setup()
     {
         m_animator = GetComponent<Animator>();
+        m_audio = GetComponent<AudioSource>();
 
         m_combat.Setup(this);
         m_combat.health.onDeath += OnDeath;
@@ -57,7 +64,7 @@ public abstract partial class Entity : MonoBehaviour
 
     protected virtual void OnDeath()
     {
-        
+        m_aura.Stop();
     }
 
     private void OnDrawGizmosSelected()

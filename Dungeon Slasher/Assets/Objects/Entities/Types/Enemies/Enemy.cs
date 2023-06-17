@@ -35,6 +35,7 @@ public abstract partial class Enemy : Entity, IPoolItem
 
     public virtual void OnSpawn()
     {
+        m_aura.Play();
         m_combat.health.SetHealth(m_combat.health.maxHealth);
     }
 
@@ -44,6 +45,7 @@ public abstract partial class Enemy : Entity, IPoolItem
 
         GameManager.instance.events.onEnemyHit.Invoke(m_combat.health.health, m_combat.health.maxHealth);
         SwitchToState(typeof(Hitstun));
+        PlaySound(m_hurtSound, 0.8f, 1.2f);
 
         base.OnHit(damage, source);
     }
@@ -51,14 +53,18 @@ public abstract partial class Enemy : Entity, IPoolItem
     protected override void OnDeath()
     {
         SwitchToState(typeof(Death));
+        PlaySound(m_deathSound, 0.8f, 1.2f);
         base.OnDeath();
     }
 
     public virtual void OnDespawn()
     {
+        m_dyingSed = false;
+
         m_combat.DeactivateWeapon();
         m_movement.velocity = Vector3.zero;
-        m_dyingSed = false;
+
+        m_audio.Stop();
 
         onDespawn?.Invoke();
         onDespawn = null;

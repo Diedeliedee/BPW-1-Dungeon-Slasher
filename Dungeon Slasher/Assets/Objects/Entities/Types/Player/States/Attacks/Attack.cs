@@ -14,7 +14,7 @@ public partial class Player
 
         public override void Setup(Vector2 direction)
         {
-            direction = Vectors.RotateVector2(direction, root.m_controls.inputRotation);
+            direction = root.m_controls.rightInputWorldDir;
             base.Setup(direction);
         }
 

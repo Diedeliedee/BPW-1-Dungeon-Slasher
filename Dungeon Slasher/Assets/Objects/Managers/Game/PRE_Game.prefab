@@ -96,6 +96,46 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_concepts:
   - {fileID: 11400000, guid: 7c09a4d6e67ddc64faa46689ea8223c1, type: 2}
+--- !u!1 &5162275735513253425
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8630524336102652163}
+  - component: {fileID: 6427568865017973130}
+  m_Layer: 0
+  m_Name: Listener
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8630524336102652163
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5162275735513253425}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 13}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8288269395453210690}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!81 &6427568865017973130
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5162275735513253425}
+  m_Enabled: 1
 --- !u!1 &5695142328579997440
 GameObject:
   m_ObjectHideFlags: 0
@@ -126,6 +166,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7550902852076738741}
+  - {fileID: 8630524336102652163}
   m_Father: {fileID: 7274535441756571448}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -366,12 +407,12 @@ PrefabInstance:
     - target: {fileID: 5068004972670286443, guid: 5118eb1a2fdec2d48a4aff79bb466e1e,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 959.99994
+      value: 960
       objectReference: {fileID: 0}
     - target: {fileID: 7582946674421085895, guid: 5118eb1a2fdec2d48a4aff79bb466e1e,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -959.99994
+      value: -960
       objectReference: {fileID: 0}
     - target: {fileID: 7666418318270812475, guid: 5118eb1a2fdec2d48a4aff79bb466e1e,
         type: 3}

@@ -474,6 +474,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a9c87151ec6f844b8ef60847ca9acab, type: 3}
+--- !u!198 &1960543140240668984 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 3048138667377854353, guid: 4a9c87151ec6f844b8ef60847ca9acab,
+    type: 3}
+  m_PrefabInstance: {fileID: 3564623769449217705}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5487786856021994493
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -537,6 +543,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f74c259505069049920787096d210e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_hurtSound: {fileID: 8300000, guid: 4a91e988cb025f346a128a5fe4f275f0, type: 3}
+  m_deathSound: {fileID: 8300000, guid: 3afd2161034560d4cb5428824c57893f, type: 3}
   m_combat:
     m_health:
       m_maxHealth: 10
@@ -553,6 +561,7 @@ MonoBehaviour:
     movementMask:
       serializedVersion: 2
       m_Bits: 0
+  m_aura: {fileID: 1960543140240668984}
   m_type: 0
   m_spawning:
     animation: {fileID: 7400000, guid: 2a94fffcfda1e95498b6972b1115ccf3, type: 2}

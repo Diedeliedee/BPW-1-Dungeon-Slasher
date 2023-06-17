@@ -15,6 +15,15 @@ public partial class Entity
         m_combat.health.AddHealth(-damage);
     }
 
+    public void PlaySound(AudioClip clip, float volume, float pitch)
+    {
+        if (clip == null || m_audio == null) return;
+        m_audio.volume = volume;
+        m_audio.pitch = pitch;
+        m_audio.clip = clip;
+        m_audio.Play();
+    }
+
     public T SwitchToState<T>() where T : State
     {
         return m_stateMachine.SwitchToState<T>();

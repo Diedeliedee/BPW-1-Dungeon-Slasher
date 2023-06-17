@@ -10,10 +10,12 @@ public partial class Player
 {
     public class Controls
     {
-        public readonly float inputRotation = 45f;
+        private readonly float m_inputRotation = 45f;
 
         public Vector2 leftInput { get; private set; }
         public Vector2 rightInput { get; private set; }
+
+        public Vector2 rightInputWorldDir { get => Vectors.RotateVector2(rightInput, m_inputRotation); }
 
         public bool slashButtonPressed { get; private set; }
 

@@ -18,7 +18,10 @@ public partial class Player : Entity
     public override void Setup()
     {
         base.Setup();
+
         m_movement = new PlayerController(gameObject, m_movementSettings);
+        m_movement.canRotate = false;
+
         m_stateMachine = new FSM
             (
                 typeof(FreeMove),
@@ -37,6 +40,7 @@ public partial class Player : Entity
     public override void OnHit(int damage, Entity source)
     {
         base.OnHit(damage, source);
+        PlaySound(m_hurtSound, 0.8f, 0.9f);
 
         GameManager.instance.events.onPlayerHit.Invoke(m_combat.health.health, m_combat.health.maxHealth);
     }
