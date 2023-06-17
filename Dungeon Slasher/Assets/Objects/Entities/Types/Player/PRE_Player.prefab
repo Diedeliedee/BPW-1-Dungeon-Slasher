@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 117362328956704887}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Hurtboxes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3437146374989623508}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6286046247353728036}
   - component: {fileID: 1006283145349945747}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -118,7 +118,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1fad9ace4db49ae4db85a854e61d9236, type: 2}
+  - {fileID: 2100000, guid: 0fcb5a1fdc6868140893868f61fb061d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -217,7 +217,7 @@ GameObject:
   - component: {fileID: 2149189869702338467}
   - component: {fileID: 2149189869702338465}
   - component: {fileID: 7113037975619989537}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: PRE_Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -337,7 +337,7 @@ GameObject:
   - component: {fileID: 943613015042796804}
   - component: {fileID: 4767507703631659060}
   - component: {fileID: 912369572589635670}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Player Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -450,7 +450,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4828192371407531734}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Tip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -482,7 +482,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5819639861650492866}
   - component: {fileID: 1423886395557492694}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -536,6 +536,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PRE_Energy_Dark_Aura
+      objectReference: {fileID: 0}
+    - target: {fileID: 2803469370097096794, guid: 4a9c87151ec6f844b8ef60847ca9acab,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4691204758648625415, guid: 4a9c87151ec6f844b8ef60847ca9acab,
         type: 3}
@@ -637,6 +642,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Head
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: dba5f3c50d528f54b85ef83dbc5bfccd,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dba5f3c50d528f54b85ef83dbc5bfccd, type: 3}
 --- !u!4 &7342122857424086110 stripped
@@ -716,6 +726,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Model
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6a0b501b7eb8f22428f113d93d8c7f47,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a0b501b7eb8f22428f113d93d8c7f47, type: 3}

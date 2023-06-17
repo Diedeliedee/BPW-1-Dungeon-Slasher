@@ -413,12 +413,12 @@ MonoBehaviour:
     m_weapon: {fileID: 8039790248557063386}
     m_hitMask:
       serializedVersion: 2
-      m_Bits: 64
+      m_Bits: 8
   m_movementSettings:
     baseSpeed: 5
     baseGrip: 15
     baseGravity: 0
-    baseRotationTime: 0.05
+    baseRotationTime: 2.5
     movementMask:
       serializedVersion: 2
       m_Bits: 0
@@ -428,14 +428,14 @@ MonoBehaviour:
   m_chase:
     animation: {fileID: 7400000, guid: aff9b274bd3ae184d876edd5074b4435, type: 2}
     lookAheadTime: 0.25
-    sqrAttackDistance: 2
+    attackDistance: 2.5
   m_attack:
     animation: {fileID: 7400000, guid: 743fcd515d3f0ba4d8e0c7d31cea39b8, type: 2}
     attackMark: 1
     followThroughMark: 1.1
     recoverMark: 1.45
     endMark: 2
-    attackSpeed: 10
+    attackSpeed: 1
     followThroughPercent: 0.1
   m_hitStun:
     magnitude: 0.15

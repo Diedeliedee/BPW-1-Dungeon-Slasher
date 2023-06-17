@@ -4,6 +4,6 @@ using UnityEngine.Events;
 
 public class EventManager : MonoBehaviour
 {
-    public UnityEvent onEnemyHit = null;
-    public UnityEvent onPlayerHit = null;
+    public UnityEvent<int, int> onEnemyHit  = null;
+    public UnityEvent<int, int> onPlayerHit = null;
 }

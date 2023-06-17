@@ -29,12 +29,12 @@ public partial class PlayerCamera : MonoBehaviour
         m_camera.localPosition = m_cameraShake.GetPosition(deltaTime);
     }
 
-    private void MildShake()
+    private void MildShake(int health, int maxHealth)
     {
         m_enemyHitShake.Activate(this);
     }
 
-    private void BigShake()
+    private void BigShake(int health, int maxHealth)
     {
         m_playerHitShake.Activate(this);
     }

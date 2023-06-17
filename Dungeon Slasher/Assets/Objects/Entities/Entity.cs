@@ -20,6 +20,22 @@ public abstract partial class Entity : MonoBehaviour
     //  Reference:
     protected Animator m_animator;
 
+    #region Properties
+
+    //  Events:
+    public event System.Action onDeath 
+    { 
+        add => m_combat.health.onDeath += value;
+        remove => m_combat.health.onDeath -= value;
+    }
+    public event System.Action<int, int> onHealthChange
+    {
+        add => m_combat.health.onHealthChange += value;
+        remove => m_combat.health.onHealthChange -= value;
+    }
+
+    #endregion
+
     public virtual void Setup()
     {
         m_animator = GetComponent<Animator>();

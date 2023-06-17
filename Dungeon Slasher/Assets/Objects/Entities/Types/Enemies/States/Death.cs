@@ -33,7 +33,7 @@ public partial class Enemy
             if (m_timer.HasReached(deltaTime))
             {
                 m_timer = null;
-                GameManager.instance.agents.DespawnEnemy(root);
+                GameManager.instance.entities.DespawnEnemy(root);
             }
         }
 

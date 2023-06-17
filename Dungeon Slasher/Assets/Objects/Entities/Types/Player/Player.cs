@@ -38,6 +38,6 @@ public partial class Player : Entity
     {
         base.OnHit(damage, source);
 
-        GameManager.instance.events.onPlayerHit.Invoke();
+        GameManager.instance.events.onPlayerHit.Invoke(m_combat.health.health, m_combat.health.maxHealth);
     }
 }

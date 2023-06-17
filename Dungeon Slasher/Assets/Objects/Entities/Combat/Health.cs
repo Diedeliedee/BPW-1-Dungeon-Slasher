@@ -5,7 +5,9 @@ using UnityEngine;
 [System.Serializable]
 public class Health
 {
-    public event System.Action onDeath          = null; 
+    //  Events:
+    public System.Action onDeath                    = null; 
+    public System.Action<int, int> onHealthChange   = null;
 
     [SerializeField] private int m_maxHealth    = 10;
     [SerializeField] private int m_health       = 10;
@@ -27,6 +29,7 @@ public class Health
     public int SetHealth(int health)
     {
         m_health = Mathf.Clamp(health, 0, m_maxHealth);
+        onHealthChange?.Invoke(m_health, m_maxHealth);
         if (m_health == 0) onDeath?.Invoke();
         return health;
     }

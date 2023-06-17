@@ -31,7 +31,7 @@ public class EnemySpawner : MonoBehaviour
     {
         if (occupied) return;
 
-        m_spawnedEnemy = GameManager.instance.agents.SpawnEnemy(m_concept.type, transform.position, Vectors.VectorToFlat(transform.forward));
+        m_spawnedEnemy = GameManager.instance.entities.SpawnEnemy(m_concept.type, transform.position, Vectors.VectorToFlat(transform.forward));
         m_spawnedEnemy.onDespawn += OnDespawn;
 
         onEnemySpawned?.Invoke();

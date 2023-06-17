@@ -5,13 +5,18 @@ using Joeri.Tools.Structure;
 
 public class GameManager : Singleton<GameManager>
 {
-    public AgentManager agents = null;
+    public AgentManager entities = null;
     public PlayerCamera camera = null;
+    public UIManager ui = null;
     [Space]
     public EventManager events = null;
     [Space]
     public EnvironmentManager level = null;
 
+    //  Properties:
+    private State m_state = State.Intro;
+
+    //  Sub-managers:
     private TimeManager m_timeManager = new TimeManager();
 
     private void Awake()
@@ -21,8 +26,9 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
-        agents.Setup();
+        entities.Setup();
         camera.Setup();
+        ui.Setup();
 
         if (level == null)
         {
@@ -32,20 +38,40 @@ public class GameManager : Singleton<GameManager>
         level.Setup();
 
         events.onEnemyHit.AddListener(EnemyHitPause);
+        events.onPlayerHit.AddListener(PlayerHitPause);
     }
 
     private void Update()
     {
-        m_timeManager.Tick(Time.unscaledDeltaTime);
+        var deltaTime = Time.deltaTime;
+        var unscaledDeltaTime = Time.unscaledDeltaTime;
 
-        agents.Tick(Time.deltaTime);
-        camera.Tick(Time.unscaledDeltaTime);
+        switch (m_state)
+        {
+            case State.Intro:
+                if (ui.CurtainsOpened(del))
 
-        level.Tick(Time.deltaTime);
+            case State.Running:
+                m_timeManager.Tick(Time.unscaledDeltaTime);
+
+                entities.Tick(Time.deltaTime);
+                camera.Tick(Time.unscaledDeltaTime);
+                ui.Tick(Time.unscaledDeltaTime);
+
+                level.Tick(Time.deltaTime);
+                break;
+        }
     }
 
-    private void EnemyHitPause()
+    private void EnemyHitPause(int health, int maxHealth)
     {
         m_timeManager.StartHitPause(0.065f, 0f);
     }
+
+    private void PlayerHitPause(int health, int maxHealth)
+    {
+        m_timeManager.StartHitPause(0.3f, 0f);
+    }
+
+    public enum State { Intro, Running, Died, Won }
 }

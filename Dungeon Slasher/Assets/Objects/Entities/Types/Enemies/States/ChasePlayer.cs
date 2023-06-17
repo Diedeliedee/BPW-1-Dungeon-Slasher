@@ -26,7 +26,7 @@ public partial class Enemy
         {
             var targetPosition = Vectors.VectorToFlat(root.player.transform.position);
 
-            if ((targetPosition - root.flatPosition).sqrMagnitude < settings.sqrAttackDistance)
+            if ((targetPosition - root.flatPosition).sqrMagnitude < settings.attackDistance * settings.attackDistance)
             {
                 SwitchToState<Attack>().Setup(targetPosition - root.flatPosition);
                 return;
@@ -39,7 +39,7 @@ public partial class Enemy
         {
             base.OnDrawGizmos();
 
-            GizmoTools.DrawOutlinedDisc(root.transform.position, Mathf.Pow(settings.sqrAttackDistance, 2), Color.red, Color.white, 0.15f);
+            GizmoTools.DrawOutlinedDisc(root.transform.position, settings.attackDistance, Color.red, Color.white, 0.15f);
         }
         
         [System.Serializable]
@@ -47,7 +47,7 @@ public partial class Enemy
         {
             public AnimationClip animation;
             public float lookAheadTime = 0.5f;
-            public float sqrAttackDistance = 1.5f;
+            public float attackDistance = 1.5f;
         }
     }
 }

@@ -23,7 +23,7 @@ public abstract partial class Enemy : Entity, IPoolItem
     protected AgentController movement { get => GetMovement<AgentController>(); }
 
     //  Utilities:
-    private Player player { get => GameManager.instance.agents.player; }
+    private Player player { get => GameManager.instance.entities.player; }
 
     #endregion
 
@@ -42,7 +42,7 @@ public abstract partial class Enemy : Entity, IPoolItem
     {
         if (m_dyingSed) return;
 
-        GameManager.instance.events.onEnemyHit.Invoke();
+        GameManager.instance.events.onEnemyHit.Invoke(m_combat.health.health, m_combat.health.maxHealth);
         SwitchToState(typeof(Hitstun));
 
         base.OnHit(damage, source);
