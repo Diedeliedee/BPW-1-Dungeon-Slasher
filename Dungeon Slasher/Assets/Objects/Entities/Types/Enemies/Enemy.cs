@@ -9,6 +9,8 @@ public abstract partial class Enemy : Entity, IPoolItem
     [Header("General:")]
     [SerializeField] private Type m_type;
 
+    private bool m_dyingSed = false;
+
     #region Properties:
 
     //  Properties:
@@ -38,6 +40,8 @@ public abstract partial class Enemy : Entity, IPoolItem
 
     public override void OnHit(int damage, Entity source)
     {
+        if (m_dyingSed) return;
+
         GameManager.instance.events.onEnemyHit.Invoke();
         SwitchToState(typeof(Hitstun));
 
@@ -54,6 +58,7 @@ public abstract partial class Enemy : Entity, IPoolItem
     {
         m_combat.DeactivateWeapon();
         m_movement.velocity = Vector3.zero;
+        m_dyingSed = false;
 
         onDespawn?.Invoke();
         onDespawn = null;

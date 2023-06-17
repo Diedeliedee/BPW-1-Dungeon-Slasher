@@ -23,6 +23,7 @@ public partial class Enemy
             m_timer = new Timer(settings.animation.length);
             m_shake = new ShakeInstancer(root.transform.position, settings.magnitude, 60, settings.duration);
 
+            root.m_dyingSed = true;
             root.CrossFadeAnimation(settings.animation, 0f);
         }
 

@@ -15,9 +15,9 @@ public class Arena : MonoBehaviour
     [SerializeField] private Blockade[] m_blockades;
     [SerializeField] private EnemySpawner[] m_spawnPoints;
 
-    private Timer m_spawnTimer = null;
+    private int m_enemiesLeft = 0;
     private State m_state = State.Dormant;
-    private int m_spawnedEnemies = 0;
+    private Timer m_spawnTimer = null;
 
     public void Setup()
     {
@@ -29,17 +29,16 @@ public class Arena : MonoBehaviour
     {
         foreach (var blockade in m_blockades) blockade.Rise();
 
+        m_enemiesLeft = m_maxEnemies;
         m_spawnTimer = new Timer(Random.Range(m_minSpawnTime, m_maxSpawnTime));
         m_state = State.Active;
     }
 
     public void Tick(float deltaTime)
     {
-        //  Return if the arena isn't active.
-        if (m_state != State.Active) return;
-
-        //  Return if it's not the time to take action yet.
-        if (!m_spawnTimer.HasReached(deltaTime)) return;
+        if (m_state != State.Active) return;                //  Return if the arena isn't active.
+        if (m_enemiesLeft <= 1) return;                     //  Do not spawn new enemies if the last one is alive.
+        if (!m_spawnTimer.HasReached(deltaTime)) return;    //  Return if it's not the time to take action yet.
 
         //  Only spawn an enemy if a spawnpoint is available.
         //  Caution: There is a better way to manage this, but for now this is fine.
@@ -53,22 +52,19 @@ public class Arena : MonoBehaviour
 
         //  Spawn the enemy.
         spawner.Spawn();
+        spawner.onEnemyDespawned += OnEnemyDespawned;
         m_spawnTimer.Reset(Random.Range(m_minSpawnTime, m_maxSpawnTime));
-        m_spawnedEnemies++;
+    }
 
-        //  If this is the last enemy to be spawned, pend for the end of the fight.
-        if (m_spawnedEnemies >= m_maxEnemies)
+    private void OnEnemyDespawned()
+    {
+        m_enemiesLeft--;
+        if (m_enemiesLeft <= 0)
         {
-            m_state = State.Pending;
-            spawner.onEnemyDespawned += FinishFight;
+            foreach (var blockade in m_blockades) blockade.Fall();
+            m_state = State.Beaten;
         }
     }
 
-    private void FinishFight()
-    {
-        foreach (var blockade in m_blockades) blockade.Fall();
-        m_state = State.Beaten;
-    }
-
-    public enum State { Dormant, Active, Pending, Beaten }
+    public enum State { Dormant, Active, Beaten }
 }
