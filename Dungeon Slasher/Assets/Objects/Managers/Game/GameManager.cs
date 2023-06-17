@@ -46,21 +46,13 @@ public class GameManager : Singleton<GameManager>
         var deltaTime = Time.deltaTime;
         var unscaledDeltaTime = Time.unscaledDeltaTime;
 
-        switch (m_state)
-        {
-            case State.Intro:
-                if (ui.CurtainsOpened(del))
+        m_timeManager.Tick(unscaledDeltaTime);
 
-            case State.Running:
-                m_timeManager.Tick(Time.unscaledDeltaTime);
+        entities.Tick(deltaTime);
+        camera.Tick(unscaledDeltaTime);
+        ui.Tick(unscaledDeltaTime);
 
-                entities.Tick(Time.deltaTime);
-                camera.Tick(Time.unscaledDeltaTime);
-                ui.Tick(Time.unscaledDeltaTime);
-
-                level.Tick(Time.deltaTime);
-                break;
-        }
+        level.Tick(deltaTime);
     }
 
     private void EnemyHitPause(int health, int maxHealth)

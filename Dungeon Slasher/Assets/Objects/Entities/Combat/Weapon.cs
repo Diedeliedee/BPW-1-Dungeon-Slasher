@@ -14,17 +14,23 @@ public class Weapon : MonoBehaviour
     [SerializeField] private Transform[] m_hurtboxes = new Transform[1];
     [SerializeField] private float m_radius = 1f;
 
-    [Header("Trail:")]
+    [Header("Aesthetics:")]
     [SerializeField] private TrailRenderer m_trail = null;
+    [Space]
+    [SerializeField] private AudioSource m_sound = null;
+    [SerializeField] private float m_pitchRandomness = 0.1f;
 
     //  Run-time:
     private Overlapper<Entity> m_overlapper = null;
+    private float m_basePitch = 0f;
 
     //  Reference:
     private Entity m_root = null;
 
     public void Setup(Entity agent, LayerMask mask)
     {
+        if (m_sound != null) m_basePitch = m_sound.pitch;
+
         m_root = agent;
         m_overlapper = new Overlapper<Entity>(m_radius, mask);
     }
@@ -53,6 +59,10 @@ public class Weapon : MonoBehaviour
     {
         m_overlapper.Activate(Hit, null);
         if (m_trail != null) m_trail.enabled = true;
+
+        if (m_sound == null) return;
+        m_sound.pitch = m_basePitch + Random.Range(-m_pitchRandomness, m_pitchRandomness);
+        m_sound.Play();
     }
 
     public void Deactivate()
