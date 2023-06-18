@@ -15,14 +15,22 @@ public class Curtains : MonoBehaviour
 
 	public void Setup()
 	{
+		m_leftCurtain.Setup();
+		m_rightCurtain.Setup();
 		curtainSpeed = 1f / m_curtainTime;
 	}
 
     public void SetCurtainValue(float value)
     {
+		var activeObject = value < 1f;
+
         m_leftCurtain.SetState(value);
         m_rightCurtain.SetState(value);
-        curtainValue = value;
+
+		m_leftCurtain.gameObject.SetActive(activeObject);
+		m_rightCurtain.gameObject.SetActive(activeObject);
+
+		curtainValue = value;
     }
 
 	public bool HasClosed(float deltaTime)

@@ -6,6 +6,7 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] private PlayerHealthBar m_healthBar;
     [SerializeField] private Curtains m_curtains;
+    [SerializeField] private GameOverScreen m_gameOverScreen;
 
     public void Setup()
     {
@@ -18,6 +19,11 @@ public class UIManager : MonoBehaviour
 
     }
 
+    public void SetCurtainValue(float value)
+    {
+        m_curtains.SetCurtainValue(value);
+    }
+
     public bool CurtainsClosed(float deltaTime)
     {
         return m_curtains.HasClosed(deltaTime);
@@ -26,5 +32,11 @@ public class UIManager : MonoBehaviour
     public bool CurtainsOpened(float deltaTime)
     {
         return m_curtains.HasOpened(deltaTime);
+    }
+
+    public void ShowDeathScreen()
+    {
+        m_gameOverScreen.gameObject.SetActive(true);
+        m_gameOverScreen.Display();
     }
 }

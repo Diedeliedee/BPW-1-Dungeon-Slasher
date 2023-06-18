@@ -27,10 +27,10 @@ public class Curtain : MonoBehaviour
     public void SetState(float state)
     {
         var perc = m_movementCurve.Evaluate(state);
-        var color = m_rawImage.color;
+        //var color = m_rawImage.color;
 
-        color.a = Mathf.Lerp(1f, 0f, state);
+        //color.a = Mathf.Lerp(1f, 0f, perc);
         m_rectTransform.anchoredPosition = new Vector2(Mathf.Lerp(m_closedXPos, m_openXPos, perc), m_yPos);
-        m_rawImage.color = color;
+        //m_rawImage.color = color;
     }
 }

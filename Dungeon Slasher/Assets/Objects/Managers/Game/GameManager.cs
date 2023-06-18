@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Joeri.Tools.Structure;
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
+    [Header("References:")]
     public AgentManager entities = null;
     public PlayerCamera camera = null;
     public UIManager ui = null;
@@ -12,6 +14,10 @@ public class GameManager : Singleton<GameManager>
     public EventManager events = null;
     [Space]
     public EnvironmentManager level = null;
+
+    [Header("Properties:")]
+    [SerializeField] private string m_winScene;
+    [SerializeField] private float m_deathTimeDepletion = 10f;
 
     //  Properties:
     private State m_state = State.Intro;
@@ -39,6 +45,10 @@ public class GameManager : Singleton<GameManager>
 
         events.onEnemyHit.AddListener(EnemyHitPause);
         events.onPlayerHit.AddListener(PlayerHitPause);
+
+        entities.player.onDeath += OnLose;
+
+        ui.SetCurtainValue(0f);
     }
 
     private void Update()
@@ -46,13 +56,50 @@ public class GameManager : Singleton<GameManager>
         var deltaTime = Time.deltaTime;
         var unscaledDeltaTime = Time.unscaledDeltaTime;
 
-        m_timeManager.Tick(unscaledDeltaTime);
+        switch (m_state)
+        {
+            case State.Intro:
+                if (ui.CurtainsOpened(unscaledDeltaTime))
+                {
+                    m_state = State.Running;
+                }
+                break;
 
-        entities.Tick(deltaTime);
-        camera.Tick(unscaledDeltaTime);
-        ui.Tick(unscaledDeltaTime);
+            case State.Running:
+                m_timeManager.Tick(unscaledDeltaTime);
 
-        level.Tick(deltaTime);
+                entities.Tick(deltaTime);
+                camera.Tick(unscaledDeltaTime);
+                ui.Tick(unscaledDeltaTime);
+
+                level.Tick(deltaTime);
+                break;
+
+            case State.Won:
+                m_timeManager.Tick(unscaledDeltaTime);
+                camera.Tick(unscaledDeltaTime);
+                if (ui.CurtainsClosed(unscaledDeltaTime))
+                {
+                    SceneManager.LoadScene(m_winScene);
+                }
+                break;
+
+            case State.Died:
+                camera.Tick(unscaledDeltaTime);
+                break;
+        }
+
+    }
+
+    public void OnLose()
+    {
+        m_state = State.Died;
+        ui.ShowDeathScreen();
+    }
+
+    public void OnWin()
+    {
+        m_state = State.Won;
     }
 
     private void EnemyHitPause(int health, int maxHealth)
