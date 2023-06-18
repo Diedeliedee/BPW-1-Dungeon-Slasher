@@ -80,6 +80,7 @@ public class GameManager : Singleton<GameManager>
                 camera.Tick(unscaledDeltaTime);
                 if (ui.CurtainsClosed(unscaledDeltaTime))
                 {
+                    instance = null;
                     SceneManager.LoadScene(m_winScene);
                 }
                 break;

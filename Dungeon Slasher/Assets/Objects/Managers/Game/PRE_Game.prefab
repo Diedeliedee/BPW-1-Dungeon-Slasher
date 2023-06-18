@@ -244,6 +244,8 @@ MonoBehaviour:
   ui: {fileID: 3932359065116270454}
   events: {fileID: 4435642208077466500}
   level: {fileID: 0}
+  m_winScene: End Demo
+  m_deathTimeDepletion: 10
 --- !u!1 &7274535442689047220
 GameObject:
   m_ObjectHideFlags: 0
