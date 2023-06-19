@@ -15,6 +15,7 @@ public class Arena : MonoBehaviour
     [SerializeField] private Blockade[] m_blockades;
     [SerializeField] private EnemySpawner[] m_spawnPoints;
 
+    private int m_activeEnemies = 0;
     private int m_enemiesLeft = 0;
     private State m_state = State.Dormant;
     private Timer m_spawnTimer = null;
@@ -51,6 +52,7 @@ public class Arena : MonoBehaviour
         if (spawner == null) return;
 
         //  Spawn the enemy.
+        m_activeEnemies++;
         spawner.Spawn();
         spawner.onEnemyDespawned += OnEnemyDespawned;
         m_spawnTimer.Reset(Random.Range(m_minSpawnTime, m_maxSpawnTime));

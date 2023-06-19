@@ -628,6 +628,7 @@ MonoBehaviour:
     duration: 0.5
   m_healthObject: {fileID: 7381044927036219194, guid: 9889a4d56c7997c4c9776eb5c0fad586,
     type: 3}
+  m_dropChance: 0.2
 --- !u!1001 &6837167547642883030
 PrefabInstance:
   m_ObjectHideFlags: 0
