@@ -6,10 +6,16 @@ using Joeri.Tools.Structure;
 
 public partial class Player : Entity
 {
+    [Header("Player Properties:")]
+    [SerializeField] private float m_teleportDistance = 3f;
+
     [Header("States:")]
     [SerializeField] private FreeMove.Settings m_freeMove = null;
     [SerializeField] private LeftAttack.Settings m_leftAttack = null;
     [SerializeField] private RightAttack.Settings m_rightAttack = null;
+
+    [Header("Player Sub-components:")]
+    [SerializeField] private AbilityHandler m_abilities;
 
     private Controls m_controls = new Controls();
 
@@ -29,11 +35,14 @@ public partial class Player : Entity
                 new LeftAttack(this, m_leftAttack),
                 new RightAttack(this, m_rightAttack)
             );
+
+        m_abilities.SetAbility(new Teleport(this, m_teleportDistance));
     }
 
     public override void Tick(float deltaTime)
     {
         m_controls.CheckInput(transform.position);
+        m_abilities.Tick(deltaTime);
         base.Tick(deltaTime);
     }
 
