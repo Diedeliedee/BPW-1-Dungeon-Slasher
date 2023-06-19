@@ -38,7 +38,8 @@ public class Arena : MonoBehaviour
     public void Tick(float deltaTime)
     {
         if (m_state != State.Active) return;                //  Return if the arena isn't active.
-        if (m_enemiesLeft <= 1) return;                     //  Do not spawn new enemies if the last one is alive.
+        if (m_activeEnemies >= m_enemiesLeft) return;       //  Don't spawn if the amount of active enemies is the amount of enemies left.
+        //if (m_enemiesLeft <= 1) return;                     //  Do not spawn new enemies if the last one is alive.
         if (!m_spawnTimer.HasReached(deltaTime)) return;    //  Return if it's not the time to take action yet.
 
         //  Only spawn an enemy if a spawnpoint is available.
@@ -60,6 +61,7 @@ public class Arena : MonoBehaviour
 
     private void OnEnemyDespawned()
     {
+        m_activeEnemies--;
         m_enemiesLeft--;
         if (m_enemiesLeft <= 0)
         {
