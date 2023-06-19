@@ -4,20 +4,25 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    [Header("Constants:")]
     [SerializeField] private PlayerHealthBar m_healthBar;
+
+    [Header("Conditionals:")]
     [SerializeField] private Curtains m_curtains;
     [SerializeField] private GameOverScreen m_gameOverScreen;
     [SerializeField] private GameObject m_interactionIndicator;
+    [SerializeField] private HealIndicator m_healIndicator;
 
     public void Setup()
     {
         m_healthBar.Setup();
         m_curtains.Setup();
+        m_healIndicator.Setup();
     }
 
     public void Tick(float deltaTime)
     {
-
+        m_healIndicator.Tick(deltaTime);
     }
 
     public void SetCurtainValue(float value)

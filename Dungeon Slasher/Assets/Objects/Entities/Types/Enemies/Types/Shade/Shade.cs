@@ -13,6 +13,9 @@ public partial class Shade : Enemy
     [SerializeField] private Hitstun.Settings m_hitStun;
     [SerializeField] private Death.Settings m_death;
 
+    [Header("Reference")]
+    [SerializeField] private GameObject m_healthObject;
+
     public override void OnCreate()
     {
         base.OnCreate();
@@ -31,5 +34,11 @@ public partial class Shade : Enemy
     {
         base.OnSpawn();
         SwitchToState<Spawning>();
+    }
+
+    public override void OnDespawn()
+    {
+        Instantiate(m_healthObject, transform.position, Quaternion.identity);
+        base.OnDespawn();
     }
 }

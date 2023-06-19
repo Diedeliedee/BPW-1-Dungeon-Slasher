@@ -81,7 +81,7 @@ public class GameManager : Singleton<GameManager>
                 if (ui.CurtainsClosed(unscaledDeltaTime))
                 {
                     instance = null;
-                    SceneManager.LoadScene(m_winScene);
+                    LoadScene(m_winScene);
                 }
                 break;
 
@@ -90,6 +90,13 @@ public class GameManager : Singleton<GameManager>
                 break;
         }
 
+    }
+
+    public void LoadScene(string name)
+    {
+        Time.timeScale = 1f;
+        instance = null;
+        SceneManager.LoadScene(name);
     }
 
     public void OnLose()

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Joeri.Tools;
 using Joeri.Tools.Utilities;
@@ -21,6 +22,11 @@ public class GameOverScreen : MonoBehaviour
         m_audio.Play();
         m_filterTimer = new Timer(m_time);
         m_active = true;
+    }
+
+    public void Retry()
+    {
+        GameManager.instance.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private void Update()

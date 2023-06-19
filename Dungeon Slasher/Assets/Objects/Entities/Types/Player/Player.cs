@@ -44,4 +44,10 @@ public partial class Player : Entity
 
         GameManager.instance.events.onPlayerHit.Invoke(m_combat.health.health, m_combat.health.maxHealth);
     }
+
+    public void Heal(int amount)
+    {
+        m_combat.health.AddHealth(amount);
+        GameManager.instance.events.onPlayerHeal.Invoke();
+    }
 }
