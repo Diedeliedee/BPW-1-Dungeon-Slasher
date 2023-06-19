@@ -49,8 +49,10 @@ public class HealIndicator : MonoBehaviour
     private void SetAlpha(float a)
     {
         var color = m_image.color;
+        var setEnabled = a > 0f;
 
         color.a = Mathf.Lerp(0f, m_maxAlpha, a);
         m_image.color = color;
+        m_image.gameObject.SetActive(setEnabled);
     }
 }
