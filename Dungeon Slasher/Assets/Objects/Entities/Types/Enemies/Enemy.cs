@@ -45,7 +45,7 @@ public abstract partial class Enemy : Entity, IPoolItem
 
         GameManager.instance.events.onEnemyHit.Invoke(m_combat.health.health, m_combat.health.maxHealth);
         SwitchToState(typeof(Hitstun));
-        PlaySound(m_hurtSound, 0.8f, 1.2f);
+        PlaySound(m_hurtSound, 0.4f, 1.2f);
 
         base.OnHit(damage, source);
     }
@@ -53,7 +53,7 @@ public abstract partial class Enemy : Entity, IPoolItem
     protected override void OnDeath()
     {
         SwitchToState(typeof(Death));
-        PlaySound(m_deathSound, 0.8f, 1.2f);
+        PlaySound(m_deathSound, 0.4f, 1.2f);
         base.OnDeath();
     }
 

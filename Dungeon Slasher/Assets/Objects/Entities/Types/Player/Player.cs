@@ -40,7 +40,7 @@ public partial class Player : Entity
     public override void OnHit(int damage, Entity source)
     {
         base.OnHit(damage, source);
-        PlaySound(m_hurtSound, 0.8f, 0.9f);
+        PlaySound(m_hurtSound, 0.4f, 0.9f);
 
         GameManager.instance.events.onPlayerHit.Invoke(m_combat.health.health, m_combat.health.maxHealth);
     }

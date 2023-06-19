@@ -15,6 +15,7 @@ public partial class Shade : Enemy
 
     [Header("Reference")]
     [SerializeField] private GameObject m_healthObject;
+    [SerializeField] private float m_dropChance = 0.5f;
 
     public override void OnCreate()
     {
@@ -38,7 +39,10 @@ public partial class Shade : Enemy
 
     public override void OnDespawn()
     {
-        Instantiate(m_healthObject, transform.position, Quaternion.identity);
+        if (Random.Range(0f, 1f) > m_dropChance)
+        {
+            Instantiate(m_healthObject, transform.position, Quaternion.identity);
+        }
         base.OnDespawn();
     }
 }
