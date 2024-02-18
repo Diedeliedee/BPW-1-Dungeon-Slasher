@@ -8,15 +8,15 @@ namespace Joeri.Tools.Movement
     {
         public class Flat
         {
-            public Vector2 velocity = Vector2.zero;
-            public Vector2 desiredVelocity = Vector2.zero;
+            public Vector2 velocity         = Vector2.zero;
+            public Vector2 desiredVelocity  = Vector2.zero;
 
             /// <returns>The desired velocity based on the given parameters and current conditions.</returns>
             public Vector2 CalculateVelocity(Vector2 desiredVelocity, float grip, float deltaTime)
             {
                 //  Calculating steering.
-                var steering = desiredVelocity - velocity;
-                steering *= Mathf.Clamp01(grip * deltaTime);
+                var steering                        = desiredVelocity - velocity;
+                if (grip < Mathf.Infinity) steering *= Mathf.Clamp01(grip * deltaTime);
 
                 //  Calculating velocity.
                 velocity += steering;
@@ -44,7 +44,7 @@ namespace Joeri.Tools.Movement
             /// </summary>
             public Vector2 CalculateVelocity(float drag, float deltaTime)
             {
-                velocity = Vector2.ClampMagnitude(velocity, velocity.magnitude - drag * deltaTime);
+                velocity = Vector2.ClampMagnitude(velocity, Mathf.Clamp(velocity.magnitude - drag * deltaTime, 0f, Mathf.Infinity));
                 return velocity;
             }
 
@@ -53,8 +53,8 @@ namespace Joeri.Tools.Movement
             /// </summary>
             public void Draw(Vector3 position, Color velocityColor, Color steeringColor, float opacity = 1f)
             {
-                var desiredRay = Vectors.FlatToVector(desiredVelocity);
-                var velocityRay = Vectors.FlatToVector(velocity);
+                var desiredRay = desiredVelocity.Cubular();
+                var velocityRay = velocity.Cubular();
 
                 GizmoTools.DrawRay(position, desiredRay, steeringColor, opacity);
                 GizmoTools.DrawRay(position, velocityRay, velocityColor, opacity);
