@@ -71,8 +71,10 @@ public class Shade : MonoBehaviour
         m_tree = new BehaviorTree(
             new Selector(
                 new Sequence(
-                    new IsAnimationPlaying("Attack"),
-                    new IsAnimationPlaying("Dying"),
+                    new Cherrypicker(State.Succes,
+                        new IsAnimationPlaying("Attack"),
+                        new IsAnimationPlaying("Stunned"),
+                        new IsAnimationPlaying("Hurt")),
                     new Wait("Unable to do anything..")),
                 new Sequence(
                     new PrioritizeSucces(

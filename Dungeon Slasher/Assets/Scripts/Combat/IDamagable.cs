@@ -1,4 +1,4 @@
-public interface IDamagable
+public interface IStunnable
 {
-    public void Damage(int _damage);
+    public void Stun();
 }
