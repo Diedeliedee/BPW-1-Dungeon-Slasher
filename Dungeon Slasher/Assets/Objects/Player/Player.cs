@@ -16,6 +16,7 @@ public partial class Player : MonoBehaviour
 
     private PlayerMovement m_movement = null;
     private PlayerRotation m_rotation = null;
+    private CombatHandler m_combat = null;
 
     private Animator m_animator = null;
     private InputReader m_input = null;
@@ -25,13 +26,11 @@ public partial class Player : MonoBehaviour
         get => transform.position.Planar();
         set => transform.position = new Vector3(value.x, transform.position.y, value.y);
     }
-
     public float angle
     {
         get => transform.eulerAngles.y;
         set => transform.rotation = Quaternion.Euler(0f, value, 0f);
     }
-
     public Vector2 forward
     {
         get => transform.forward.Planar();
@@ -40,9 +39,10 @@ public partial class Player : MonoBehaviour
 
     private void Awake()
     {
-        m_movement = GetComponent<PlayerMovement>();
-        m_rotation = GetComponent<PlayerRotation>();
-        m_animator = GetComponent<Animator>();
+        m_movement  = GetComponent<PlayerMovement>();
+        m_rotation  = GetComponent<PlayerRotation>();
+        m_combat    = GetComponent<CombatHandler>();
+        m_animator  = GetComponent<Animator>();
 
         m_input = FindObjectOfType<InputReader>();
     }
@@ -52,7 +52,7 @@ public partial class Player : MonoBehaviour
         m_stateMachine = new(this,
 
             new State<Player>(new FreeMove(), new(
-                new Condition(() => m_input.attackInput, typeof(AttackLeft)))),
+                new Condition(() => m_combat.ConfirmBuffer(), typeof(AttackLeft)))),
 
             new State<Player>(new AttackLeft(), new(
                 new Condition(() => m_input.attackInput, typeof(AttackRight)),

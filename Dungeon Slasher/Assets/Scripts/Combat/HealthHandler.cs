@@ -5,28 +5,28 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Collider))]
 public class HealthHandler : MonoBehaviour, IDamagable
 {
-    [SerializeField] private Health m_health;
+    [SerializeField] protected Health m_health;
     [Space]
-    [SerializeField] private UnityEvent<int, int> m_onHealthChange;
-    [SerializeField] private UnityEvent m_onDeath;
+    [SerializeField] protected UnityEvent<int, int> m_onHealthChange;
+    [SerializeField] protected UnityEvent m_onDeath;
 
     public int health => m_health.health;
     public int maxHealth => m_health.maxHealth;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         m_health.onHealthChange += (h, m) => m_onHealthChange.Invoke(h, m);
         m_health.onDeath        += () => m_onDeath.Invoke();
     }
 
-    private void OnDestroy()
+    protected virtual void OnDestroy()
     {
         m_health.onHealthChange = null;
         m_health.onDeath        = null;
     }
 
-    public void Damage(int _damage)
+    public virtual void Damage(AttackInstance _instance)
     {
-        m_health.ChangeHealth(-_damage);
+        m_health.ChangeHealth(-_instance.damage);
     }
 }

@@ -76,5 +76,21 @@ namespace Joeri.Tools.Utilities
             }
             onFinish.Invoke();
         }
+
+        /// <summary>
+        /// Progresses an unscaled timer, and calls the 'onTick' each frame with an AnimationCurve 0-1 float as parameter, before calling the 'onFinish' event.
+        /// </summary>
+        public static IEnumerator CustomProgressionRealtime(float time, AnimationCurve curve, Action<float> onTick, Action onFinish)
+        {
+            var timer = 0f;
+
+            while (timer < time)
+            {
+                timer += Time.unscaledDeltaTime;
+                onTick.Invoke(curve.Evaluate(timer / time));
+                yield return null;
+            }
+            onFinish.Invoke();
+        }
     }
 }
