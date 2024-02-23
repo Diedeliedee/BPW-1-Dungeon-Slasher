@@ -21,6 +21,8 @@ public partial class Player : MonoBehaviour
     private Animator m_animator = null;
     private InputReader m_input = null;
 
+    private const float m_offsetAngle = 45f;
+
     public Vector2 position
     {
         get => transform.position.Planar();
@@ -52,14 +54,14 @@ public partial class Player : MonoBehaviour
         m_stateMachine = new(this,
 
             new State<Player>(new FreeMove(), new(
-                new Condition(() => m_combat.ConfirmBuffer(), typeof(AttackLeft)))),
+                new Condition(() => m_combat.ConfirmBuffer(), typeof(Attack)))),
 
-            new State<Player>(new AttackLeft(), new(
+            new State<Player>(new Attack(), new(
                 new Condition(() => m_input.attackInput, typeof(AttackRight)),
                 new Condition(() => StateBeyondMark(0.25f), typeof(FreeMove)))),
 
             new State<Player>(new AttackRight(), new(
-                new Condition(() => m_input.attackInput, typeof(AttackLeft)),
+                new Condition(() => m_input.attackInput, typeof(Attack)),
                 new Condition(() => StateBeyondMark(0.25f), typeof(FreeMove)))));
 
     }

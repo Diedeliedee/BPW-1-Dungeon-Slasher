@@ -16,8 +16,6 @@ public class PlayerMovement : MonoBehaviour
     private Accel.Flat m_movement = new();
     private CharacterController m_controller = null;
 
-    private const float m_offsetAngle = 45f;
-
     private void Awake()
     {
         m_controller = GetComponent<CharacterController>();
@@ -25,7 +23,6 @@ public class PlayerMovement : MonoBehaviour
 
     public void MoveInDirection(Vector2 _input)
     {
-        _input.ApplyRotation(m_offsetAngle);
         m_controller.Move(m_movement.CalculateVelocity(_input, speed, grip, Time.deltaTime).Cubular() * Time.deltaTime);
     }
 

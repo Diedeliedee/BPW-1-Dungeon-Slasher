@@ -1,4 +1,5 @@
 ﻿using Joeri.Tools.Structure.StateMachine.Advanced;
+using Joeri.Tools.Utilities;
 
 public partial class Player
 {
@@ -12,8 +13,11 @@ public partial class Player
 
         public override void OnTick()
         {
-            source.m_movement.MoveInDirection(source.m_input.moveInput);
-            source.m_rotation.RotateTo(source.m_input.lookInput);
+            var movementDirection = source.m_input.moveInput.Rotate(m_offsetAngle);
+            var lookDirection = source.m_input.lookInput.Rotate(m_offsetAngle);
+
+            source.m_movement.MoveInDirection(movementDirection);
+            source.m_rotation.RotateTo(lookDirection);
         }
     }
 }

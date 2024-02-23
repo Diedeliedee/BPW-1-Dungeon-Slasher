@@ -6,5 +6,6 @@ public partial class Player
 {
     public class Combat : Execution<Player>
     {
+
     }
 }
