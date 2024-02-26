@@ -5,7 +5,11 @@ public class CombatHandler : MonoBehaviour
     [SerializeField] private Weapon m_weapon;
 
     private InputReader m_input = null;
+
+    private Phase m_phase = default;
     private bool m_inptBuffer = false;
+
+    public Phase phase => m_phase;
 
     private void Awake()
     {
@@ -41,4 +45,11 @@ public class CombatHandler : MonoBehaviour
         return buffer;
     }
 
+    public enum Phase
+    {
+        Startup,
+        Attack,
+        FollowThrough,
+        Recover,
+    }
 }

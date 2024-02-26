@@ -54,11 +54,7 @@ public partial class Player : MonoBehaviour
         m_stateMachine = new(this,
 
             new State<Player>(new FreeMove(), new(
-                new Condition(() => m_combat.ConfirmBuffer(), typeof(Attack)))),
-
-            new State<Player>(new Attack(), new(
-                new Condition(() => m_input.attackInput, typeof(AttackRight)),
-                new Condition(() => StateBeyondMark(0.25f), typeof(FreeMove)))),
+                new Condition(() => m_combat.ConfirmBuffer(), typeof())),
 
             new State<Player>(new AttackRight(), new(
                 new Condition(() => m_input.attackInput, typeof(Attack)),

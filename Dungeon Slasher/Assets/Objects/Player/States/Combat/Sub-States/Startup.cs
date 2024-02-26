@@ -4,21 +4,23 @@ using UnityEngine;
 
 public partial class Player
 {
-    public class Startup : CombatState
+    public class Startup : Execution<Player>
     {
-        private const float m_offsetAngle = 45f;
+        protected readonly string m_animation = null;
 
         private float m_startAngle  = default;
         private float m_targetAngle = default;
 
-        public Startup(string _animationName) : base(_animationName) { }
+
+        public Startup(string _animationName)
+        {
+            m_animation = _animationName;
+        }
 
         public override void OnEnter()
         {
-            var attackDir = source.m_input.lookInput.Rotate(m_offsetAngle).normalized;
-
-            m_startAngle = source.angle;
-            m_targetAngle = attackDir.ToAngle();
+            m_startAngle    = source.angle;
+            m_targetAngle   = source.m_input.lookInput.Rotate(m_offsetAngle).normalized.ToAngle();
 
             source.m_animator.Play(m_animation, -1, 0f);
         }
