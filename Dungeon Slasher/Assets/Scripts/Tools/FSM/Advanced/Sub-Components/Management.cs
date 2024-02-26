@@ -26,17 +26,19 @@ namespace Joeri.Tools.Structure.StateMachine.Advanced
             m_activeChild?.Tick();
         }
 
-        public void OnSwitch(System.Type state)
+        public bool OnSwitch(System.Type state)
         {
             m_activeChild?.Reset();
             m_activeChild?.OnExit();
 
-            try { m_activeChild = children[state]; }
-            catch { Debug.LogError($"The child state: '{state.Name}' is not found within the state's lower hierarchy."); return; }
+            try     { m_activeChild = children[state]; }
+            catch   { return false; }
 
             m_activeChild.OnEnter();
             m_activeChild.Activate();
+
             Debug.Log($"Entered state: '{state.Name}'.");
+            return true;
         }
 
         public void Activate()

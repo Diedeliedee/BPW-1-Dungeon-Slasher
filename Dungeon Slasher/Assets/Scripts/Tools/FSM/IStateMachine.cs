@@ -12,6 +12,7 @@ namespace Joeri.Tools.Structure.StateMachine
         /// <summary>
         /// Tells the state machine to switch to another state of the passed in type parameter.
         /// </summary>
-        public void OnSwitch(Type state);
+        /// <returns>Whether the machine succesfully switched to the other state.</returns>
+        public bool OnSwitch(Type state);
     }
 }

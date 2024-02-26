@@ -37,12 +37,13 @@ namespace Joeri.Tools.Structure.StateMachine.Simple
             m_activeState.OnTick();
         }
 
-        public virtual void OnSwitch(System.Type state)
+        public virtual bool OnSwitch(System.Type state)
         {
             m_activeState?.OnExit();
             try     { m_activeState = m_states[state]; }
-            catch   { Debug.LogError($"The state: '{state.Name}' is not found within the state dictionary."); return; }
+            catch   { Debug.LogError($"The state: '{state.Name}' is not found within the state dictionary."); return false; }
             m_activeState?.OnEnter();
+            return true;
         }
 
         /// <summary>

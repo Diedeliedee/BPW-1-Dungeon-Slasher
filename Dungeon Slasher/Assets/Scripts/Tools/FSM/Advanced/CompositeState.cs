@@ -46,9 +46,16 @@ namespace Joeri.Tools.Structure.StateMachine.Advanced
             m_management?.Tick();
         }
 
-        public void OnSwitch(System.Type state)
+        public bool OnSwitch(System.Type state)
         {
-            m_management.OnSwitch(state);
+            //  If the given state is not found in the children of this state.
+            if (!m_management.OnSwitch(state))
+            {
+                //  Try asking the parent to switch to that state.
+                parent.OnSwitch(state);
+                return false;
+            }
+            return true;
         }
         #endregion
 

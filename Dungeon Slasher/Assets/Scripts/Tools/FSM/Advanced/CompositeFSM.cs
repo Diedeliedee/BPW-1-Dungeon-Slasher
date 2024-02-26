@@ -25,16 +25,17 @@ namespace Joeri.Tools.Structure.StateMachine.Advanced
             m_activeRootState.Tick();
         }
 
-        public void OnSwitch(Type state)
+        public bool OnSwitch(Type state)
         {
             m_activeRootState?.Reset();
             m_activeRootState?.OnExit();
 
             try     { m_activeRootState = m_rootStates[state]; }
-            catch   { Debug.LogError($"The state: '{state.Name}' is not found within the state dictionary."); return; }
+            catch   { Debug.LogError($"The state: '{state.Name}' is not found within the state dictionary."); return false; }
 
             m_activeRootState.OnEnter();
             m_activeRootState.Activate();
+            return true;
         }
 
         private CompositeState<T> BuildState(State<T> _state, IStateMachine _parent, T _source)
