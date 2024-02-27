@@ -1,16 +1,16 @@
 using Joeri.Tools.Structure.StateMachine.Advanced;
 using Joeri.Tools.Utilities;
 using UnityEngine;
+using UnityEngine.UI;
 
 public partial class Player : MonoBehaviour
 {
     [SerializeField] private float m_speed = 10f;
     [SerializeField] private float m_grip = 20f;
 
-    [SerializeField] private float m_attackThing1 = 10f;
-    [SerializeField] private float m_attackThing2 = 10f;
-    [SerializeField] private string m_attackLeftName = "Swing Left";
-    [SerializeField] private string m_attackRightName = "Swing Right";
+    [SerializeField] private float m_attackVelocity = 40f;
+    [SerializeField] private float m_attackTime = 0.15f;
+    [SerializeField] private float m_recoverSpeedMultiplier = 0.5f;
 
     private CompositeFSM<Player> m_stateMachine = null;
 
@@ -54,12 +54,23 @@ public partial class Player : MonoBehaviour
         m_stateMachine = new(this,
 
             new State<Player>(new FreeMove(), new(
-                new Condition(() => m_combat.ConfirmBuffer(), typeof())),
+                new Condition(() => m_combat.ConfirmBuffer(), typeof(StartupLeft)))),
 
+            new State<Player>(new StartupLeft(), new(
+                new Condition(() => AnimationAt(1f), typeof(AttackLeft)))),
+            new State<Player>(new AttackLeft(), new(
+                new Condition(() => AnimationAt(1f), typeof(RecoverLeft)))),
+            new State<Player>(new RecoverLeft(), new(
+                new Condition(() => m_combat.ConfirmBuffer(), typeof(StartupRight)),
+                new Condition(() => AnimationAt(0.333f), typeof(FreeMove)))),
+
+            new State<Player>(new StartupRight(), new(
+                new Condition(() => AnimationAt(1f), typeof(AttackRight)))),
             new State<Player>(new AttackRight(), new(
-                new Condition(() => m_input.attackInput, typeof(Attack)),
-                new Condition(() => StateBeyondMark(0.25f), typeof(FreeMove)))));
-
+                new Condition(() => AnimationAt(1f), typeof(RecoverRight)))),
+            new State<Player>(new RecoverRight(), new(
+                new Condition(() => m_combat.ConfirmBuffer(), typeof(StartupLeft)),
+                new Condition(() => AnimationAt(0.333f), typeof(FreeMove)))));
     }
 
     private void Update()
@@ -67,10 +78,13 @@ public partial class Player : MonoBehaviour
         m_stateMachine.Tick();
     }
 
-    private bool StateBeyondMark(float _mark)
+    private bool AnimationPlaying(string _name)
     {
-        var state = m_animator.GetCurrentAnimatorStateInfo(0);
+        return m_animator.GetCurrentAnimatorStateInfo(0).IsName(_name);
+    }
 
-        return state.normalizedTime * state.length >= _mark;
+    private bool AnimationAt(float _mark)
+    {
+        return m_animator.GetCurrentAnimatorStateInfo(0).normalizedTime > _mark;
     }
 }

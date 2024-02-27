@@ -6,10 +6,10 @@ public class CombatHandler : MonoBehaviour
 
     private InputReader m_input = null;
 
-    private Phase m_phase = default;
-    private bool m_inptBuffer = false;
+    private bool m_active = false;
+    private bool m_inputBuffer = false;
 
-    public Phase phase => m_phase;
+    public bool active => m_active;
 
     private void Awake()
     {
@@ -18,7 +18,7 @@ public class CombatHandler : MonoBehaviour
 
     private void Update()
     {
-        m_inptBuffer = m_input.attackInput;
+        if (m_input.attackInput) m_inputBuffer = true;
     }
 
     /// <summary>
@@ -26,6 +26,7 @@ public class CombatHandler : MonoBehaviour
     /// </summary>
     public virtual void StartAttack()
     {
+        m_active = true;
         m_weapon.StartAttack();
     }
 
@@ -34,22 +35,15 @@ public class CombatHandler : MonoBehaviour
     /// </summary>
     public virtual void EndAttack()
     {
+        m_active = false;
         m_weapon.EndAttack();
     }
 
     public bool ConfirmBuffer()
     {
-        var buffer = m_inptBuffer;
+        var buffer = m_inputBuffer;
 
-        m_inptBuffer = false;
+        m_inputBuffer = false;
         return buffer;
-    }
-
-    public enum Phase
-    {
-        Startup,
-        Attack,
-        FollowThrough,
-        Recover,
     }
 }
