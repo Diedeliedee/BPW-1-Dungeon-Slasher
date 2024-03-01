@@ -591,15 +591,53 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_health:
-    m_maxHealth: 10
-    m_health: 10
+    m_maxHealth: 8
+    m_health: 8
   m_onHealthChange:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3872461979845279517}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Hurt
+          m_BoolArgument: 0
+        m_CallState: 2
   m_onDeath:
     m_PersistentCalls:
-      m_Calls: []
-  m_animator: {fileID: 3872461979845279517}
+      m_Calls:
+      - m_Target: {fileID: 3872461979845279517}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Death
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_onStunned:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3872461979845279517}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Stunned
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!136 &7068868985139557297
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -741,6 +779,9 @@ MonoBehaviour:
   m_attackRange: 2
   m_stalkIncrementation: 0.8
   m_stalkRotationDegrees: 90
+  m_onRequestDespawn:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &176904888157173185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -753,6 +794,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e15ea7e0f2cc3d479f3c0fe14025598, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_onAttackStart:
+    m_PersistentCalls:
+      m_Calls: []
+  m_onAttackHit:
+    m_PersistentCalls:
+      m_Calls: []
+  m_onAttackEnd:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!95 &3872461979845279517
 Animator:
   serializedVersion: 5

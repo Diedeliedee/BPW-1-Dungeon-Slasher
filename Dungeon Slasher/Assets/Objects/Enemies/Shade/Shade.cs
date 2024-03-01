@@ -1,12 +1,14 @@
 using Joeri.Tools.AI.BehaviorTree;
 using Joeri.Tools.Debugging;
 using Joeri.Tools.Patterns;
+using Joeri.Tools.Patterns.ObjectPool;
 using Joeri.Tools.Utilities;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
-public class Shade : MonoBehaviour
+public class Shade : MonoBehaviour, IPoolItem
 {
     [SerializeField] private float m_stalkSpeed = 1f;
     [SerializeField] private float m_chargeSpeed = 3f;
@@ -19,6 +21,8 @@ public class Shade : MonoBehaviour
     [Space]
     [SerializeField] private float m_stalkIncrementation = 0.5f;
     [SerializeField] private float m_stalkRotationDegrees = 30f;
+    [Space]
+    [SerializeField] private UnityEvent<Shade> m_onRequestDespawn;
 
     private BehaviorTree m_tree = null;
     private NavMeshAgent m_agent = null;
@@ -29,6 +33,8 @@ public class Shade : MonoBehaviour
     private SelfMemory m_selfMemory = new();
     private TargetMemory m_targetMemory = new();
     private TimeMemory m_timeMemory = new();
+
+    public UnityEvent<Shade> onRequestDespawn => m_onRequestDespawn;
 
     public Vector2 position
     {
@@ -71,10 +77,8 @@ public class Shade : MonoBehaviour
         m_tree = new BehaviorTree(
             new Selector(
                 new Sequence(
-                    new Cherrypicker(State.Succes,
-                        new IsAnimationPlaying("Attack"),
-                        new IsAnimationPlaying("Stunned"),
-                        new IsAnimationPlaying("Hurt")),
+                    new Invert(
+                        new IsAnimationPlaying("Idle")),
                     new Wait("Unable to do anything..")),
                 new Sequence(
                     new PrioritizeSucces(
@@ -124,4 +128,23 @@ public class Shade : MonoBehaviour
         m_tree.Draw(transform.position + Vector3.up * m_agent.height);
     }
 
+    public void RequestDespawn()
+    {
+        m_onRequestDespawn.Invoke(this);
+    }
+
+    public void OnCreate()
+    {
+
+    }
+
+    public void OnSpawn()
+    {
+        m_animator.Play("Spawn", -1, 0f);
+    }
+
+    public void OnDespawn()
+    {
+        m_agent.ResetPath();
+    }
 }

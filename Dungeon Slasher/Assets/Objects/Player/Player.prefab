@@ -805,7 +805,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f50b9f74a4c172844ad52fb1405885f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_damage: 1
+  m_damage: 4
 --- !u!136 &4948504356503616148
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -874,7 +874,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f50b9f74a4c172844ad52fb1405885f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_damage: 1
+  m_damage: 4
 --- !u!136 &4307248646825283634
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1035,10 +1035,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_speed: 10
   m_grip: 20
-  m_attackThing1: 40
-  m_attackThing2: 0.15
-  m_attackLeftName: Swing Left
-  m_attackRightName: Swing Right
+  m_attackVelocity: 40
+  m_attackTime: 0.15
+  m_recoverSpeedMultiplier: 0.5
 --- !u!114 &6767652695448151262
 MonoBehaviour:
   m_ObjectHideFlags: 0
