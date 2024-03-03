@@ -238,7 +238,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: For long they have sought to graps what lies beyond infinity.
+  m_text: For long they have sought to grasp what lies beyond infinity.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d3430d36d783f1947aed055f7d4839da, type: 2}
   m_sharedMaterial: {fileID: 6385105671182367442, guid: d3430d36d783f1947aed055f7d4839da,
