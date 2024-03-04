@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_enemiesToSpawn:
-  - {fileID: 5897057629450513870, guid: a6411a705b937fe45ac9703b02d0ecbe, type: 3}
+  - Shade
   m_spawnPointParent: {fileID: 5506473141622620611}
   m_onEnemyKilled:
     m_PersistentCalls:

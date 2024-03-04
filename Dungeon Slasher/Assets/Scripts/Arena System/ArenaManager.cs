@@ -15,7 +15,6 @@ public class ArenaManager : MonoBehaviour
 
     //  Reference:
     private ArenaSpawnHandler m_spawner = null;
-    private TriggerEventRelay m_activationTrigger = null;
     private Timer m_spawnTimer = null;
 
     // Run-time:
@@ -25,7 +24,6 @@ public class ArenaManager : MonoBehaviour
     private void Awake()
     {
         m_spawner = GetComponentInChildren<ArenaSpawnHandler>();
-        m_activationTrigger = GetComponentInChildren<TriggerEventRelay>();
         m_spawnTimer = new Timer(m_spawnTime);
     }
 
