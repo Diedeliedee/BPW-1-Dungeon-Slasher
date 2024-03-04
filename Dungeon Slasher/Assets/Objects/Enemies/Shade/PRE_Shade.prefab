@@ -638,6 +638,10 @@ MonoBehaviour:
           m_StringArgument: Stunned
           m_BoolArgument: 0
         m_CallState: 2
+  m_onFlabbergasted:
+    m_PersistentCalls:
+      m_Calls: []
+  m_element: 1
 --- !u!136 &7068868985139557297
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -779,7 +783,7 @@ MonoBehaviour:
   m_attackRange: 2
   m_stalkIncrementation: 0.8
   m_stalkRotationDegrees: 90
-  m_onRequestDespawn:
+  m_onDespawn:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &176904888157173185

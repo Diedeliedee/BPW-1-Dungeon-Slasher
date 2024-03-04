@@ -1,14 +1,13 @@
 using Joeri.Tools.AI.BehaviorTree;
+using Joeri.Tools.Patterns.ObjectPool;
 using Joeri.Tools.Debugging;
 using Joeri.Tools.Patterns;
-using Joeri.Tools.Patterns.ObjectPool;
 using Joeri.Tools.Utilities;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
 
-public class Shade : MonoBehaviour, IPoolItem
+public class Shade : PoolItem
 {
     [SerializeField] private float m_stalkSpeed = 1f;
     [SerializeField] private float m_chargeSpeed = 3f;
@@ -22,7 +21,7 @@ public class Shade : MonoBehaviour, IPoolItem
     [SerializeField] private float m_stalkIncrementation = 0.5f;
     [SerializeField] private float m_stalkRotationDegrees = 30f;
     [Space]
-    [SerializeField] private UnityEvent<Shade> m_onRequestDespawn;
+    [SerializeField] private UnityEvent<Shade> m_onDespawn;
 
     private BehaviorTree m_tree = null;
     private NavMeshAgent m_agent = null;
@@ -34,7 +33,7 @@ public class Shade : MonoBehaviour, IPoolItem
     private TargetMemory m_targetMemory = new();
     private TimeMemory m_timeMemory = new();
 
-    public UnityEvent<Shade> onRequestDespawn => m_onRequestDespawn;
+    public UnityEvent<Shade> onDespawn => m_onDespawn;
 
     public Vector2 position
     {
@@ -101,6 +100,16 @@ public class Shade : MonoBehaviour, IPoolItem
         m_tree.PassBlackboard(blackboard);
     }
 
+    protected override void OnSpawn()
+    {
+        m_animator.Play("Spawn", -1, 0f);
+    }
+
+    protected override void OnDespawn()
+    {
+        m_onDespawn.Invoke(this);
+    }
+
     private void Update()
     {
         m_selfMemory.Update(transform, m_agent.velocity);
@@ -126,25 +135,5 @@ public class Shade : MonoBehaviour, IPoolItem
         if (!Application.isPlaying) return;
 
         m_tree.Draw(transform.position + Vector3.up * m_agent.height);
-    }
-
-    public void RequestDespawn()
-    {
-        m_onRequestDespawn.Invoke(this);
-    }
-
-    public void OnCreate()
-    {
-
-    }
-
-    public void OnSpawn()
-    {
-        m_animator.Play("Spawn", -1, 0f);
-    }
-
-    public void OnDespawn()
-    {
-        m_agent.ResetPath();
     }
 }
