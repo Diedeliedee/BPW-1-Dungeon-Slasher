@@ -1,5 +1,5 @@
 using Joeri.Tools.Patterns.ObjectPool;
-using Joeri.Tools.Patterns.ServiceLocator;
+using Joeri.Tools.Patterns;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;

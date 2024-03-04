@@ -1,4 +1,4 @@
-using Joeri.Tools.Patterns.ServiceLocator;
+using Joeri.Tools.Patterns;
 using Joeri.Tools.Structure.StateMachine.Advanced;
 using Joeri.Tools.Utilities;
 using UnityEngine;
