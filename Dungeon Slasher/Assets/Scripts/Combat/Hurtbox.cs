@@ -7,7 +7,7 @@ public class Hurtbox : MonoBehaviour
     [SerializeField] private int m_damage = 1;
 
     //  Events:
-    public OnHitEvent onHit;
+    public System.Action<IDamagable, int, Vector3> onHit;
 
     //  Cache:
     private Vector3 m_previousPosition  = default;
@@ -29,6 +29,4 @@ public class Hurtbox : MonoBehaviour
         if (!other.TryGetComponent(out IDamagable _damagable)) return;
         onHit?.Invoke(_damagable, m_damage, m_velocity);
     }
-
-    public delegate bool OnHitEvent(IDamagable _damagable, int _damage, Vector3 _attackVelocity);
 }

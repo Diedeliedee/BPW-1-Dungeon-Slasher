@@ -25,8 +25,9 @@ public class HealthHandler : MonoBehaviour, IDamagable
         m_health.onDeath        = null;
     }
 
-    public virtual void Damage(AttackInstance _instance)
+    public virtual HitCallback Damage(AttackInstance _instance)
     {
         m_health.ChangeHealth(-_instance.damage);
+        return HitCallback.Hit;
     }
 }

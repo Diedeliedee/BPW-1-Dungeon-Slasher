@@ -1,4 +1,4 @@
 public interface IDamagable
 {
-    public void Damage(AttackInstance _instance);
+    public HitCallback Damage(AttackInstance _instance);
 }

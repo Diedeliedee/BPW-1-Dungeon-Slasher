@@ -15,7 +15,7 @@ public class Weapon : MonoBehaviour
     protected List<IDamagable> m_caughtDamagables = new();
     protected UnityEvent m_AttackEndCallbak = new();
 
-    private void Awake()
+    protected virtual void Awake()
     {
         //  Register the hit events by all child hurtboxes.
         m_hurtboxes = GetComponentsInChildren<Hurtbox>(true);
@@ -25,10 +25,10 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    protected virtual bool OnHitDamagable(IDamagable _damagable, int _damage, Vector3 _velocity)
+    protected virtual void OnHitDamagable(IDamagable _damagable, int _damage, Vector3 _velocity)
     {
         //  Guard clause.
-        if (m_caughtDamagables.Contains(_damagable)) return false;
+        if (m_caughtDamagables.Contains(_damagable)) return;
 
         //  Creating attack data container.
         var instance = new AttackInstance();
@@ -44,8 +44,6 @@ public class Weapon : MonoBehaviour
 
         //  Adding damagable to the culling list.
         m_caughtDamagables.Add(_damagable);
-
-        return true;
     }
 
     public virtual void StartAttack()
