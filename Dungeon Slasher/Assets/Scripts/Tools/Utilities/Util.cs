@@ -125,6 +125,13 @@ namespace Joeri.Tools.Utilities
             return velocity;
         }
 
+        public static List<T> CastList<T, O>(List<O> _list) where T : O
+        {
+            var castedList = new List<T>();
+
+            for (int i = 0; i < _list.Count; i++) castedList.Add((T)_list[i]);
+            return castedList;
+        }
     }
 }
 

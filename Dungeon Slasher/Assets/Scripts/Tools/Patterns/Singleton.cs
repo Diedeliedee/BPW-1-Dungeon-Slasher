@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Joeri.Tools.Structure
+namespace Joeri.Tools.Patterns
 {
     public class Singleton<T> : MonoBehaviour
     {
