@@ -1,3 +1,4 @@
+using Joeri.Tools.Patterns.ServiceLocator;
 using Joeri.Tools.Structure.StateMachine.Advanced;
 using Joeri.Tools.Utilities;
 using UnityEngine;
@@ -45,8 +46,7 @@ public partial class Player : MonoBehaviour
         m_rotation  = GetComponent<PlayerRotation>();
         m_combat    = GetComponent<CombatHandler>();
         m_animator  = GetComponent<Animator>();
-
-        m_input = FindObjectOfType<InputReader>();
+        m_input     = ServiceLocator.instance.Get<InputReader>("Input Reader");
     }
 
     private void Start()

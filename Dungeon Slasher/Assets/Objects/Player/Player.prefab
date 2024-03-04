@@ -757,6 +757,13 @@ MonoBehaviour:
   m_onAttackEnd:
     m_PersistentCalls:
       m_Calls: []
+  m_onAttackFumbled:
+    m_PersistentCalls:
+      m_Calls: []
+  m_onAttackBlocked:
+    m_PersistentCalls:
+      m_Calls: []
+  m_element: 1
   m_slashEffect: {fileID: 7297266546172576993, guid: 69a7ffb6eb711cf4ea5d8abff8134d6f,
     type: 3}
   m_weaponPivot: {fileID: 4922367569365634741}
