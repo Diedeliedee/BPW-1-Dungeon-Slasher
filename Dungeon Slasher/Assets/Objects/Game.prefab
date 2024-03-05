@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7813702567899934090}
-  - component: {fileID: 505265004231052425}
+  - component: {fileID: 3111921324099603536}
   m_Layer: 0
   m_Name: Enemy Collection
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1964370719872645197}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &505265004231052425
+--- !u!114 &3111921324099603536
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,14 +41,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1474084431282688352}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 615ae5a17cd0f8c42b09a4e4e80413bc, type: 3}
+  m_Script: {fileID: 11500000, guid: e13e75b59c138d041ba55512033d99bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_poolTypes:
+  m_types:
   - type: Shade
     prefab: {fileID: 5897057629450513870, guid: a6411a705b937fe45ac9703b02d0ecbe,
       type: 3}
-  m_groupSize: 5
 --- !u!1 &2209042148000728990
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,8 +134,8 @@ MonoBehaviour:
   m_serviceItems:
   - {fileID: 8644278775919654523}
   - {fileID: 1674139507317226315}
-  - {fileID: 8415047872648291012}
-  - {fileID: 505265004231052425}
+  - {fileID: 5413986194654776941}
+  - {fileID: 3111921324099603536}
 --- !u!1 &7816930008708015354
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,7 +234,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1928616106273544982}
-  - component: {fileID: 8415047872648291012}
+  - component: {fileID: 5413986194654776941}
   m_Layer: 0
   m_Name: Effect Collection
   m_TagString: Untagged
@@ -258,7 +257,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1964370719872645197}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8415047872648291012
+--- !u!114 &5413986194654776941
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -267,23 +266,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 9054983934049029908}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 615ae5a17cd0f8c42b09a4e4e80413bc, type: 3}
+  m_Script: {fileID: 11500000, guid: e13e75b59c138d041ba55512033d99bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_poolTypes:
-  - type: Slash Dark
-    prefab: {fileID: 7297266546172576993, guid: 56228d1b1b9ae884b88c976a790cea4e,
-      type: 3}
+  m_types:
   - type: Slash Light
     prefab: {fileID: 7297266546172576993, guid: 69a7ffb6eb711cf4ea5d8abff8134d6f,
       type: 3}
-  - type: Fumble Dark
-    prefab: {fileID: 6204856376424248018, guid: 2e62ca7e15c25f74d8588ffc165fe600,
+  - type: Slash Dark
+    prefab: {fileID: 7297266546172576993, guid: 56228d1b1b9ae884b88c976a790cea4e,
       type: 3}
   - type: Fumble Light
     prefab: {fileID: 6204856376424248018, guid: a082aece63d904540864e73894ad152f,
       type: 3}
-  m_groupSize: 5
+  - type: Fumble Dark
+    prefab: {fileID: 6204856376424248018, guid: 2e62ca7e15c25f74d8588ffc165fe600,
+      type: 3}
 --- !u!1001 &275190463403361123
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -305,7 +303,7 @@ PrefabInstance:
     - target: {fileID: 5080804457633537864, guid: c3a58815defb71f47b3dddd5e278e652,
         type: 3}
       propertyPath: m_RenderMode
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5080804457633537864, guid: c3a58815defb71f47b3dddd5e278e652,
         type: 3}
@@ -479,7 +477,7 @@ PrefabInstance:
     - target: {fileID: 6020155735758405159, guid: 2aed714167945e24cb97363eb3047a83,
         type: 3}
       propertyPath: m_onAttackHit.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_FloatArgument
-      value: 0.05
+      value: 0.03
       objectReference: {fileID: 0}
     - target: {fileID: 6020155735758405159, guid: 2aed714167945e24cb97363eb3047a83,
         type: 3}
