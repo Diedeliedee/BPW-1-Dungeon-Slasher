@@ -1,5 +1,4 @@
 using Joeri.Tools.AI.BehaviorTree;
-using Joeri.Tools.Patterns.ObjectPool;
 using Joeri.Tools.Debugging;
 using Joeri.Tools.Patterns;
 using Joeri.Tools.Utilities;
@@ -7,7 +6,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
 
-public class Shade : PoolItem
+public class Shade : MonoBehaviour
 {
     [SerializeField] private float m_stalkSpeed = 1f;
     [SerializeField] private float m_chargeSpeed = 3f;
@@ -98,16 +97,8 @@ public class Shade : PoolItem
                 new Wait("Idle.")));
 
         m_tree.PassBlackboard(blackboard);
-    }
 
-    protected override void OnSpawn()
-    {
         m_animator.Play("Spawn", -1, 0f);
-    }
-
-    protected override void OnDespawn()
-    {
-        m_onDespawn.Invoke(this);
     }
 
     private void Update()
@@ -115,6 +106,12 @@ public class Shade : PoolItem
         m_selfMemory.Update(transform, m_agent.velocity);
         m_timeMemory.deltaTime = Time.deltaTime;
         m_tree.Tick();
+    }
+
+    public void RequestDespawn()
+    {
+        m_onDespawn.Invoke(this);
+        Destroy(gameObject);
     }
 
     private Vector2 GetNewStalkPosition()

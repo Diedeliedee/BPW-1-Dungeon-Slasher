@@ -2,6 +2,7 @@ using Joeri.Tools.Patterns.ObjectPool;
 using Joeri.Tools.Patterns;
 using UnityEngine;
 using UnityEngine.Events;
+using Joeri.Tools.Utilities.SpawnManager;
 
 public class PlayerWeapon : Weapon
 {
@@ -13,12 +14,12 @@ public class PlayerWeapon : Weapon
     [Space]
     [SerializeField] private Transform m_weaponPivot;
 
-    private PoolCollection m_effects = null;
+    private ISpawnManager m_effects = null;
 
     protected override void Awake()
     {
         base.Awake();
-        m_effects = ServiceLocator.instance.Get<PoolCollection>("Effect Collection");
+        m_effects = ServiceLocator.instance.Get<ISpawnManager>("Effect Collection");
     }
 
     protected override void OnHitDamagable(IDamagable _damagable, int _damage, Vector3 _velocity)
@@ -67,6 +68,6 @@ public class PlayerWeapon : Weapon
                 break;
         }
 
-        m_effects.Spawn<PoolItem>(effectType, m_weaponPivot.position, m_weaponPivot.rotation);
+        m_effects.Spawn(effectType, m_weaponPivot.position, m_weaponPivot.rotation);
     }
 }

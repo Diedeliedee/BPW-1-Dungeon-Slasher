@@ -306,7 +306,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5161393861733822481}
   - component: {fileID: 563829910099144878}
-  - component: {fileID: 226057119176143916}
+  - component: {fileID: 1940315302427461752}
   m_Layer: 0
   m_Name: PRE_Fumble Particle Base
   m_TagString: Untagged
@@ -354,7 +354,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &226057119176143916
+--- !u!114 &1940315302427461752
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -363,7 +363,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8188784273423331293}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f0d9ebd657b88c4287181bf8a2d3fb3, type: 3}
+  m_Script: {fileID: 11500000, guid: 2e32b4e787d738a4baea644b11ce99ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8355836031671404209
