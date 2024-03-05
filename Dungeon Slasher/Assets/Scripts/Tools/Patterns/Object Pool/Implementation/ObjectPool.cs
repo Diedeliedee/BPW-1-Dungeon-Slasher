@@ -39,16 +39,32 @@ namespace Joeri.Tools.Patterns.ObjectPool
             parent.parent = _root;
         }
 
-        /// <summary>
-        /// Picks an item from the object pool, and 'spawns' it at the given location and rotation.
-        /// </summary>
-        public T Spawn<T>(Vector3 _position, Quaternion _rotation, Transform _parent = null) where T : MonoBehaviour, IPoolItem
+        public GameObject Spawn(Vector3 _position, Quaternion _rotation, Transform _parent = null)
         {
             //  Autogrow if enabled.
             if (m_autoGrow && m_inactiveItems.Count == 0)   InstantiateItems();
             else                                            Debug.LogWarning("Object pool ran out of available items to spawn..", parent);
 
-            //  If no parnet is given, keep the item in the pool transform.
+            //  If no parent is given, keep the item in the pool transform.
+            if (_parent == null) _parent = parent;
+
+            //  Pop an inactive item.
+            var itemSpawned = m_inactiveItems.Pop();
+
+            //  Configure it..
+            itemSpawned.Spawn(_position, _rotation, _parent);
+            m_activeItems.Add(itemSpawned);
+
+            return itemSpawned.link;
+        }
+
+        public T Spawn<T>(Vector3 _position, Quaternion _rotation, Transform _parent = null) where T : IPoolItem
+        {
+            //  Autogrow if enabled.
+            if (m_autoGrow && m_inactiveItems.Count == 0)   InstantiateItems();
+            else                                            Debug.LogWarning("Object pool ran out of available items to spawn..", parent);
+
+            //  If no parent is given, keep the item in the pool transform.
             if (_parent == null) _parent = parent;
 
             //  Pop an inactive item.
@@ -62,15 +78,12 @@ namespace Joeri.Tools.Patterns.ObjectPool
             if (itemSpawned is not T _type)
             {
                 Debug.LogError("Spawned poolitem is not of the requested casting type! >:(");
-                return null;
+                return default;
             }
 
             return _type;
         }
 
-        /// <summary>
-        /// Despawns the item, and places it back into the object pool.
-        /// </summary>
         public void Despawn(IPoolItem _item)
         {
             m_activeItems.Remove(_item);

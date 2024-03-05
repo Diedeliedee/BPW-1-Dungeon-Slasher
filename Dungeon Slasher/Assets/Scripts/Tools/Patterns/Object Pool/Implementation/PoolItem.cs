@@ -7,6 +7,8 @@ namespace Joeri.Tools.Patterns.ObjectPool
         private IObjectPool m_pool = null;
         private Transform m_origin = null;
 
+        public GameObject link => gameObject;
+
         public void Create(IObjectPool _pool, Transform _origin)
         {
             m_pool = _pool;
