@@ -1,5 +1,5 @@
-using Joeri.Tools.Patterns.ObjectPool;
 using Joeri.Tools.Patterns;
+using Joeri.Tools.Utilities.SpawnManager;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -11,17 +11,17 @@ public class ArenaSpawnHandler : MonoBehaviour
     [Space]
     [SerializeField] private UnityEvent<int> m_onEnemyKilled;
 
-    private Transform[] m_spawnPoints           = null;
-    private PoolCollection m_enemyCollection    = null;
-    private List<Shade> m_spawnedEnemies        = null; //  Hardcoded reference to shade for now.
+    private Transform[] m_spawnPoints       = null;
+    private ISpawnManager m_enemyCollection = null;
+    private List<Shade> m_spawnedEnemies    = null; //  Hardcoded reference to shade for now.
 
     public int activeEnemies => m_spawnedEnemies.Count;
 
     private void Awake()
     {
-        m_spawnPoints = m_spawnPointParent.GetComponentsInChildren<Transform>();
-        m_enemyCollection = ServiceLocator.instance.Get<PoolCollection>("Enemy Collection");
-        m_spawnedEnemies = new();
+        m_spawnPoints       = m_spawnPointParent.GetComponentsInChildren<Transform>();
+        m_enemyCollection   = ServiceLocator.instance.Get<ISpawnManager>("Enemy Collection");
+        m_spawnedEnemies    = new();
     }
 
     public void SpawnRandomEnemy()
