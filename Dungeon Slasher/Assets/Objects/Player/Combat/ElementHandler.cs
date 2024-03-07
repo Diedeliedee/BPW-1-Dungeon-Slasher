@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -10,9 +8,16 @@ public class ElementManager : MonoBehaviour
     [SerializeField] private UnityEvent m_onSwitchToLight;
     [SerializeField] private UnityEvent m_onSwitchToDark;
 
+    private PlayerWeapon m_weapon = null;
+
+    private void Awake()
+    {
+        m_weapon = GetComponentInChildren<PlayerWeapon>();
+    }
+
     private void Start()
     {
-        //SwitchTo(m_element);
+        SwitchTo(m_element);
     }
 
     public void Switch()
@@ -32,5 +37,6 @@ public class ElementManager : MonoBehaviour
             case Element.Light: m_onSwitchToLight.Invoke(); break;
             case Element.Dark: m_onSwitchToDark.Invoke(); break;
         }
+        m_weapon.SwitchTo(_element);
     }
 }

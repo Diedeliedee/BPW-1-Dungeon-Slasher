@@ -45,7 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_enemiesToSpawn:
-  - Shade
+  - Shade Dark
+  - Shade Light
   m_spawnPointParent: {fileID: 5506473141622620611}
   m_onEnemyKilled:
     m_PersistentCalls:

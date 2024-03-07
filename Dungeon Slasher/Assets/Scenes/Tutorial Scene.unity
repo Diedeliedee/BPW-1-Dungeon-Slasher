@@ -7504,6 +7504,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1220179575309910487, guid: f3327826cb8f354419be3c85742109d9,
+        type: 3}
+      propertyPath: m_maxEnemies
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 1566964927544655722, guid: f3327826cb8f354419be3c85742109d9,
         type: 3}
       propertyPath: m_LocalScale.x

@@ -4,7 +4,8 @@ using UnityEngine.Events;
 public class EnemyHealthHandler : HealthHandler
 {
     [SerializeField] private UnityEvent m_onStunned;
-    [SerializeField] private UnityEvent m_onFlabbergasted;
+    [SerializeField] private UnityEvent m_onDamage;
+    [SerializeField] private UnityEvent m_onFumbled;
     [Space]
     [SerializeField] private Element m_element = Element.None;
 
@@ -22,15 +23,15 @@ public class EnemyHealthHandler : HealthHandler
         }
         else
         {
+            m_onFumbled.Invoke();
             m_health.ChangeHealth(-_instance.damage / 2);
-
-            m_onFlabbergasted.Invoke();
             return HitCallback.Fumbled;
         }
     }
 
     private void OnStunComplete()
     {
+        m_onDamage.Invoke();
         m_health.ChangeHealth(-m_lastHitAttackInstance.damage);
         m_lastHitAttackInstance = null;
     }

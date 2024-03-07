@@ -1,4 +1,3 @@
-using Joeri.Tools.Patterns.ObjectPool;
 using Joeri.Tools.Patterns;
 using UnityEngine;
 using UnityEngine.Events;
@@ -20,6 +19,11 @@ public class PlayerWeapon : Weapon
     {
         base.Awake();
         m_effects = ServiceLocator.instance.Get<ISpawnManager>("Effect Collection");
+    }
+
+    public void SwitchTo(Element _element)
+    {
+        m_element = _element;
     }
 
     protected override void OnHitDamagable(IDamagable _damagable, int _damage, Vector3 _velocity)
