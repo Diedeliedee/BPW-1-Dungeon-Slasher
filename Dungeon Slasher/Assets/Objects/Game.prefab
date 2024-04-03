@@ -612,7 +612,7 @@ PrefabInstance:
     - target: {fileID: 6020155735758405159, guid: 2aed714167945e24cb97363eb3047a83,
         type: 3}
       propertyPath: m_onAttackHit.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_FloatArgument
-      value: 0.03
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 6020155735758405159, guid: 2aed714167945e24cb97363eb3047a83,
         type: 3}
