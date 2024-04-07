@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1092927759022103450}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tree Cluster
   m_TagString: Untagged
   m_Icon: {fileID: 0}

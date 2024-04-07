@@ -163,8 +163,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_health:
-    m_maxHealth: 10
-    m_health: 10
+    m_maxHealth: 4
+    m_health: 4
   m_onHealthChange:
     m_PersistentCalls:
       m_Calls:
@@ -201,7 +201,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.35
   m_Height: 1.4

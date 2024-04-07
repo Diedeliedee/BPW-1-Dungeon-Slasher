@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2345836064039111047}
   - component: {fileID: 7181310485243042715}
   - component: {fileID: 6829421728099387022}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 5471661271009530242}
   - component: {fileID: 1858505530440532703}
   - component: {fileID: 5848909373261471408}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -175,7 +175,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1050605666983390926}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Thing that catches wind
   m_TagString: Untagged
   m_Icon: {fileID: 0}

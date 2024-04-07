@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6293422967103804004}
   - component: {fileID: 3296288018777653429}
   - component: {fileID: 8573930671168767693}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2184439800379723139}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Bush
   m_TagString: Untagged
   m_Icon: {fileID: 0}
