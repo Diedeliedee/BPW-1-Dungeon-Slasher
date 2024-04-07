@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class HealthPoint : MonoBehaviour
 {
-    private bool filled         = true;
+    private bool m_filled = true;
 
     private Animator m_animator = null;
 
@@ -13,15 +13,15 @@ public class HealthPoint : MonoBehaviour
 
     public void Fill()
     {
-        if (filled) return;
+        if (m_filled) return;
         m_animator.Play("Filled");
-        filled = true;
+        m_filled = true;
     }
 
     public void Deplete()
     {
-        if (!filled) return;
+        if (!m_filled) return;
         m_animator.Play("Depleted");
-        filled = false;
+        m_filled = false;
     }
 }
