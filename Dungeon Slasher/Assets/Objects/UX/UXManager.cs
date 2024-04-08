@@ -51,6 +51,11 @@ public class UXManager : MonoBehaviour
         m_curtainCallback = () => m_gameManager.QuitGame();
     }
 
+    public void SetCallbackMainMenu()
+    {
+        m_curtainCallback = () => m_gameManager.LoadMainMenu();
+    }
+
     private void OnDestroy()
     {
         m_curtainCallback = null;
