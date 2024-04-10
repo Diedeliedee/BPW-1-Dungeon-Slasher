@@ -6,24 +6,23 @@ using UnityEngine.UI;
 
 public partial class Player : MonoBehaviour
 {
-    [SerializeField] private float m_speed = 10f;
-    [SerializeField] private float m_grip = 20f;
+    [SerializeField] private PlayerSettings m_settings;
 
-    [SerializeField] private float m_attackVelocity = 40f;
-    [SerializeField] private float m_attackTime = 0.15f;
-    [SerializeField] private float m_recoverSpeedMultiplier = 0.5f;
-
+    //  Components:
     private CompositeFSM<Player> m_stateMachine = null;
 
     private PlayerMovement m_movement = null;
     private PlayerRotation m_rotation = null;
     private CombatHandler m_combat = null;
 
+    //  Reference:
     private Animator m_animator = null;
     private InputReader m_input = null;
 
+    //  Constants:
     private const float m_offsetAngle = 45f;
 
+    #region Properties:
     public Vector2 position
     {
         get => transform.position.Planar();
@@ -39,6 +38,13 @@ public partial class Player : MonoBehaviour
         get => transform.forward.Planar();
         set => transform.rotation = Quaternion.LookRotation(value.Cubular(), Vector3.up);
     }
+    #endregion
+
+    #region Accessors
+    public PlayerConfiguration configuration { get; set; }
+    public PlayerSettings settings => m_settings;
+    public PlayerMovement movement => m_movement;
+    #endregion
 
     private void Awake()
     {
@@ -47,6 +53,12 @@ public partial class Player : MonoBehaviour
         m_combat    = GetComponent<CombatHandler>();
         m_animator  = GetComponent<Animator>();
         m_input     = ServiceLocator.instance.Get<InputReader>("Input Reader");
+
+        // Setting configuration class.
+        configuration                   = new();
+        configuration.speed             = m_settings.speed;
+        configuration.leftAttackState   = typeof(StartupLeft);
+        configuration.rightAttackState  = typeof(StartupRight);
     }
 
     private void Start()
@@ -54,14 +66,14 @@ public partial class Player : MonoBehaviour
         m_stateMachine = new(this,
 
             new State<Player>(new FreeMove(), new(
-                new Condition(() => m_combat.ConfirmBuffer(), typeof(StartupLeft)))),
+                new Condition(() => m_combat.ConfirmBuffer(), configuration.leftAttackState))),
 
             new State<Player>(new StartupLeft(), new(
                 new Condition(() => AnimationAt(1f), typeof(AttackLeft)))),
             new State<Player>(new AttackLeft(), new(
                 new Condition(() => AnimationAt(1f), typeof(RecoverLeft)))),
             new State<Player>(new RecoverLeft(), new(
-                new Condition(() => m_combat.ConfirmBuffer(), typeof(StartupRight)),
+                new Condition(() => m_combat.ConfirmBuffer(), configuration.rightAttackState),
                 new Condition(() => AnimationAt(0.333f), typeof(FreeMove)))),
 
             new State<Player>(new StartupRight(), new(
