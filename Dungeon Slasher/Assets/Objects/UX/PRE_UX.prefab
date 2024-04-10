@@ -2145,6 +2145,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3103646799006452648}
     m_Modifications:
+    - target: {fileID: 934255691639009458, guid: 3859eda331876ba408c275c62250c577,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2051100147916866628, guid: 3859eda331876ba408c275c62250c577,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4366515862928309925, guid: 3859eda331876ba408c275c62250c577,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: b91b71ddd76d4b14a931d53677ffce7b, type: 2}
     - target: {fileID: 5573533616079031389, guid: 3859eda331876ba408c275c62250c577,
         type: 3}
       propertyPath: m_Pivot.x
@@ -2253,7 +2268,7 @@ PrefabInstance:
     - target: {fileID: 8513135991623936138, guid: 3859eda331876ba408c275c62250c577,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
