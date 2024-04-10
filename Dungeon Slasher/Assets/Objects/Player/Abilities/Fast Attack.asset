@@ -9,11 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 073f49b9eb56ec240895c7e12e2ed09b, type: 3}
-  m_Name: Player Settings
+  m_Script: {fileID: 11500000, guid: e626e1558d9c0b248b303ca192e80695, type: 3}
+  m_Name: Fast Attack
   m_EditorClassIdentifier: 
-  m_speed: 5
-  m_grip: 20
-  m_attackVelocity: 45
-  m_attackTime: 0.15
-  m_recoverSpeedMultiplier: 0.5
+  m_name: Faster Attack
+  m_description: You feel your scythe brim with energy..

@@ -9,11 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 073f49b9eb56ec240895c7e12e2ed09b, type: 3}
-  m_Name: Player Settings
+  m_Script: {fileID: 11500000, guid: 7725d519cba2f074f9ec727d9ac6f068, type: 3}
+  m_Name: Speed Increase
   m_EditorClassIdentifier: 
-  m_speed: 5
-  m_grip: 20
-  m_attackVelocity: 45
-  m_attackTime: 0.15
-  m_recoverSpeedMultiplier: 0.5
+  m_name: Speed Increase
+  m_description: Your duties shall not take long..
+  m_amount: 5

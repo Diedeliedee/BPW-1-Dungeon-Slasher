@@ -66,23 +66,23 @@ public partial class Player : MonoBehaviour
         m_stateMachine = new(this,
 
             new State<Player>(new FreeMove(), new(
-                new Condition(() => m_combat.ConfirmBuffer(), configuration.leftAttackState))),
+                new FlexibleCondition(() => m_combat.ConfirmBuffer(), () => configuration.leftAttackState))),
 
             new State<Player>(new StartupLeft(), new(
-                new Condition(() => AnimationAt(1f), typeof(AttackLeft)))),
+                new SimpleCondition(() => AnimationAt(1f), typeof(AttackLeft)))),
             new State<Player>(new AttackLeft(), new(
-                new Condition(() => AnimationAt(1f), typeof(RecoverLeft)))),
+                new SimpleCondition(() => AnimationAt(1f), typeof(RecoverLeft)))),
             new State<Player>(new RecoverLeft(), new(
-                new Condition(() => m_combat.ConfirmBuffer(), configuration.rightAttackState),
-                new Condition(() => AnimationAt(0.333f), typeof(FreeMove)))),
+                new FlexibleCondition(() => m_combat.ConfirmBuffer(), () => configuration.rightAttackState),
+                new SimpleCondition(() => AnimationAt(0.333f), typeof(FreeMove)))),
 
             new State<Player>(new StartupRight(), new(
-                new Condition(() => AnimationAt(1f), typeof(AttackRight)))),
+                new SimpleCondition(() => AnimationAt(1f), typeof(AttackRight)))),
             new State<Player>(new AttackRight(), new(
-                new Condition(() => AnimationAt(1f), typeof(RecoverRight)))),
+                new SimpleCondition(() => AnimationAt(1f), typeof(RecoverRight)))),
             new State<Player>(new RecoverRight(), new(
-                new Condition(() => m_combat.ConfirmBuffer(), typeof(StartupLeft)),
-                new Condition(() => AnimationAt(0.333f), typeof(FreeMove)))));
+                new FlexibleCondition(() => m_combat.ConfirmBuffer(), () => configuration.leftAttackState),
+                new SimpleCondition(() => AnimationAt(0.333f), typeof(FreeMove)))));
     }
 
     private void Update()

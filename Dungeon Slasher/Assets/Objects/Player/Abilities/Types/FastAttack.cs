@@ -1,4 +1,7 @@
-﻿public class FastAttack : AbilityType
+﻿using UnityEngine;
+
+[CreateAssetMenu(fileName = "Fast Attack", menuName = "Abilities/Fast Attack", order = 2)]
+public class FastAttack : AbilityType
 {
     public override void ApplyAbility(Player _player)
     {
