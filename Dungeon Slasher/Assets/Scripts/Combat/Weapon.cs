@@ -4,6 +4,9 @@ using UnityEngine.Events;
 
 public class Weapon : MonoBehaviour
 {
+    //  Inspector properties:
+    [SerializeField] protected int m_damage = 1;
+    [Space]
     [SerializeField] protected UnityEvent m_onAttackStart;
     [SerializeField] protected UnityEvent m_onAttackHit;
     [SerializeField] protected UnityEvent m_onAttackEnd;
@@ -25,7 +28,7 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    protected virtual void OnHitDamagable(IDamagable _damagable, int _damage, Vector3 _velocity)
+    protected virtual void OnHitDamagable(IDamagable _damagable, Vector3 _velocity)
     {
         //  Guard clause.
         if (m_caughtDamagables.Contains(_damagable)) return;
@@ -33,7 +36,7 @@ public class Weapon : MonoBehaviour
         //  Creating attack data container.
         var instance = new AttackInstance();
         instance.attackVelocity = _velocity;
-        instance.damage = _damage;
+        instance.damage = m_damage;
         instance.onAttackEnd = m_AttackEndCallbak;
 
         //  Passing data container to interface.

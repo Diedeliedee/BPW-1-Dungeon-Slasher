@@ -26,7 +26,7 @@ public class PlayerWeapon : Weapon
         m_element = _element;
     }
 
-    protected override void OnHitDamagable(IDamagable _damagable, int _damage, Vector3 _velocity)
+    protected override void OnHitDamagable(IDamagable _damagable, Vector3 _velocity)
     {
         //  Guard clause.
         if (m_caughtDamagables.Contains(_damagable)) return;
@@ -35,7 +35,7 @@ public class PlayerWeapon : Weapon
         var instance = new AttackInstance();
 
         instance.attackVelocity = _velocity;
-        instance.damage         = _damage;
+        instance.damage         = m_damage;
         instance.onAttackEnd    = m_AttackEndCallbak;
         instance.element        = m_element;
 
