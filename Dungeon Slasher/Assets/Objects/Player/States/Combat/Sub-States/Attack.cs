@@ -17,8 +17,8 @@ public partial class Player
         {
             source.m_combat.StartAttack();
 
-            source.m_movement.velocity  = source.forward * source.m_attackVelocity;
-            source.m_movement.drag      = Mathf.Abs(Util.CalculateDeceleration(source.m_attackVelocity, 0f, source.m_attackTime));
+            source.m_movement.velocity  = source.forward * source.settings.attackVelocity;
+            source.m_movement.drag      = Mathf.Abs(Util.CalculateDeceleration(source.settings.attackVelocity, 0f, source.settings.attackTime));
 
             source.m_animator.Play(m_animation, -1, 0f);
         }

@@ -14,8 +14,8 @@ public partial class Player
 
         public override void OnEnter()
         {
-            source.m_movement.speed = source.m_speed * source.m_recoverSpeedMultiplier;
-            source.m_movement.grip = source.m_grip;
+            source.m_movement.speed = source.configuration.speed * source.settings.recoverSpeedMultiplier;
+            source.m_movement.grip  = source.settings.grip;
 
             source.m_animator.Play(m_animation, -1, 0f);
         }

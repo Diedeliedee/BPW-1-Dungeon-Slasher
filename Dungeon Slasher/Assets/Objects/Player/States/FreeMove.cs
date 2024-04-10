@@ -7,8 +7,8 @@ public partial class Player
     {
         public override void OnEnter()
         {
-            source.m_movement.speed = source.m_speed;
-            source.m_movement.grip = source.m_grip;
+            source.m_movement.speed = source.configuration.speed;
+            source.m_movement.grip  = source.settings.grip;
         }
 
         public override void OnTick()
