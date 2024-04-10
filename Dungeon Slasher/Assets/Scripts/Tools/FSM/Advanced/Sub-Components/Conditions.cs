@@ -2,9 +2,9 @@
 {
     public class Conditions
     {
-        public readonly Condition[] conditions = null;
+        public readonly ICondition[] conditions = null;
 
-        public Conditions(params Condition[] _conditions)
+        public Conditions(params ICondition[] _conditions)
         {
             conditions = _conditions;
         }
