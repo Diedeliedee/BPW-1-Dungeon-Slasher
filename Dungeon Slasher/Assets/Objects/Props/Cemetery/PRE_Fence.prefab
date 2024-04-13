@@ -10,11 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 6200961132753968722}
   m_Layer: 8
-  m_Name: Fence
+  m_Name: PRE_Fence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &6200961132753968722
 Transform:
