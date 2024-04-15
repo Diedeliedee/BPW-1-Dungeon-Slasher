@@ -2,7 +2,6 @@ using Joeri.Tools.Patterns;
 using Joeri.Tools.Structure.StateMachine.Advanced;
 using Joeri.Tools.Utilities;
 using UnityEngine;
-using UnityEngine.UI;
 
 public partial class Player : MonoBehaviour
 {

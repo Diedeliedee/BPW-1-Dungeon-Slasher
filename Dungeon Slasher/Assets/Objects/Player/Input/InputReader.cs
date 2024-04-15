@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class InputReader : MonoBehaviour
 {
-    public Vector2 moveInput => new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+    private InputProvider m_actions = null;
+
+    public Vector2 moveInput => m_actions.Player.Movement.ReadValue<Vector2>();
     public Vector2 lookInput
     {
         get
@@ -13,6 +15,11 @@ public class InputReader : MonoBehaviour
             return new Vector2(mPos.x - screenCenter.x, mPos.y - screenCenter.y);
         }
     }
+    public bool attackInput => m_actions.Player.Attack.triggered;
 
-    public bool attackInput => Input.GetKeyDown(KeyCode.Space);
+    private void Awake()
+    {
+        m_actions = new InputProvider();
+        m_actions.Enable();
+    }
 }
