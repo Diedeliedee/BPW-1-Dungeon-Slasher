@@ -1,3 +1,4 @@
+using Joeri.Tools.Patterns;
 using UnityEngine;
 
 public class UpgradeStation : MonoBehaviour
@@ -11,7 +12,7 @@ public class UpgradeStation : MonoBehaviour
 
     private void Awake()
     {
-        m_player    = FindObjectOfType<Player>();
+        m_player    = ServiceLocator.instance.Get<Player>("Player");
         m_animator  = GetComponent<Animator>();
     }
 
