@@ -11,9 +11,11 @@ public partial class Player : MonoBehaviour
     //  Components:
     private CompositeFSM<Player> m_stateMachine = null;
 
-    private PlayerMovement m_movement = null;
-    private PlayerRotation m_rotation = null;
-    private CombatHandler m_combat = null;
+    private PlayerMovement m_movement   = null;
+    private PlayerRotation m_rotation   = null;
+    private CombatHandler m_combat      = null;
+    private AbilityManager m_abilities  = null;
+    private HealthHandler m_health      = null;
 
     //  Reference:
     private Animator m_animator = null;
@@ -42,15 +44,19 @@ public partial class Player : MonoBehaviour
 
     #region Accessors
     public PlayerConfiguration configuration { get; set; }
-    public PlayerSettings settings => m_settings;
-    public PlayerMovement movement => m_movement;
+    public HealthHandler health     => m_health;
+    public AbilityManager abilities => m_abilities;
+    public PlayerSettings settings  => m_settings;
+    public PlayerMovement movement  => m_movement;
     #endregion
 
     private void Awake()
     {
+        m_health    = GetComponentInChildren<HealthHandler>();
         m_movement  = GetComponent<PlayerMovement>();
         m_rotation  = GetComponent<PlayerRotation>();
         m_combat    = GetComponent<CombatHandler>();
+        m_abilities = GetComponent<AbilityManager>();
         m_animator  = GetComponent<Animator>();
         m_input     = ServiceLocator.instance.Get<InputReader>("Input Reader");
 

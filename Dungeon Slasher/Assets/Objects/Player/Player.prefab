@@ -51,6 +51,9 @@ MonoBehaviour:
     m_health: 4
   m_onHealthChange:
     m_PersistentCalls:
+      m_Calls: []
+  m_onDamage:
+    m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2807764958164564136}
         m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
@@ -65,6 +68,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  m_onHeal:
+    m_PersistentCalls:
+      m_Calls: []
   m_onDeath:
     m_PersistentCalls:
       m_Calls: []

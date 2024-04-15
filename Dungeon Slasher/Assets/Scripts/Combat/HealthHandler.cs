@@ -8,6 +8,8 @@ public class HealthHandler : MonoBehaviour, IDamagable
     [SerializeField] protected Health m_health;
     [Space]
     [SerializeField] protected UnityEvent<int, int> m_onHealthChange;
+    [SerializeField] protected UnityEvent<int, int> m_onDamage;
+    [SerializeField] protected UnityEvent<int, int> m_onHeal;
     [SerializeField] protected UnityEvent m_onDeath;
 
     public int health => m_health.health;
@@ -15,7 +17,9 @@ public class HealthHandler : MonoBehaviour, IDamagable
 
     protected virtual void Awake()
     {
-        m_health.onHealthChange += (h, m) => m_onHealthChange.Invoke(h, m);
+        m_health.onHealthChange += (_h, _m) => m_onHealthChange.Invoke(_h, _m);
+        m_health.onDamage       += (_a, _m) => m_onDamage.Invoke(_a, _m);
+        m_health.onHeal         += (_a, _m) => m_onHeal.Invoke(_a, _m);
         m_health.onDeath        += () => m_onDeath.Invoke();
     }
 
@@ -29,5 +33,10 @@ public class HealthHandler : MonoBehaviour, IDamagable
     {
         m_health.ChangeHealth(-_instance.damage);
         return HitCallback.Hit;
+    }
+
+    public virtual void Heal(int _amount)
+    {
+        m_health.ChangeHealth(_amount);
     }
 }
