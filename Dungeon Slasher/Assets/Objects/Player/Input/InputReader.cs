@@ -16,6 +16,7 @@ public class InputReader : MonoBehaviour
         }
     }
     public bool attackInput => m_actions.Player.Attack.triggered;
+    public bool switchInput => m_actions.Player.Switch.triggered;
 
     private void Awake()
     {
