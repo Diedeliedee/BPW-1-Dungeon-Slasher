@@ -27,7 +27,7 @@ public class UpgradeStation : MonoBehaviour
     private void Start()
     {
         //  If the upgrade station has already been used, set it to inactive.
-        if (!PlayerPrefs.HasKey($"Station[{m_id}]Used")) return;
+        if (!PlayerPrefs.HasKey($"station{m_id}Used")) return;
 
         m_used = true;
         m_animator.Play("Used");
@@ -50,7 +50,7 @@ public class UpgradeStation : MonoBehaviour
         if (m_spawnPoint == null) return;
 
         //  Mark the station as used.
-        PlayerPrefs.SetInt($"Station[{m_id}]Used", 0);
+        PlayerPrefs.SetInt($"station{m_id}Used", 0);
 
         //  Call the save Event.
         m_onSaveActivated.Invoke(m_spawnPoint.position.Planar(), m_spawnPoint.eulerAngles.y);
