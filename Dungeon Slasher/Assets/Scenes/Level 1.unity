@@ -28472,6 +28472,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6964011322550357521, guid: 1833416e5045e2b43bd15a8e503ddea7,
         type: 3}
+      propertyPath: m_id
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6964011322550357521, guid: 1833416e5045e2b43bd15a8e503ddea7,
+        type: 3}
       propertyPath: m_type
       value: 
       objectReference: {fileID: 11400000, guid: a144f8a72a814e9479036bc0f2077c8f,
@@ -32624,6 +32629,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PRE_Upgrade Station (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6964011322550357521, guid: 1833416e5045e2b43bd15a8e503ddea7,
+        type: 3}
+      propertyPath: m_id
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

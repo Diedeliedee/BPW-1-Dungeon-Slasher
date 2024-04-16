@@ -12,9 +12,9 @@ public class FollowTarget : MonoBehaviour
 
     private Vector3 m_velocity = default;
 
-    public float time       { get => m_time; set => m_time = value; }
-    public Vector3 velocity { get => m_velocity; set => m_velocity = value; }
-    public Vector2 offset   { get => m_offset; set => m_offset = value; }
+    public float time       { get => m_time;        set => m_time = value; }
+    public Vector3 velocity { get => m_velocity;    set => m_velocity = value; }
+    public Vector2 offset   { get => m_offset;      set => m_offset = value; }
     public bool applyOffset { get => m_applyOffset; set => m_applyOffset = value; }
 
     private void Update()
@@ -23,5 +23,10 @@ public class FollowTarget : MonoBehaviour
 
         if (m_time <= 0)    transform.position = target;
         else                transform.position = Vector3.SmoothDamp(transform.position, target, ref m_velocity, m_time);
+    }
+
+    public void OnTargetStart(Vector2 _position)
+    {
+        transform.position = _position.Cubular() + (m_applyOffset ? offset.Cubular() : Vector3.zero);
     }
 }

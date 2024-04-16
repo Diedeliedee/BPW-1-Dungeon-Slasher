@@ -2,10 +2,12 @@ using Joeri.Tools.Patterns;
 using Joeri.Tools.Structure.StateMachine.Advanced;
 using Joeri.Tools.Utilities;
 using UnityEngine;
+using UnityEngine.Events;
 
 public partial class Player : MonoBehaviour
 {
     [SerializeField] private PlayerSettings m_settings;
+    [SerializeField] private UnityEvent<Vector2> m_onSpawn;
 
     //  Components:
     private CompositeFSM<Player> m_stateMachine = null;
@@ -68,6 +70,8 @@ public partial class Player : MonoBehaviour
 
     private void Start()
     {
+        Load();
+
         m_stateMachine = new(this,
 
             new State<Player>(new FreeMove(), new(
@@ -95,6 +99,30 @@ public partial class Player : MonoBehaviour
         m_stateMachine.Tick();
     }
 
+    public void OnSave(Vector2 _position, float _angle)
+    {
+        //  Adjust the positional data in the configuration.
+        configuration.savedPosition = _position;
+        configuration.savedAngle    = _angle;
+
+        //  Save the configuration.
+        PlayerPrefs.SetString("PlayerConfiguration", JsonUtility.ToJson(configuration));
+    }
+
+    public void Load()
+    {
+        //  Load the configuration.
+        if (PlayerPrefs.HasKey("PlayerConfiguration"))
+        {
+            configuration   = JsonUtility.FromJson<PlayerConfiguration>(PlayerPrefs.GetString("PlayerConfiguration"));
+            position        = configuration.savedPosition;
+            angle           = configuration.savedAngle;
+        }
+
+        //  Invoke the player succefully being spawned.
+        m_onSpawn.Invoke(position);
+    }
+
     private bool AnimationPlaying(string _name)
     {
         return m_animator.GetCurrentAnimatorStateInfo(0).IsName(_name);
@@ -104,4 +132,5 @@ public partial class Player : MonoBehaviour
     {
         return m_animator.GetCurrentAnimatorStateInfo(0).normalizedTime > _mark;
     }
+
 }

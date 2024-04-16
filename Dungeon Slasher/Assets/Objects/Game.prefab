@@ -602,6 +602,36 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5039352785299143955, guid: 2aed714167945e24cb97363eb3047a83,
+        type: 3}
+      propertyPath: m_onSpawn.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5039352785299143955, guid: 2aed714167945e24cb97363eb3047a83,
+        type: 3}
+      propertyPath: m_onSpawn.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6825912494555862450}
+    - target: {fileID: 5039352785299143955, guid: 2aed714167945e24cb97363eb3047a83,
+        type: 3}
+      propertyPath: m_onSpawn.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5039352785299143955, guid: 2aed714167945e24cb97363eb3047a83,
+        type: 3}
+      propertyPath: m_onSpawn.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnTargetStart
+      objectReference: {fileID: 0}
+    - target: {fileID: 5039352785299143955, guid: 2aed714167945e24cb97363eb3047a83,
+        type: 3}
+      propertyPath: m_onSpawn.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: FollowTarget, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5039352785299143955, guid: 2aed714167945e24cb97363eb3047a83,
+        type: 3}
+      propertyPath: m_onSpawn.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5730503720888140509, guid: 2aed714167945e24cb97363eb3047a83,
         type: 3}
       propertyPath: m_onAbilityAdded.m_PersistentCalls.m_Calls.Array.size
