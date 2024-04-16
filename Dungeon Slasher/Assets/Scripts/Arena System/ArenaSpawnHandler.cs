@@ -1,6 +1,7 @@
 using Joeri.Tools.Patterns;
 using Joeri.Tools.Utilities.SpawnManager;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,7 +12,7 @@ public class ArenaSpawnHandler : MonoBehaviour
     [Space]
     [SerializeField] private UnityEvent<int> m_onEnemyKilled;
 
-    private Transform[] m_spawnPoints       = null;
+    private List<Transform> m_spawnPoints   = null;
     private ISpawnManager m_enemyCollection = null;
     private List<Shade> m_spawnedEnemies    = null; //  Hardcoded reference to shade for now.
 
@@ -19,14 +20,17 @@ public class ArenaSpawnHandler : MonoBehaviour
 
     private void Awake()
     {
-        m_spawnPoints       = m_spawnPointParent.GetComponentsInChildren<Transform>();
+        //  Getting spawn points.
+        m_spawnPoints = m_spawnPointParent.GetComponentsInChildren<Transform>().ToList();
+        m_spawnPoints.Remove(m_spawnPointParent);
+
         m_enemyCollection   = ServiceLocator.instance.Get<ISpawnManager>("Enemy Collection");
         m_spawnedEnemies    = new();
     }
 
     public void SpawnRandomEnemy()
     {
-        var randSpawn       = m_spawnPoints[Random.Range(0, m_spawnPoints.Length)];
+        var randSpawn       = m_spawnPoints[Random.Range(0, m_spawnPoints.Count)];
         var randEnemy       = m_enemiesToSpawn[Random.Range(0, m_enemiesToSpawn.Length)];
         var spawnedEnemy    = m_enemyCollection.Spawn<Shade>(randEnemy, randSpawn.position, randSpawn.rotation);
 
