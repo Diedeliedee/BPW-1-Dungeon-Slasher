@@ -34869,6 +34869,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PRE_Upgrade Station (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5544071783398221648, guid: 1833416e5045e2b43bd15a8e503ddea7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6964011322550357521, guid: 1833416e5045e2b43bd15a8e503ddea7,
         type: 3}
       propertyPath: m_id

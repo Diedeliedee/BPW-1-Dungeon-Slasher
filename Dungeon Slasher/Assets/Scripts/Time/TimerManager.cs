@@ -1,7 +1,6 @@
 using Joeri.Tools.Utilities;
 using UnityEngine;
 using System.Collections;
-using UnityEditor.ShaderGraph.Internal;
 
 public class TimerManager : MonoBehaviour
 {
