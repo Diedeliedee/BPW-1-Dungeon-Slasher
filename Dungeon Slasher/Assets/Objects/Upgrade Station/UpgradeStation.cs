@@ -10,6 +10,7 @@ public class UpgradeStation : MonoBehaviour
     [SerializeField] private int m_id;
     [Space]
     [SerializeField] private UnityEvent<Vector2, float> m_onSaveActivated;
+    [SerializeField] private UnityEvent m_onUsed;
     private bool m_used = false;
 
     private Player m_player     = null;
@@ -31,6 +32,7 @@ public class UpgradeStation : MonoBehaviour
 
         m_used = true;
         m_animator.Play("Used");
+        m_onUsed.Invoke();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -40,6 +42,7 @@ public class UpgradeStation : MonoBehaviour
 
         m_used = true;
         m_animator.Play("Use");
+        m_onUsed.Invoke();
     }
 
     public void ApplyAbility()

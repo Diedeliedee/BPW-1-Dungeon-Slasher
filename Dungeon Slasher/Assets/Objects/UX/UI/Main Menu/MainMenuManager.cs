@@ -19,4 +19,9 @@ public class MainMenuManager : MonoBehaviour
     {
         SceneManager.LoadScene("Level 1");
     }
+
+    public void ClearSaveData()
+    {
+        PlayerPrefs.DeleteAll();
+    }
 }
