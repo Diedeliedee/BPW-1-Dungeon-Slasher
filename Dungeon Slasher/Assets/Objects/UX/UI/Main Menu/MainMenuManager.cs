@@ -15,6 +15,11 @@ public class MainMenuManager : MonoBehaviour
         m_animator.Play("Load Game");
     }
 
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
     public void LoadSceneFinish()
     {
         SceneManager.LoadScene("Level 1");
